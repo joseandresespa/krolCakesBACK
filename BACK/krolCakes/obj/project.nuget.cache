@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "N7jLKZ9OcAQ=",
+  "dgSpecHash": "WPJskj8/LLQ=",
   "success": true,
-  "projectFilePath": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\krolCakes\\krolCakes.csproj",
+  "projectFilePath": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\krolCakes.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\josea\\.nuget\\packages\\bouncycastle.cryptography\\2.3.1\\bouncycastle.cryptography.2.3.1.nupkg.sha512",
     "C:\\Users\\josea\\.nuget\\packages\\google.protobuf\\3.26.1\\google.protobuf.3.26.1.nupkg.sha512",
