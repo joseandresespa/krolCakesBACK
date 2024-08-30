@@ -72,7 +72,7 @@ namespace krolCakes.Controllers
                 if (resultadoValidador.Rows.Count == 0) // si no coincide con nada, el usuario no existe y por eso en la ejecucion del query devuelve 0 filas
                 {
                     var queryInsertar = $"INSERT INTO usuario (nombre,correo,contrasenia, visibilidad, id_rol) " +
-                                    $"VALUES ( '{usuario.nombre}', '{usuario.correo}', '{usuario.contrasenia}', '{usuario.visibilidad}', '{usuario.id}')";
+                                    $"VALUES ( '{usuario.nombre}', '{usuario.correo}', '{progra.EncriptarContraseña(usuario.contrasenia)}', '0', '{usuario.id_rol}')";
                     db.ExecuteQuery(queryInsertar);
                     return Ok("Usuario Registrado Correctamente");
                 }
