@@ -1,38 +1,50 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\",
+  "WorkspaceRootPath": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\users\\mynor\\desktop\\semestre 8 tareas\\proyecto analisis 2\\back\\back\\krolcakes\\models\\accesomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\accesomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\controllers\\catalogoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:controllers\\catalogoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\users\\mynor\\desktop\\semestre 8 tareas\\proyecto analisis 2\\back\\back\\krolcakes\\models\\usuariomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\usuariomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\users\\mynor\\desktop\\semestre 8 tareas\\proyecto analisis 2\\back\\back\\krolcakes\\models\\unidadmedidapreciosugeridomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\unidadmedidapreciosugeridomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\users\\mynor\\desktop\\semestre 8 tareas\\proyecto analisis 2\\back\\back\\krolcakes\\models\\unidadmedidamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\unidadmedidamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\users\\mynor\\desktop\\semestre 8 tareas\\proyecto analisis 2\\back\\back\\krolcakes\\models\\tipoinsumoutensiliomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\tipoinsumoutensiliomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\users\\mynor\\desktop\\semestre 8 tareas\\proyecto analisis 2\\back\\back\\krolcakes\\models\\tipoeventomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\tipoeventomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\users\\mynor\\desktop\\semestre 8 tareas\\proyecto analisis 2\\back\\back\\krolcakes\\models\\tipoentregamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\tipoentregamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\tipoentregamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\users\\mynor\\desktop\\semestre 8 tareas\\proyecto analisis 2\\back\\back\\krolcakes\\models\\sesion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\sesion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\tipoeventomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\tipoeventomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\tipoinsumoutensiliomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\tipoinsumoutensiliomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\unidadmedidamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\unidadmedidamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\unidadmedidapreciosugeridomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\unidadmedidapreciosugeridomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\usuariomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\usuariomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\masamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\masamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\estadomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\estadomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\diseniomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\diseniomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,106 +54,150 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "accesoModel.cs",
-              "DocumentMoniker": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\accesoModel.cs",
-              "RelativeDocumentMoniker": "Models\\accesoModel.cs",
-              "ToolTip": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\accesoModel.cs",
-              "RelativeToolTip": "Models\\accesoModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-29T23:12:36.976Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "usuarioModel.cs",
-              "DocumentMoniker": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\usuarioModel.cs",
-              "RelativeDocumentMoniker": "Models\\usuarioModel.cs",
-              "ToolTip": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\usuarioModel.cs",
-              "RelativeToolTip": "Models\\usuarioModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "tipoentregaModel.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\tipoentregaModel.cs",
+              "RelativeDocumentMoniker": "Models\\tipoentregaModel.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\tipoentregaModel.cs",
+              "RelativeToolTip": "Models\\tipoentregaModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-29T23:51:47.546Z",
+              "WhenOpened": "2024-08-30T15:48:29.668Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "unidadmedidapreciosugeridoModel.cs",
-              "DocumentMoniker": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\unidadmedidapreciosugeridoModel.cs",
-              "RelativeDocumentMoniker": "Models\\unidadmedidapreciosugeridoModel.cs",
-              "ToolTip": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\unidadmedidapreciosugeridoModel.cs",
-              "RelativeToolTip": "Models\\unidadmedidapreciosugeridoModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "tipoeventoModel.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\tipoeventoModel.cs",
+              "RelativeDocumentMoniker": "Models\\tipoeventoModel.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\tipoeventoModel.cs",
+              "RelativeToolTip": "Models\\tipoeventoModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-29T23:51:45.097Z"
+              "WhenOpened": "2024-08-30T15:48:27.667Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "unidadmedidaModel.cs",
-              "DocumentMoniker": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\unidadmedidaModel.cs",
-              "RelativeDocumentMoniker": "Models\\unidadmedidaModel.cs",
-              "ToolTip": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\unidadmedidaModel.cs",
-              "RelativeToolTip": "Models\\unidadmedidaModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "tipoinsumoutensilioModel.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\tipoinsumoutensilioModel.cs",
+              "RelativeDocumentMoniker": "Models\\tipoinsumoutensilioModel.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\tipoinsumoutensilioModel.cs",
+              "RelativeToolTip": "Models\\tipoinsumoutensilioModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-29T23:51:42.27Z"
+              "WhenOpened": "2024-08-30T15:48:26.603Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "tipoinsumoutensilioModel.cs",
-              "DocumentMoniker": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\tipoinsumoutensilioModel.cs",
-              "RelativeDocumentMoniker": "Models\\tipoinsumoutensilioModel.cs",
-              "ToolTip": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\tipoinsumoutensilioModel.cs",
-              "RelativeToolTip": "Models\\tipoinsumoutensilioModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "unidadmedidaModel.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\unidadmedidaModel.cs",
+              "RelativeDocumentMoniker": "Models\\unidadmedidaModel.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\unidadmedidaModel.cs",
+              "RelativeToolTip": "Models\\unidadmedidaModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-29T23:51:39.666Z"
+              "WhenOpened": "2024-08-30T15:47:49.474Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "tipoeventoModel.cs",
-              "DocumentMoniker": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\tipoeventoModel.cs",
-              "RelativeDocumentMoniker": "Models\\tipoeventoModel.cs",
-              "ToolTip": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\tipoeventoModel.cs",
-              "RelativeToolTip": "Models\\tipoeventoModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "unidadmedidapreciosugeridoModel.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\unidadmedidapreciosugeridoModel.cs",
+              "RelativeDocumentMoniker": "Models\\unidadmedidapreciosugeridoModel.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\unidadmedidapreciosugeridoModel.cs",
+              "RelativeToolTip": "Models\\unidadmedidapreciosugeridoModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-29T23:51:37.322Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "tipoentregaModel.cs",
-              "DocumentMoniker": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\tipoentregaModel.cs",
-              "RelativeDocumentMoniker": "Models\\tipoentregaModel.cs",
-              "ToolTip": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\tipoentregaModel.cs",
-              "RelativeToolTip": "Models\\tipoentregaModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-29T23:51:33.579Z"
+              "WhenOpened": "2024-08-30T15:47:47.034Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "sesion.cs",
-              "DocumentMoniker": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\sesion.cs",
-              "RelativeDocumentMoniker": "Models\\sesion.cs",
-              "ToolTip": "C:\\Users\\mynor\\Desktop\\Semestre 8 Tareas\\Proyecto analisis 2\\Back\\BACK\\krolCakes\\Models\\sesion.cs",
-              "RelativeToolTip": "Models\\sesion.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "masaModel.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\masaModel.cs",
+              "RelativeDocumentMoniker": "Models\\masaModel.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\masaModel.cs",
+              "RelativeToolTip": "Models\\masaModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-29T23:51:30.332Z"
+              "WhenOpened": "2024-08-30T15:47:34.867Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "estadoModel.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\estadoModel.cs",
+              "RelativeDocumentMoniker": "Models\\estadoModel.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\estadoModel.cs",
+              "RelativeToolTip": "Models\\estadoModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-30T15:47:30.526Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "disenioModel.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\disenioModel.cs",
+              "RelativeDocumentMoniker": "Models\\disenioModel.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\disenioModel.cs",
+              "RelativeToolTip": "Models\\disenioModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-30T15:12:24.87Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CatalogosController.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Controllers\\CatalogosController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CatalogosController.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Controllers\\CatalogosController.cs",
+              "RelativeToolTip": "Controllers\\CatalogosController.cs",
+              "ViewState": "AQIAADEAAAAAAAAAAAAEwD8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-30T15:08:33.85Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "loginController.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Controllers\\loginController.cs",
+              "RelativeDocumentMoniker": "Controllers\\loginController.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Controllers\\loginController.cs",
+              "RelativeToolTip": "Controllers\\loginController.cs",
+              "ViewState": "AQIAADkAAAAAAAAAAIAxwEsAAABEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-30T15:06:45.234Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "usuarioModel.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\usuarioModel.cs",
+              "RelativeDocumentMoniker": "Models\\usuarioModel.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\usuarioModel.cs",
+              "RelativeToolTip": "Models\\usuarioModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-29T23:51:47.546Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -54,33 +54,6 @@ namespace krolCakes.Controllers
         }
 
 
-        [HttpGet("usuarioscrud")]
-        public IActionResult crudUsuarios()
-        {
-            try
-            {
-                var query = @"SELECT a.id, a.nombre, a.correo, a.contrasenia, a.visibilidad, a.id_rol, b.nombre
-                            FROM usuario a
-                            INNER JOIN rol b ON a.id_rol = b.id";
-                var resultado = db.ExecuteQuery(query);
-                var usuarios = resultado.AsEnumerable().Select(row => new 
-                {
-                    id = Convert.ToInt32(resultado.Rows[0]["id"]),
-                    nombre = resultado.Rows[0]["nombre"].ToString(),
-                    correo = resultado.Rows[0]["correo"].ToString(),
-                    id_rol = Convert.ToInt32(resultado.Rows[0]["id_rol"]),
-                    rol = resultado.Rows[0]["rol"].ToString(),
-                    visibilidad = Convert.ToBoolean(resultado.Rows[0]["visibilidad"])
-                }).ToList();
-                return Ok(usuarios);
-            }
-            catch (Exception ex )
-            {
-
-                return BadRequest();
-            }
-        }
-
         [HttpPost("sesion")]
         public IActionResult sesion([FromBody] usuarioModel sesion)
         {
@@ -102,7 +75,7 @@ namespace krolCakes.Controllers
                     id = Convert.ToInt32(resultado.Rows[0]["id"]),
                     nombre = resultado.Rows[0]["nombre"].ToString(),
                     correo = resultado.Rows[0]["correo"].ToString(),
-                    id_rol = Convert.ToInt32(resultado.Rows[0]["id_rol"]),                  
+                    id_rol = Convert.ToInt32(resultado.Rows[0]["id_rol"]),
                     visibilidad = Convert.ToBoolean(resultado.Rows[0]["visibilidad"])
                 };
 
@@ -116,36 +89,6 @@ namespace krolCakes.Controllers
             }
         }
 
-        [HttpPost("registro")]
-        public IActionResult Register([FromBody] usuarioModel registro)
-        {
-            try
-            {
-                // Verificar si el usuario ya existe en la base de datos
-                var queryValidador = $"SELECT id FROM usuario WHERE correo = '{registro.correo}'";
-                var resultadoValidador = db.ExecuteQuery(queryValidador);
-
-                if (resultadoValidador.Rows.Count == 0) // si no coincide con nada, el usuario no existe y por eso en la ejecucion del query devuelve 0 filas
-                {
-                    var queryInsertar = $"INSERT INTO usuario (nombre, correo, contrasenia , visibilidad, id_rol) VALUES ( '{registro.nombre}', '{registro.correo}', '{progra.EncriptarContraseña(registro.contrasenia)}', 0, '{registro.id_rol}')";
-                    db.ExecuteQuery(queryInsertar);
-
-                    // Registro exitoso, devolver un Ok
-                    return Ok();
-                }
-                else
-                {
-                    // El usuario ya existe, devolver un BadRequest
-                    return BadRequest("El usuario ya está registrado");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                // En caso de error, devolver un BadRequest con el mensaje de error
-                return BadRequest(ex.Message);
-            }
-        }
 
     }
 }

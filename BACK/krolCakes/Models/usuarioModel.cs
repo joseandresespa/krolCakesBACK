@@ -1,4 +1,6 @@
-﻿namespace krolCakes.Models
+﻿using krolCakes.Models;
+
+namespace krolCakes.Models
 {
     public class usuarioModel
     {
@@ -9,14 +11,9 @@
         public bool? visibilidad { get; set; }
         public int? id_rol { get; set; }
     }
-    public class usuarioModelCRUD
+    public class usuarioModelCompleto
     {
-        public int? id { get; set; }
-        public string? nombre { get; set; }
-        public string? correo { get; set; }
-        public string? contrasenia { get; set; }
-        public bool? visibilidad { get; set; }
-        public int? id_rol { get; set; }
-        public string? rol { get; set; }
+        public usuarioModel? usuario { get; set; }
+        public rolModel? rol { get; set; }
     }
 }

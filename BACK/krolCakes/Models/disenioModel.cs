@@ -7,7 +7,7 @@
         public int? id_pedido { get; set; }
         public double? precio { get; set; }
     }
-    public class disenioModel
+    public class disenioModelCompleto
     {
         public disenioModel? disenio { get; set; }
         public pedidoModel? pedido { get; set; }

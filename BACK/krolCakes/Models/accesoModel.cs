@@ -13,7 +13,6 @@
         public rolModel? rol { get; set; }
         public moduloModel? modulo { get; set; }
 
-
     }   
 
 }
