@@ -12,4 +12,11 @@
         public DateOnly? fecha_ingreso { get; set; }
         public DateOnly? fecha_vencimiento { get; set; }
     }
+    public class insumoutensilioModelCompleto
+    {
+        public insumoutensilioModel? insumoutensilio { get; set; }
+        public tipoinsumoutensilioModel? tipoinsumoutensilio { get; set; }
+        public unidadmedidaModel? unidadmedida { get; set; }
+    }
+
 }

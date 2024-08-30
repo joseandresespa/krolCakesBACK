@@ -7,4 +7,11 @@
         public double? costo { get; set; }
         public double? ganancia { get; set; }
     }
+
+    public class costoModelCompleto
+    {
+        public costoModel? costo { get; set; }
+        public pedidoModel? pedido { get; set; }
+
+    }
 }

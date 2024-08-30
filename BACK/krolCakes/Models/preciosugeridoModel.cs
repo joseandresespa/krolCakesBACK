@@ -7,4 +7,10 @@
         public int? id_unidad_medida_precio_sugerido { get; set; }
         public double? precio { get; set; }
     }
+    public class preciosugeridoModelCompleto
+    {
+        public preciosugeridoModel? preciosugerido { get; set; }
+        public insumoutensilioModel? insumoutensilio { get; set; }
+        public unidadmedidapreciosugeridoModel? unidadmedidapreciosugerido { get; set; }
+    }
 }

@@ -11,4 +11,12 @@
         public double? precio_unitario { get; set; }
         public double? total { get; set; }
     }
+    public class detallepedidoModelCompleto
+    {
+        public detallepedidoModel? detallepedido { get; set; }
+        public pedidoModel? pedido { get; set; }
+        public productoModel? producto { get; set; }
+        public masaModel? masa { get; set; }
+        public rellenoModel? relleno { get; set; }
+    }
 }

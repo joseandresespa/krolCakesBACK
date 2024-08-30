@@ -12,4 +12,12 @@
         public int? id_tipo_entrega { get; set; }
         public double? precio_total { get; set; }
     }
+    public class pedidoModelCompleto
+    {
+        public pedidoModel? pedido { get; set; }
+        public estadoModel? estado { get; set; }
+        public clienteModel? cliente { get; set; }
+        public tipoentregaModel? tipoentrega { get; set; }
+    }
+
 }

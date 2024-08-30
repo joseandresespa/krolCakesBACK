@@ -17,6 +17,6 @@
         public string? contrasenia { get; set; }
         public bool? visibilidad { get; set; }
         public int? id_rol { get; set; }
-        public int? id_rol { get; set; }
+        public string? rol { get; set; }
     }
 }

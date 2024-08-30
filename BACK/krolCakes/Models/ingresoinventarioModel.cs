@@ -10,4 +10,10 @@
         public double? subtotal { get; set; }
 
     }
+    public class ingresoinventarioModelCompleto
+    {
+        public ingresoinventarioModel? ingresoinventario { get; set; }
+        public insumoutensilioModel? insumoutensilio { get; set; }
+        public comprainventarioModel? comprainventario { get; set; }
+    }
 }

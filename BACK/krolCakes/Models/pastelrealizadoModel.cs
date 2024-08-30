@@ -7,4 +7,10 @@
         public int? id_pedido { get; set; }
         public string? imagen { get; set; }
     }
+    public class pastelrealizadoModelCompleto
+    {
+        public pastelrealizadoModel? pastelrealizado { get; set; }
+        public tipoeventoModel tipoevento { get; set; }
+        public pedidoModel pedido { get; set; }
+    }
 }

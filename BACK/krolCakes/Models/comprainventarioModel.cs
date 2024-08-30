@@ -7,4 +7,11 @@
         public DateOnly? fecha_compra { get; set; }
         public int? id_proveedor { get; set; }
     }
+
+    public class comprainventarioModelCompleto
+    {
+        public comprainventarioModel? comprainventario { get; set; }
+        public proveedorModel? proveedor { get; set; }
+    }
+
 }

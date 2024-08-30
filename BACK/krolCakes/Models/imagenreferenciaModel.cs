@@ -7,4 +7,9 @@
         public string? imagen { get; set; }
         public string? observaciones { get; set; }
     }
+    public class imagenreferenciaModelCompleto
+    {
+        public imagenreferenciaModel? imagenreferencia { get; set; }
+        public pedidoModel? pedido { get; set; }
+    }
 }
