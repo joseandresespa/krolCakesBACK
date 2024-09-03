@@ -12,8 +12,22 @@
     }
     public class ingresoinventarioModelCompleto
     {
-        public ingresoinventarioModel? ingresoinventario { get; set; }
-        public insumoutensilioModel? insumoutensilio { get; set; }
-        public comprainventarioModel? comprainventario { get; set; }
+        public int? correlativo { get; set; }        //proviene de modelo ingresoinventario
+        public int? id_insumo_utensilio { get; set; }   //proviene de modelo ingresoinventario
+        public int? cantidad { get; set; }          //proviene de modelo ingresoinventario
+        public double? precio_unitario { get; set; }    //proviene de modelo ingresoinventario
+        public int? id_compra_inventario { get; set; }  //proviene de modelo ingresoinventario
+        public double? subtotal { get; set; }           //proviene de modelo ingresoinventario
+        public int? id_tipo_insumo { get; set; }    //proviene de modelo insumoutensilio
+        public string? nombre { get; set; }         //proviene de modelo insumoutensilio
+        public int? id_unidad_medida { get; set; }  //proviene de modelo insumoutensilio
+        public double? precio_unitario_insumo_utensilio { get; set; }    //proviene de modelo insumoutensilio
+        public int? cantidad_insumo_utensilio { get; set; }        //proviene de modelo insumoutensilio
+        public bool? inventarioRenovable { get; set; }  //proviene de modelo insumoutensilio
+        public DateOnly? fecha_ingreso { get; set; }    //proviene de modelo insumoutensilio
+        public DateOnly? fecha_vencimiento { get; set; }    //proviene de modelo insumoutensilio
+        public double? total { get; set; }         //proviene de modelo comprainventario
+        public DateOnly? fecha_compra { get; set; } //proviene de modelo comprainventario
+        public int? id_proveedor { get; set; }      //proviene de modelo comprainventario
     }
 }

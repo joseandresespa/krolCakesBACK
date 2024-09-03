@@ -10,8 +10,14 @@
 
     public class comprainventarioModelCompleto
     {
-        public comprainventarioModel? comprainventario { get; set; }
-        public proveedorModel? proveedor { get; set; }
+        public int? id { get; set; }               //proviene de modelo comprainventario 
+        public double? total { get; set; }         //proviene de modelo comprainventario
+        public DateOnly? fecha_compra { get; set; } //proviene de modelo comprainventario
+        public int? id_proveedor { get; set; }      //proviene de modelo comprainventario
+        public string? nombre { get; set; }         // nombre proveedor
+        public int? telefono { get; set; }          //proviene de modelo proveedor
+        public string? descripcion { get; set; }    //proviene de modelo proveedor
+
     }
 
 }

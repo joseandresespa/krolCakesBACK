@@ -9,10 +9,14 @@
 
     public class accesoModelCompleto
     {
-        public accesoModel? acceso {  get; set; }
-        public rolModel? rol { get; set; }
-        public moduloModel? modulo { get; set; }
+        public int? correlativo { get; set; }   //proviene del modelo acceso
+        public int? id_rol { get; set; }        //proviene del modelo acceso
+        public int? id_modulo { get; set; }     //proviene del modelo acceso
+        public string? rol { get; set; }        //nombre de rol 
+        public string? modulo { get; set; }     //nombre de modulo
+        public string? url { get; set; }        //proviene del modelo modulo
+        public string? icono { get; set; }      //proviene del modelo modulo
 
-    }   
-
+    }  
+    
 }
