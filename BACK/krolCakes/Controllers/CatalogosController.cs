@@ -30,38 +30,34 @@ namespace krolCakes.Controllers
         {
             try
             {
-
                 var query = @"SELECT a.id, a.nombre, a.correo, a.contrasenia, a.visibilidad, a.id_rol, b.nombre AS rol
-                            FROM usuario a
-                            INNER JOIN rol b ON a.id_rol = b.id
-                            ORDER BY a.id";
-               var resultado = db.ExecuteQuery(query);
-                // Construir el objeto usuario con los datos obtenidos de la base de datos
-                
+                      FROM usuario a
+                      INNER JOIN rol b ON a.id_rol = b.id
+                      WHERE a.visibilidad != 1
+                      ORDER BY a.id, a.visibilidad";
+
+                var resultado = db.ExecuteQuery(query);
+
+                // Construir la lista de objetos usuarioModelCompleto con los datos obtenidos de la base de datos
                 var usuarios = resultado.AsEnumerable().Select(row => new usuarioModelCompleto
                 {
-                    usuario = new usuarioModel // Instancia del objeto usuarioModel
-                    {
-                        id = Convert.ToInt32(resultado.Rows[0]["id"]),
-                        nombre = resultado.Rows[0]["nombre"].ToString(),
-                        correo = resultado.Rows[0]["correo"].ToString(),
-                        contrasenia = resultado.Rows[0]["contrasenia"].ToString(),
-                        id_rol = Convert.ToInt32(resultado.Rows[0]["id_rol"]),
-                        visibilidad = Convert.ToBoolean(resultado.Rows[0]["visibilidad"])
-                    },
-                    rol = new rolModel // Instancia del objeto rolModel (si es necesario)
-                    {
-                        nombre = resultado.Rows[0]["rol"].ToString()
-                    }
+                    id = Convert.ToInt32(row["id"]),
+                    nombre = row["nombre"].ToString(),
+                    correo = row["correo"].ToString(),
+                    contrasenia = row["contrasenia"].ToString(),
+                    id_rol = Convert.ToInt32(row["id_rol"]),
+                    visibilidad = Convert.ToBoolean(row["visibilidad"]),
+                    rol = row["rol"].ToString()
                 }).ToList();
-                return Ok(usuarios);
 
+                return Ok(usuarios);
             }
             catch (Exception ex)
             {
                 return BadRequest();
             }
         }
+
 
         [HttpPost("nuevo-usuario")]
         public IActionResult nuevoUsuario([FromBody] usuarioModel usuario)
@@ -87,7 +83,7 @@ namespace krolCakes.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest("Error al registrar al Usuario");
             }
         }
 
@@ -96,29 +92,48 @@ namespace krolCakes.Controllers
         {
             try
             {
-                // Validar que el usuario existe
-                var queryValidador = $"SELECT id FROM usuario WHERE correo = '{usuario.correo}'";
-                var resultadoValidador = db.ExecuteQuery(queryValidador);
+                // Validar si cambio de contrasenia
+                    var queryValidador = $"SELECT contrasenia FROM usuario WHERE id = '{usuario.id}'";
+                var resultado = db.ExecuteQuery(queryValidador);
 
-                if (resultadoValidador.Rows.Count > 0) // El usuario existe
+                // Asegúrate de que el DataTable no esté vacío
+                if (resultado.Rows.Count > 0)
                 {
-                    // Actualizar los campos necesarios
-                    var queryActualizar = $"UPDATE usuario SET " +
-                      $"nombre = '{usuario.nombre}', " +
-                      $"contrasenia = '{progra.EncriptarContraseña(usuario.contrasenia)}', " +
-                      $"id_rol = {usuario.id_rol}, " +  // Asumiendo que id_rol es un número
-                      $"visibilidad = {(usuario.visibilidad.HasValue && usuario.visibilidad.Value ? 1 : 0)} " +
-                      $"WHERE correo = '{usuario.correo}'";
+                    // Extrae el valor de la primera fila y la columna 'contrasenia'
+                    var resultadoValidador = resultado.Rows[0]["contrasenia"].ToString();
 
+                    if (resultadoValidador == usuario.contrasenia)
+                    {
+                        // Actualizar sin contrasenia
+                        var queryActualizar = $"UPDATE usuario SET " +
+                          $"nombre = '{usuario.nombre}', " +
+                          $"id_rol = {usuario.id_rol}, " +
+                          $"visibilidad = {(usuario.visibilidad.HasValue && usuario.visibilidad.Value ? 1 : 0)} " +
+                          $"WHERE correo = '{usuario.correo}'";
 
-                    db.ExecuteQuery(queryActualizar);
-                    return Ok("Usuario actualizado correctamente");
+                        db.ExecuteQuery(queryActualizar);
+                        return Ok("Usuario actualizado correctamente");
+                    }
+                    else
+                    {
+                        // Actualizar con nueva contrasenia
+                        var queryActualizar = $"UPDATE usuario SET " +
+                          $"nombre = '{usuario.nombre}', " +
+                          $"contrasenia = '{progra.EncriptarContraseña(usuario.contrasenia)}', " +
+                          $"id_rol = {usuario.id_rol}, " +
+                          $"visibilidad = {(usuario.visibilidad.HasValue && usuario.visibilidad.Value ? 1 : 0)} " +
+                          $"WHERE correo = '{usuario.correo}'";
+
+                        db.ExecuteQuery(queryActualizar);
+                        return Ok("Usuario actualizado correctamente");
+                    }
                 }
                 else
                 {
-                    // El usuario no existe, devolver un BadRequest
-                    return BadRequest("El usuario no existe");
+                    return BadRequest("Usuario no encontrado");
                 }
+
+
             }
             catch (Exception ex)
             {
