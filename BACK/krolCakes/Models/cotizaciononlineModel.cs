@@ -9,5 +9,6 @@
         public int? cant_cupcakes { get; set; }
         public double? precio_aproximado { get; set; }
         public bool? envio { get; set; }
+        public double? total { get; set; }
     }
 }

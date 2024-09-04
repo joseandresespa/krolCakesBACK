@@ -814,6 +814,606 @@ namespace krolCakes.Controllers
                 return BadRequest($"Error al actualizar el tipo de entrega: {ex.Message}");
             }
         }
+        //------------------------------Fin tipo de entrega----------------------------------------
+
+        [HttpGet("tipos-evento")]
+        public IActionResult GetTiposEvento()
+        {
+            try
+            {
+                // Consulta SQL para obtener todos los tipos de evento
+                var query = "SELECT id, nombre FROM tipo_evento ORDER BY id";
+                var resultado = db.ExecuteQuery(query);
+
+                // Construir la lista de objetos tipoeventoModel con los datos obtenidos de la base de datos
+                var tiposEvento = resultado.AsEnumerable().Select(row => new tipoeventoModel
+                {
+                    id = row.Field<int?>("id"),
+                    nombre = row.Field<string>("nombre")
+                }).ToList();
+
+                return Ok(tiposEvento);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones: retorna un BadRequest en caso de error
+                return BadRequest($"Error al obtener los tipos de evento: {ex.Message}");
+            }
+        }
+
+        [HttpPost("nuevo-tipo-evento")]
+        public IActionResult NuevoTipoEvento([FromBody] tipoeventoModel tipoEvento)
+        {
+            try
+            {
+                var queryValidador = $"SELECT id FROM tipo_evento WHERE nombre = '{tipoEvento.nombre}'";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count == 0) // Si no existe un tipo de evento con el mismo nombre
+                {
+                    var queryInsertar = $"INSERT INTO tipo_evento (nombre) VALUES ('{tipoEvento.nombre}')";
+                    db.ExecuteQuery(queryInsertar);
+                    return Ok("Tipo de evento registrado correctamente");
+                }
+                else
+                {
+                    // El tipo de evento ya existe, devolver un BadRequest
+                    return BadRequest("El tipo de evento ya está registrado");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al registrar el tipo de evento: {ex.Message}");
+            }
+        }
+
+        [HttpPost("actualizar-tipo-evento")]
+        public IActionResult ActualizarTipoEvento([FromBody] tipoeventoModel tipoEvento)
+        {
+            try
+            {
+                // Validar que el tipo de evento existe
+                var queryValidador = $"SELECT id FROM tipo_evento WHERE id = {tipoEvento.id}";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count > 0) // Si el tipo de evento existe
+                {
+                    // Actualizar el campo nombre del tipo de evento
+                    var queryActualizar = $"UPDATE tipo_evento SET " +
+                      $"nombre = '{tipoEvento.nombre}' " +
+                      $"WHERE id = {tipoEvento.id}";
+                    db.ExecuteQuery(queryActualizar);
+                    return Ok("Tipo de evento actualizado correctamente");
+                }
+                else
+                {
+                    // El tipo de evento no existe, devolver un BadRequest
+                    return BadRequest("El tipo de evento no existe");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al actualizar el tipo de evento: {ex.Message}");
+            }
+        }
+        //---------------------------------Fin tipo evento---------------------------------------
+
+        [HttpGet("unidad-medida-precio-sugerido")]
+        public IActionResult GetUnidadMedidaPrecioSugerido()
+        {
+            try
+            {
+                var query = @"SELECT id, nombre FROM unidad_medida_precio_sugerido ORDER BY id";
+                var resultado = db.ExecuteQuery(query);
+
+                var unidades = resultado.AsEnumerable().Select(row => new unidadmedidapreciosugeridoModel
+                {
+                    id = row.Field<int?>("id"),
+                    nombre = row.Field<string>("nombre")
+                }).ToList();
+
+                return Ok(unidades);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al obtener las unidades de medida de precio sugerido.");
+            }
+        }
+
+        [HttpPost("nueva-unidad-medida-precio-sugerido")]
+        public IActionResult NuevaUnidadMedidaPrecioSugerido([FromBody] unidadmedidapreciosugeridoModel unidad)
+        {
+            try
+            {
+                var queryValidador = $"SELECT id FROM unidad_medida_precio_sugerido WHERE nombre = '{unidad.nombre}'";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count == 0)
+                {
+                    var queryInsertar = $"INSERT INTO unidad_medida_precio_sugerido (nombre) VALUES ('{unidad.nombre}')";
+                    db.ExecuteQuery(queryInsertar);
+                    return Ok("Unidad de medida de precio sugerido registrada correctamente");
+                }
+                else
+                {
+                    return BadRequest("La unidad de medida de precio sugerido ya está registrada");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al registrar la unidad de medida de precio sugerido.");
+            }
+        }
+
+        [HttpPost("actualizar-unidad-medida-precio-sugerido")]
+        public IActionResult ActualizarUnidadMedidaPrecioSugerido([FromBody] unidadmedidapreciosugeridoModel unidad)
+        {
+            try
+            {
+                var queryValidador = $"SELECT id FROM unidad_medida_precio_sugerido WHERE id = {unidad.id}";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count > 0)
+                {
+                    var queryActualizar = $"UPDATE unidad_medida_precio_sugerido SET " +
+                                          $"nombre = '{unidad.nombre}' " +
+                                          $"WHERE id = {unidad.id}";
+                    db.ExecuteQuery(queryActualizar);
+                    return Ok("Unidad de medida de precio sugerido actualizada correctamente");
+                }
+                else
+                {
+                    return BadRequest("La unidad de medida de precio sugerido no existe");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al actualizar la unidad de medida de precio sugerido.");
+            }
+        }
+
+        //---------------------------Fin unidad de mededida precio sugerido------------------------------------------------------
+
+        [HttpGet("estados")]
+        public IActionResult GetEstados()
+        {
+            try
+            {
+                var query = @"SELECT id, estado FROM estado ORDER BY id";
+                var resultado = db.ExecuteQuery(query);
+
+                var estados = resultado.AsEnumerable().Select(row => new estadoModel
+                {
+                    id = row.Field<int?>("id"),
+                    estado = row.Field<string>("estado")
+                }).ToList();
+
+                return Ok(estados);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al obtener los estados");
+            }
+        }
+
+        [HttpPost("nuevo-estado")]
+        public IActionResult NuevoEstado([FromBody] estadoModel estado)
+        {
+            try
+            {
+                var queryInsertar = $"INSERT INTO estado (estado) VALUES ('{estado.estado}')";
+                db.ExecuteQuery(queryInsertar);
+                return Ok("Estado registrado correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al registrar el estado");
+            }
+        }
+
+        [HttpPost("actualizar-estado")]
+        public IActionResult ActualizarEstado([FromBody] estadoModel estado)
+        {
+            try
+            {
+                var queryValidador = $"SELECT id FROM estado WHERE id = {estado.id}";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count > 0)
+                {
+                    var queryActualizar = $"UPDATE estado SET estado = '{estado.estado}' WHERE id = {estado.id}";
+                    db.ExecuteQuery(queryActualizar);
+                    return Ok("Estado actualizado correctamente");
+                }
+                else
+                {
+                    return BadRequest("El estado no existe");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al actualizar el estado");
+            }
+        }
+        //---------------------------Fin estado-----------------------------------------------------------------------------
+
+        [HttpGet("cotizaciones-online")]
+        public IActionResult GetCotizacionesOnline()
+        {
+            try
+            {
+                var query = @"SELECT id, descripcion, telefono, porciones, cant_cupcakes, precio_aproximado, envio, total
+                      FROM cotizacion_online 
+                      ORDER BY id";
+                var resultado = db.ExecuteQuery(query);
+
+                var cotizaciones = resultado.AsEnumerable().Select(row => new cotizaciononlineModel
+                {
+                    id = row.Field<int?>("id"),
+                    descripcion = row.Field<string>("descripcion"),
+                    telefono = row.Field<int?>("telefono"),
+                    porciones = row.Field<int?>("porciones"),
+                    cant_cupcakes = row.Field<int?>("cant_cupcakes"),
+                    precio_aproximado = row.Field<double?>("precio_aproximado"),
+                    envio = Convert.ToBoolean(resultado.Rows[0]["envio"]),
+                    total = row.Field<double?>("total")
+                }).ToList();
+
+                return Ok(cotizaciones);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al obtener las cotizaciones online");
+            }
+        }
+
+        [HttpPost("nueva-cotizacion-online")]
+        public IActionResult NuevaCotizacionOnline([FromBody] cotizaciononlineModel cotizacion)
+        {
+            try
+            {
+                var queryInsertar = $"INSERT INTO cotizacion_online (descripcion, telefono, porciones, cant_cupcakes, precio_aproximado, envio, total) " +
+                                    $"VALUES ('{cotizacion.descripcion}', {cotizacion.telefono}, {cotizacion.porciones}, {cotizacion.cant_cupcakes}, {cotizacion.precio_aproximado}, {(cotizacion.envio.HasValue && cotizacion.envio.Value ? 1 : 0)}, {cotizacion.total})";
+                db.ExecuteQuery(queryInsertar);
+                return Ok("Cotización online registrada correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al registrar la cotización online");
+            }
+        }
+
+        [HttpPost("actualizar-cotizaciononline")]
+        public IActionResult ActualizarCotizacionOnline([FromBody] cotizaciononlineModel cotizacion)
+        {
+            try
+            {
+                var queryValidador = $"SELECT id FROM cotizacion_online WHERE id = {cotizacion.id}";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count > 0)
+                {
+                    var queryActualizar = $"UPDATE cotizacion_online SET " +
+                                          $"descripcion = '{cotizacion.descripcion}', " +
+                                          $"telefono = {cotizacion.telefono}, " +
+                                          $"porciones = {cotizacion.porciones}, " +
+                                          $"cant_cupcakes = {cotizacion.cant_cupcakes}, " +
+                                          $"precio_aproximado = {cotizacion.precio_aproximado}, " +
+                                          $"envio = {(cotizacion.envio.HasValue && cotizacion.envio.Value ? 1 : 0)}, " +
+                                          $"total = {cotizacion.total} " +
+                                          $"WHERE id = {cotizacion.id}";
+                    db.ExecuteQuery(queryActualizar);
+                    return Ok("Cotización online actualizada correctamente");
+                }
+                else
+                {
+                    return BadRequest("La cotización online no existe");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al actualizar la cotización online");
+            }
+        }
+
+
+
+
+
+
+        //---------------------Fin cotizacion online-------------------------------------------------------------------------------
+
+        [HttpGet("desgloseonline")]
+        public IActionResult GetDesgloseOnline()
+        {
+            try
+            {
+                var query = @"SELECT a.correlativo, a.precio, a.id_cotizacion_online, a.id_producto, a.subtotal, a.cantidad,
+                             b.descripcion, b.telefono, b.porciones, b.cant_cupcakes, b.precio_aproximado, b.envio,
+                             c.nombre, c.descripcion AS descripcionproducto, c.precio_online
+                      FROM desglose_online a
+                      INNER JOIN cotizacion_online b ON a.id_cotizacion_online = b.id
+                      INNER JOIN producto c ON a.id_producto = c.id
+                      ORDER BY a.correlativo";
+                var resultado = db.ExecuteQuery(query);
+
+                var desgloses = resultado.AsEnumerable().Select(row => new desgloseonlineModelCompleto
+                {
+                    correlativo = row.Field<int?>("correlativo"),
+                    precio = row.Field<double?>("precio"),
+                    id_cotizacion_online = row.Field<int?>("id_cotizacion_online"),
+                    id_producto = row.Field<int?>("id_producto"),
+                    subtotal = row.Field<double?>("subtotal"),
+                    cantidad = row.Field<int?>("cantidad"),
+                    descripcion = row.Field<string>("descripcion"),
+                    telefono = row.Field<int?>("telefono"),
+                    porciones = row.Field<int?>("porciones"),
+                    cant_cupcakes = row.Field<int?>("cant_cupcakes"),
+                    precio_aproximado = row.Field<double?>("precio_aproximado"),
+                    envio = Convert.ToBoolean(row["envio"]),
+                    nombre = row.Field<string>("nombre"),
+                    descripcionproducto = row.Field<string>("descripcionproducto"),
+                    precio_online = row.Field<double?>("precio_online")
+                }).ToList();
+
+                return Ok(desgloses);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al obtener los desgloses online");
+            }
+        }
+
+
+        [HttpPost("nuevo-desgloseonline")]
+        public IActionResult NuevoDesgloseOnline([FromBody] desgloseonlineModel desglose)
+        {
+            try
+            {
+                var queryInsertar = $"INSERT INTO desglose_online (precio, id_cotizacion_online, id_producto, subtotal, cantidad) " +
+                                    $"VALUES ({desglose.precio}, {desglose.id_cotizacion_online}, {desglose.id_producto}, {desglose.subtotal}, {desglose.cantidad})";
+                db.ExecuteQuery(queryInsertar);
+                return Ok("Desglose online registrado correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al registrar el desglose online");
+            }
+        }
+
+
+
+        [HttpPost("actualizar-desgloseonline")]
+        public IActionResult ActualizarDesgloseOnline([FromBody] desgloseonlineModel desglose)
+        {
+            try
+            {
+                var queryValidador = $"SELECT correlativo FROM desglose_online WHERE correlativo = {desglose.correlativo}";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count > 0)
+                {
+                    var queryActualizar = $"UPDATE desglose_online SET " +
+                                          $"precio = {desglose.precio}, " +
+                                          $"id_cotizacion_online = {desglose.id_cotizacion_online}, " +
+                                          $"id_producto = {desglose.id_producto}, " +
+                                          $"subtotal = {desglose.subtotal}, " +
+                                          $"cantidad = {desglose.cantidad} " +
+                                          $"WHERE correlativo = {desglose.correlativo}";
+                    db.ExecuteQuery(queryActualizar);
+                    return Ok("Desglose online actualizado correctamente");
+                }
+                else
+                {
+                    return BadRequest("El desglose online no existe");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al actualizar el desglose online");
+            }
+        }
+
+        //-----------------Fin actualizar desglose online----------------------------------------------------------------------------------------------
+
+        [HttpGet("tipos-insumo-utensilio")]
+        public IActionResult GetTiposInsumoUtensilio()
+        {
+            try
+            {
+                var query = @"SELECT id, tipo FROM tipo_insumo_utensilio ORDER BY id";
+                var resultado = db.ExecuteQuery(query);
+
+                var tiposInsumoUtensilio = resultado.AsEnumerable().Select(row => new tipoinsumoutensilioModel
+                {
+                    id = row.Field<int?>("id"),
+                    tipo = row.Field<string>("tipo")
+                }).ToList();
+
+                return Ok(tiposInsumoUtensilio);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al obtener los tipos de insumos y utensilios");
+            }
+        }
+
+        [HttpPost("nuevo-tipo-insumo-utensilio")]
+        public IActionResult NuevoTipoInsumoUtensilio([FromBody] tipoinsumoutensilioModel tipoInsumoUtensilio)
+        {
+            try
+            {
+                var queryInsertar = $"INSERT INTO tipo_insumo_utensilio (tipo) VALUES ('{tipoInsumoUtensilio.tipo}')";
+                db.ExecuteQuery(queryInsertar);
+                return Ok("Tipo de insumo/utensilio registrado correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al registrar el tipo de insumo/utensilio");
+            }
+        }
+
+        [HttpPost("actualizar-tipo-insumo-utensilio")]
+        public IActionResult ActualizarTipoInsumoUtensilio([FromBody] tipoinsumoutensilioModel tipoInsumoUtensilio)
+        {
+            try
+            {
+                var queryValidador = $"SELECT id FROM tipo_insumo_utensilio WHERE id = {tipoInsumoUtensilio.id}";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count > 0)
+                {
+                    var queryActualizar = $"UPDATE tipo_insumo_utensilio SET tipo = '{tipoInsumoUtensilio.tipo}' WHERE id = {tipoInsumoUtensilio.id}";
+                    db.ExecuteQuery(queryActualizar);
+                    return Ok("Tipo de insumo/utensilio actualizado correctamente");
+                }
+                else
+                {
+                    return BadRequest("El tipo de insumo/utensilio no existe");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al actualizar el tipo de insumo/utensilio");
+            }
+        }
+        //-----------------Fin tipo insumo utensilio-------------------------------------------------------------------------------------
+
+        [HttpGet("motivos-salida")]
+        public IActionResult GetMotivosSalida()
+        {
+            try
+            {
+                var query = @"SELECT id, nombre FROM motivo_salida ORDER BY id";
+                var resultado = db.ExecuteQuery(query);
+
+                var motivosSalida = resultado.AsEnumerable().Select(row => new motivosalidaModel
+                {
+                    id = row.Field<int?>("id"),
+                    nombre = row.Field<string>("nombre")
+                }).ToList();
+
+                return Ok(motivosSalida);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al obtener los motivos de salida");
+            }
+        }
+
+        [HttpPost("nuevo-motivo-salida")]
+        public IActionResult NuevoMotivoSalida([FromBody] motivosalidaModel motivoSalida)
+        {
+            try
+            {
+                var queryInsertar = $"INSERT INTO motivo_salida (nombre) VALUES ('{motivoSalida.nombre}')";
+                db.ExecuteQuery(queryInsertar);
+                return Ok("Motivo de salida registrado correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al registrar el motivo de salida");
+            }
+        }
+
+        [HttpPost("actualizar-motivo-salida")]
+        public IActionResult ActualizarMotivoSalida([FromBody] motivosalidaModel motivoSalida)
+        {
+            try
+            {
+                var queryValidador = $"SELECT id FROM motivo_salida WHERE id = {motivoSalida.id}";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count > 0)
+                {
+                    var queryActualizar = $"UPDATE motivo_salida SET nombre = '{motivoSalida.nombre}' WHERE id = {motivoSalida.id}";
+                    db.ExecuteQuery(queryActualizar);
+                    return Ok("Motivo de salida actualizado correctamente");
+                }
+                else
+                {
+                    return BadRequest("El motivo de salida no existe");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al actualizar el motivo de salida");
+            }
+        }
+        //-------------------Fin actualizar motivo salida----------------------------------------------------------
+
+        [HttpGet("proveedores")]
+        public IActionResult GetProveedores()
+        {
+            try
+            {
+                var query = @"SELECT id, nombre, telefono, descripcion FROM proveedor ORDER BY id";
+                var resultado = db.ExecuteQuery(query);
+
+                var proveedores = resultado.AsEnumerable().Select(row => new proveedorModel
+                {
+                    id = row.Field<int?>("id"),
+                    nombre = row.Field<string>("nombre"),
+                    telefono = row.Field<int?>("telefono"),
+                    descripcion = row.Field<string>("descripcion")
+                }).ToList();
+
+                return Ok(proveedores);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al obtener los proveedores");
+            }
+        }
+
+        [HttpPost("nuevo-proveedor")]
+        public IActionResult NuevoProveedor([FromBody] proveedorModel proveedor)
+        {
+            try
+            {
+                var queryInsertar = $"INSERT INTO proveedor (nombre, telefono, descripcion) " +
+                                    $"VALUES ('{proveedor.nombre}', {proveedor.telefono}, '{proveedor.descripcion}')";
+                db.ExecuteQuery(queryInsertar);
+                return Ok("Proveedor registrado correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al registrar el proveedor");
+            }
+        }
+
+        [HttpPost("actualizar-proveedor")]
+        public IActionResult ActualizarProveedor([FromBody] proveedorModel proveedor)
+        {
+            try
+            {
+                var queryValidador = $"SELECT id FROM proveedor WHERE id = {proveedor.id}";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count > 0)
+                {
+                    var queryActualizar = $"UPDATE proveedor SET " +
+                                          $"nombre = '{proveedor.nombre}', " +
+                                          $"telefono = {proveedor.telefono}, " +
+                                          $"descripcion = '{proveedor.descripcion}' " +
+                                          $"WHERE id = {proveedor.id}";
+                    db.ExecuteQuery(queryActualizar);
+                    return Ok("Proveedor actualizado correctamente");
+                }
+                else
+                {
+                    return BadRequest("El proveedor no existe");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al actualizar el proveedor");
+            }
+        }
+
+
+
+
 
 
         // GET: api/<CatalogosController>
