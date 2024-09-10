@@ -1037,84 +1037,135 @@ namespace krolCakes.Controllers
         }
         //---------------------------Fin estado-----------------------------------------------------------------------------
 
-        [HttpGet("cotizaciones-online")]
+        [HttpGet("cotizaciononline")]
         public IActionResult GetCotizacionesOnline()
         {
             try
             {
-                var query = @"SELECT id, descripcion, telefono, porciones, cant_cupcakes, precio_aproximado, envio, total
-                      FROM cotizacion_online 
-                      ORDER BY id";
+                var query = @"SELECT c.id, c.nombre, c.descripcion, c.direccion, c.telefono, 
+                             DATE_FORMAT(c.fecha, '%Y-%m-%d') AS fecha,
+                             TIME_FORMAT(c.hora, '%H:%i:%s') AS hora,
+                             i.correlativo AS imagen_id, i.ruta AS imagen_ruta, i.observacion AS imagen_observacion,
+                             d.correlativo AS desglose_id, d.precio AS desglose_precio, d.id_producto AS desglose_id_producto, 
+                             d.subtotal AS desglose_subtotal, d.cantidad AS desglose_cantidad
+                      FROM cotizacion_online c
+                      LEFT JOIN imagen_referencia_online i ON c.id = i.id_cotizacion_online
+                      LEFT JOIN desglose_online d ON c.id = d.id_cotizacion_online
+                      ORDER BY c.id";
                 var resultado = db.ExecuteQuery(query);
-
-                var cotizaciones = resultado.AsEnumerable().Select(row => new cotizaciononlineModel
+                var cotizaciones = resultado.AsEnumerable().GroupBy(row => new
                 {
-                    id = row.Field<int?>("id"),
-                    descripcion = row.Field<string>("descripcion"),
-                    telefono = row.Field<int?>("telefono"),
-                    porciones = row.Field<int?>("porciones"),
-                    cant_cupcakes = row.Field<int?>("cant_cupcakes"),
-                    precio_aproximado = row.Field<double?>("precio_aproximado"),
-                    envio = Convert.ToBoolean(resultado.Rows[0]["envio"]),
-                    total = row.Field<double?>("total")
+                    id = Convert.ToInt32(row["id"]),
+                    nombre = row["nombre"]?.ToString(),
+                    descripcion = row["descripcion"]?.ToString(),
+                    direccion = row["direccion"]?.ToString(),
+                    telefono = row["telefono"] != DBNull.Value ? Convert.ToInt32(row["telefono"]) : (int?)null,
+                    fecha = row["fecha"]?.ToString(),
+                    hora = row["hora"]?.ToString()
+                })
+                .Select(grp => new cotizaciononlineModel
+                {
+                    id = grp.Key.id,
+                    nombre = grp.Key.nombre,
+                    descripcion = grp.Key.descripcion,
+                    direccion = grp.Key.direccion,
+                    telefono = grp.Key.telefono,
+                    fecha = ParseDateOnly(grp.Key.fecha),
+                    hora = ParseTimeOnly(grp.Key.hora),
+                    imagenes = grp
+                        .Where(row => row["imagen_id"] != DBNull.Value)
+                        .Select(row => new imagenreferenciaonlineModel
+                        {
+                            correlativo = Convert.ToInt32(row["imagen_id"]),
+                            ruta = row["imagen_ruta"]?.ToString(),
+                            observacion = row["imagen_observacion"]?.ToString()
+                        }).ToList(),
+                    desgloses = grp
+                        .Where(row => row["desglose_id"] != DBNull.Value)
+                        .Select(row => new desgloseonlineModel
+                        {
+                            correlativo = Convert.ToInt32(row["desglose_id"]),
+                            precio = Convert.ToDouble(row["desglose_precio"]),
+                            id_producto = Convert.ToInt32(row["desglose_id_producto"]),
+                            subtotal = Convert.ToDouble(row["desglose_subtotal"]),
+                            cantidad = Convert.ToInt32(row["desglose_cantidad"])
+                        }).ToList()
                 }).ToList();
-
                 return Ok(cotizaciones);
             }
             catch (Exception ex)
             {
-                return BadRequest("Error al obtener las cotizaciones online");
+                return BadRequest($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
             }
         }
 
-        [HttpPost("nueva-cotizacion-online")]
+        private static DateOnly? ParseDateOnly(string dateString)
+        {
+            if (string.IsNullOrEmpty(dateString) || dateString == "0000-00-00")
+            {
+                return null;
+            }
+            return DateOnly.ParseExact(dateString, "yyyy-MM-dd", null);
+        }
+
+        private static TimeOnly? ParseTimeOnly(string timeString)
+        {
+            if (string.IsNullOrEmpty(timeString) || timeString == "00:00:00")
+            {
+                return null;
+            }
+            return TimeOnly.ParseExact(timeString, "HH:mm:ss", null);
+        }
+
+
+
+
+        [HttpPost("nueva-cotizaciononline")]
         public IActionResult NuevaCotizacionOnline([FromBody] cotizaciononlineModel cotizacion)
         {
             try
             {
-                var queryInsertar = $"INSERT INTO cotizacion_online (descripcion, telefono, porciones, cant_cupcakes, precio_aproximado, envio, total) " +
-                                    $"VALUES ('{cotizacion.descripcion}', {cotizacion.telefono}, {cotizacion.porciones}, {cotizacion.cant_cupcakes}, {cotizacion.precio_aproximado}, {(cotizacion.envio.HasValue && cotizacion.envio.Value ? 1 : 0)}, {cotizacion.total})";
-                db.ExecuteQuery(queryInsertar);
+                // Convertir fecha y hora a formatos MySQL
+                var fechaFormatoMySQL = cotizacion.fecha.HasValue ? cotizacion.fecha.Value.ToString("yyyy-MM-dd") : null;
+                var horaFormatoMySQL = cotizacion.hora.HasValue ? cotizacion.hora.Value.ToString(@"hh\:mm\:ss") : null;
+
+                // Insertar la cotización online
+                var queryInsertCotizacion = $"INSERT INTO cotizacion_online (nombre, descripcion, direccion, telefono, fecha, hora) " +
+                                            $"VALUES ('{cotizacion.nombre}', '{cotizacion.descripcion}', '{cotizacion.direccion}', {cotizacion.telefono}, '{fechaFormatoMySQL}', '{horaFormatoMySQL}')";
+                db.ExecuteQuery(queryInsertCotizacion);
+
+                // Obtener el ID de la cotización recién insertada
+                var idCotizacion = db.ExecuteQuery("SELECT LAST_INSERT_ID()").Rows[0][0];
+
+                // Insertar las imágenes de referencia
+                if (cotizacion.imagenes != null)
+                {
+                    foreach (var imagen in cotizacion.imagenes)
+                    {
+                        var queryInsertImagen = $"INSERT INTO imagen_referencia_online (ruta, observacion, id_cotizacion_online) VALUES ('{imagen.ruta}', '{imagen.observacion}', {idCotizacion})";
+                        db.ExecuteQuery(queryInsertImagen);
+                    }
+                }
+
+                // Insertar los desgloses
+                if (cotizacion.desgloses != null)
+                {
+                    foreach (var desglose in cotizacion.desgloses)
+                    {
+                        var queryInsertDesglose = $"INSERT INTO desglose_online (precio, id_producto, subtotal, cantidad, id_cotizacion_online) " +
+                                                  $"VALUES ({desglose.precio}, {desglose.id_producto}, {desglose.subtotal}, {desglose.cantidad}, {idCotizacion})";
+                        db.ExecuteQuery(queryInsertDesglose);
+                    }
+                }
+
                 return Ok("Cotización online registrada correctamente");
             }
             catch (Exception ex)
             {
-                return BadRequest("Error al registrar la cotización online");
+                return BadRequest($"Error al registrar la cotización online: {ex.Message}");
             }
         }
 
-        [HttpPost("actualizar-cotizaciononline")]
-        public IActionResult ActualizarCotizacionOnline([FromBody] cotizaciononlineModel cotizacion)
-        {
-            try
-            {
-                var queryValidador = $"SELECT id FROM cotizacion_online WHERE id = {cotizacion.id}";
-                var resultadoValidador = db.ExecuteQuery(queryValidador);
-
-                if (resultadoValidador.Rows.Count > 0)
-                {
-                    var queryActualizar = $"UPDATE cotizacion_online SET " +
-                                          $"descripcion = '{cotizacion.descripcion}', " +
-                                          $"telefono = {cotizacion.telefono}, " +
-                                          $"porciones = {cotizacion.porciones}, " +
-                                          $"cant_cupcakes = {cotizacion.cant_cupcakes}, " +
-                                          $"precio_aproximado = {cotizacion.precio_aproximado}, " +
-                                          $"envio = {(cotizacion.envio.HasValue && cotizacion.envio.Value ? 1 : 0)}, " +
-                                          $"total = {cotizacion.total} " +
-                                          $"WHERE id = {cotizacion.id}";
-                    db.ExecuteQuery(queryActualizar);
-                    return Ok("Cotización online actualizada correctamente");
-                }
-                else
-                {
-                    return BadRequest("La cotización online no existe");
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Error al actualizar la cotización online");
-            }
-        }
 
 
 
@@ -1124,17 +1175,26 @@ namespace krolCakes.Controllers
         //---------------------Fin cotizacion online-------------------------------------------------------------------------------
 
         [HttpGet("desgloseonline")]
-        public IActionResult GetDesgloseOnline()
+        public IActionResult GetDesgloseOnline(int? id_cotizacion_online = null)
         {
             try
             {
+                // Ajustar la consulta para que permita el filtro opcional
                 var query = @"SELECT a.correlativo, a.precio, a.id_cotizacion_online, a.id_producto, a.subtotal, a.cantidad,
                              b.descripcion, b.telefono, b.porciones, b.cant_cupcakes, b.precio_aproximado, b.envio,
                              c.nombre, c.descripcion AS descripcionproducto, c.precio_online
                       FROM desglose_online a
                       INNER JOIN cotizacion_online b ON a.id_cotizacion_online = b.id
-                      INNER JOIN producto c ON a.id_producto = c.id
-                      ORDER BY a.correlativo";
+                      INNER JOIN producto c ON a.id_producto = c.id ";
+
+                // Si se proporciona un id_cotizacion_online, se añade un filtro en la consulta
+                if (id_cotizacion_online.HasValue)
+                {
+                    query += $"WHERE a.id_cotizacion_online = {id_cotizacion_online.Value} ";
+                }
+
+                query += "ORDER BY a.correlativo";
+
                 var resultado = db.ExecuteQuery(query);
 
                 var desgloses = resultado.AsEnumerable().Select(row => new desgloseonlineModelCompleto
@@ -1160,9 +1220,10 @@ namespace krolCakes.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Error al obtener los desgloses online");
+                return BadRequest($"Error al obtener los desgloses online: {ex.Message}");
             }
         }
+
 
 
         [HttpPost("nuevo-desgloseonline")]

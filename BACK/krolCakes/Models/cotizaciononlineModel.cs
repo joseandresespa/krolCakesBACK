@@ -10,6 +10,6 @@
         public DateOnly? fecha { get; set; }
         public TimeOnly? hora { get; set; }
         public List<imagenreferenciaonlineModel>? imagenes { get; set; }
-        public List<productoModel>? productos { get; set; }
+        public List<desgloseonlineModel>? desgloses { get; set; }
     }
 }

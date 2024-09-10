@@ -1,0 +1,845 @@
+[
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "Get",
+    "RelativePath": "api/Catalogos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "Post",
+    "RelativePath": "api/Catalogos",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "value",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "Put",
+    "RelativePath": "api/Catalogos/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "value",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "Delete",
+    "RelativePath": "api/Catalogos/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarCliente",
+    "RelativePath": "api/Catalogos/actualizar-cliente",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cliente",
+        "Type": "krolCakes.Models.clienteModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarDesgloseOnline",
+    "RelativePath": "api/Catalogos/actualizar-desgloseonline",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "desglose",
+        "Type": "krolCakes.Models.desgloseonlineModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarEstado",
+    "RelativePath": "api/Catalogos/actualizar-estado",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "estado",
+        "Type": "krolCakes.Models.estadoModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarMasa",
+    "RelativePath": "api/Catalogos/actualizar-masa",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "masa",
+        "Type": "krolCakes.Models.masaModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarModulo",
+    "RelativePath": "api/Catalogos/actualizar-modulo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "modulo",
+        "Type": "krolCakes.Models.moduloModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarMotivoSalida",
+    "RelativePath": "api/Catalogos/actualizar-motivo-salida",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "motivoSalida",
+        "Type": "krolCakes.Models.motivosalidaModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarProducto",
+    "RelativePath": "api/Catalogos/actualizar-producto",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "producto",
+        "Type": "krolCakes.Models.productoModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarProveedor",
+    "RelativePath": "api/Catalogos/actualizar-proveedor",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "proveedor",
+        "Type": "krolCakes.Models.proveedorModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarReceta",
+    "RelativePath": "api/Catalogos/actualizar-receta",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "receta",
+        "Type": "krolCakes.Models.recetaModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarRelleno",
+    "RelativePath": "api/Catalogos/actualizar-relleno",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "relleno",
+        "Type": "krolCakes.Models.rellenoModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarRol",
+    "RelativePath": "api/Catalogos/actualizar-rol",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rol",
+        "Type": "krolCakes.Models.rolModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarTipoEntrega",
+    "RelativePath": "api/Catalogos/actualizar-tipo-entrega",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tipoEntrega",
+        "Type": "krolCakes.Models.tipoentregaModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarTipoEvento",
+    "RelativePath": "api/Catalogos/actualizar-tipo-evento",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tipoEvento",
+        "Type": "krolCakes.Models.tipoeventoModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarTipoInsumoUtensilio",
+    "RelativePath": "api/Catalogos/actualizar-tipo-insumo-utensilio",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tipoInsumoUtensilio",
+        "Type": "krolCakes.Models.tipoinsumoutensilioModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarUnidadMedidaPrecioSugerido",
+    "RelativePath": "api/Catalogos/actualizar-unidad-medida-precio-sugerido",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "unidad",
+        "Type": "krolCakes.Models.unidadmedidapreciosugeridoModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "ActualizarUsuario",
+    "RelativePath": "api/Catalogos/actualizar-usuario",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usuario",
+        "Type": "krolCakes.Models.usuarioModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "Get",
+    "RelativePath": "api/Catalogos/cambio estastado/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetClientes",
+    "RelativePath": "api/Catalogos/clientes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetCotizacionesOnline",
+    "RelativePath": "api/Catalogos/cotizaciononline",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetDesgloseOnline",
+    "RelativePath": "api/Catalogos/desgloseonline",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id_cotizacion_online",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetEstados",
+    "RelativePath": "api/Catalogos/estados",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetMasas",
+    "RelativePath": "api/Catalogos/masas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetModulos",
+    "RelativePath": "api/Catalogos/modulos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idRol",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetMotivosSalida",
+    "RelativePath": "api/Catalogos/motivos-salida",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevaCotizacionOnline",
+    "RelativePath": "api/Catalogos/nueva-cotizaciononline",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cotizacion",
+        "Type": "krolCakes.Models.cotizaciononlineModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevaMasa",
+    "RelativePath": "api/Catalogos/nueva-masa",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "masa",
+        "Type": "krolCakes.Models.masaModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevaReceta",
+    "RelativePath": "api/Catalogos/nueva-receta",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "receta",
+        "Type": "krolCakes.Models.recetaModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevaUnidadMedidaPrecioSugerido",
+    "RelativePath": "api/Catalogos/nueva-unidad-medida-precio-sugerido",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "unidad",
+        "Type": "krolCakes.Models.unidadmedidapreciosugeridoModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevoCliente",
+    "RelativePath": "api/Catalogos/nuevo-cliente",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cliente",
+        "Type": "krolCakes.Models.clienteModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevoDesgloseOnline",
+    "RelativePath": "api/Catalogos/nuevo-desgloseonline",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "desglose",
+        "Type": "krolCakes.Models.desgloseonlineModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevoEstado",
+    "RelativePath": "api/Catalogos/nuevo-estado",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "estado",
+        "Type": "krolCakes.Models.estadoModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "nuevoModulo",
+    "RelativePath": "api/Catalogos/nuevo-modulo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "modulo",
+        "Type": "krolCakes.Models.moduloModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevoMotivoSalida",
+    "RelativePath": "api/Catalogos/nuevo-motivo-salida",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "motivoSalida",
+        "Type": "krolCakes.Models.motivosalidaModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevoProducto",
+    "RelativePath": "api/Catalogos/nuevo-producto",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "producto",
+        "Type": "krolCakes.Models.productoModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevoProveedor",
+    "RelativePath": "api/Catalogos/nuevo-proveedor",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "proveedor",
+        "Type": "krolCakes.Models.proveedorModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevoRelleno",
+    "RelativePath": "api/Catalogos/nuevo-relleno",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "relleno",
+        "Type": "krolCakes.Models.rellenoModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevoRol",
+    "RelativePath": "api/Catalogos/nuevo-rol",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rol",
+        "Type": "krolCakes.Models.rolModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevoTipoEntrega",
+    "RelativePath": "api/Catalogos/nuevo-tipo-entrega",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tipoEntrega",
+        "Type": "krolCakes.Models.tipoentregaModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevoTipoEvento",
+    "RelativePath": "api/Catalogos/nuevo-tipo-evento",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tipoEvento",
+        "Type": "krolCakes.Models.tipoeventoModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "NuevoTipoInsumoUtensilio",
+    "RelativePath": "api/Catalogos/nuevo-tipo-insumo-utensilio",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tipoInsumoUtensilio",
+        "Type": "krolCakes.Models.tipoinsumoutensilioModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "nuevoUsuario",
+    "RelativePath": "api/Catalogos/nuevo-usuario",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usuario",
+        "Type": "krolCakes.Models.usuarioModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetProductos",
+    "RelativePath": "api/Catalogos/productos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetProveedores",
+    "RelativePath": "api/Catalogos/proveedores",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetRecetas",
+    "RelativePath": "api/Catalogos/recetas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetRellenos",
+    "RelativePath": "api/Catalogos/rellenos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetRoles",
+    "RelativePath": "api/Catalogos/roles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetTiposEntrega",
+    "RelativePath": "api/Catalogos/tipos-entrega",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetTiposEvento",
+    "RelativePath": "api/Catalogos/tipos-evento",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetTiposInsumoUtensilio",
+    "RelativePath": "api/Catalogos/tipos-insumo-utensilio",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "GetUnidadMedidaPrecioSugerido",
+    "RelativePath": "api/Catalogos/unidad-medida-precio-sugerido",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.CatalogosController",
+    "Method": "getUsuarios",
+    "RelativePath": "api/Catalogos/usuarios",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "krolCakes.Controllers.loginController",
+    "Method": "sesion",
+    "RelativePath": "api/login/sesion",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sesion",
+        "Type": "krolCakes.Models.usuarioModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
