@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Raul\\Documents\\Pasteleria\\Back\\krolCakesBACK\\BACK\\krolCakes\\krolCakes.csproj": {}
+    "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\krolCakes.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Raul\\Documents\\Pasteleria\\Back\\krolCakesBACK\\BACK\\krolCakes\\krolCakes.csproj": {
+    "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\krolCakes.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Raul\\Documents\\Pasteleria\\Back\\krolCakesBACK\\BACK\\krolCakes\\krolCakes.csproj",
+        "projectUniqueName": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\krolCakes.csproj",
         "projectName": "krolCakes",
-        "projectPath": "C:\\Users\\Raul\\Documents\\Pasteleria\\Back\\krolCakesBACK\\BACK\\krolCakes\\krolCakes.csproj",
-        "packagesPath": "C:\\Users\\Raul\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Raul\\Documents\\Pasteleria\\Back\\krolCakesBACK\\BACK\\krolCakes\\obj\\",
+        "projectPath": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\krolCakes.csproj",
+        "packagesPath": "C:\\Users\\jrgj5\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Raul\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\jrgj5\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -78,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -5,6 +5,8 @@ using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using Mysqlx.Crud;
 using System.Data;
+using MySql.Data.MySqlClient;  // Para MySQL
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -1175,45 +1177,33 @@ namespace krolCakes.Controllers
         //---------------------Fin cotizacion online-------------------------------------------------------------------------------
 
         [HttpGet("desgloseonline")]
-        public IActionResult GetDesgloseOnline(int? id_cotizacion_online = null)
+        public IActionResult GetDesgloseOnline(int? id_cotizacion_online)
         {
             try
             {
-                // Ajustar la consulta para que permita el filtro opcional
-                var query = @"SELECT a.correlativo, a.precio, a.id_cotizacion_online, a.id_producto, a.subtotal, a.cantidad,
-                             b.descripcion, b.telefono, b.porciones, b.cant_cupcakes, b.precio_aproximado, b.envio,
-                             c.nombre, c.descripcion AS descripcionproducto, c.precio_online
-                      FROM desglose_online a
-                      INNER JOIN cotizacion_online b ON a.id_cotizacion_online = b.id
-                      INNER JOIN producto c ON a.id_producto = c.id ";
+                // Construir la consulta SQL con el filtro si se proporciona id_cotizacion_online
+                var query = @"SELECT correlativo, precio, id_cotizacion_online, id_producto, subtotal, cantidad
+              FROM desglose_online";
 
-                // Si se proporciona un id_cotizacion_online, se añade un filtro en la consulta
                 if (id_cotizacion_online.HasValue)
                 {
-                    query += $"WHERE a.id_cotizacion_online = {id_cotizacion_online.Value} ";
+                    query += $" WHERE id_cotizacion_online = {id_cotizacion_online.Value}";
                 }
 
-                query += "ORDER BY a.correlativo";
+                //query += " ORDER BY correlativo";  // Opcional: Agregar ordenamiento
 
-                var resultado = db.ExecuteQuery(query);
+                // Ejecutar la consulta
+                var resultado = db.ExecuteQuery(query);  // Ejecutar consulta sin parámetros
 
-                var desgloses = resultado.AsEnumerable().Select(row => new desgloseonlineModelCompleto
+                // Mapeo del resultado al modelo desgloseonlineModel
+                var desgloses = resultado.AsEnumerable().Select(row => new desgloseonlineModel
                 {
                     correlativo = row.Field<int?>("correlativo"),
                     precio = row.Field<double?>("precio"),
                     id_cotizacion_online = row.Field<int?>("id_cotizacion_online"),
                     id_producto = row.Field<int?>("id_producto"),
                     subtotal = row.Field<double?>("subtotal"),
-                    cantidad = row.Field<int?>("cantidad"),
-                    descripcion = row.Field<string>("descripcion"),
-                    telefono = row.Field<int?>("telefono"),
-                    porciones = row.Field<int?>("porciones"),
-                    cant_cupcakes = row.Field<int?>("cant_cupcakes"),
-                    precio_aproximado = row.Field<double?>("precio_aproximado"),
-                    envio = Convert.ToBoolean(row["envio"]),
-                    nombre = row.Field<string>("nombre"),
-                    descripcionproducto = row.Field<string>("descripcionproducto"),
-                    precio_online = row.Field<double?>("precio_online")
+                    cantidad = row.Field<int?>("cantidad")
                 }).ToList();
 
                 return Ok(desgloses);
@@ -1226,54 +1216,9 @@ namespace krolCakes.Controllers
 
 
 
-        [HttpPost("nuevo-desgloseonline")]
-        public IActionResult NuevoDesgloseOnline([FromBody] desgloseonlineModel desglose)
-        {
-            try
-            {
-                var queryInsertar = $"INSERT INTO desglose_online (precio, id_cotizacion_online, id_producto, subtotal, cantidad) " +
-                                    $"VALUES ({desglose.precio}, {desglose.id_cotizacion_online}, {desglose.id_producto}, {desglose.subtotal}, {desglose.cantidad})";
-                db.ExecuteQuery(queryInsertar);
-                return Ok("Desglose online registrado correctamente");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Error al registrar el desglose online");
-            }
-        }
 
 
 
-        [HttpPost("actualizar-desgloseonline")]
-        public IActionResult ActualizarDesgloseOnline([FromBody] desgloseonlineModel desglose)
-        {
-            try
-            {
-                var queryValidador = $"SELECT correlativo FROM desglose_online WHERE correlativo = {desglose.correlativo}";
-                var resultadoValidador = db.ExecuteQuery(queryValidador);
-
-                if (resultadoValidador.Rows.Count > 0)
-                {
-                    var queryActualizar = $"UPDATE desglose_online SET " +
-                                          $"precio = {desglose.precio}, " +
-                                          $"id_cotizacion_online = {desglose.id_cotizacion_online}, " +
-                                          $"id_producto = {desglose.id_producto}, " +
-                                          $"subtotal = {desglose.subtotal}, " +
-                                          $"cantidad = {desglose.cantidad} " +
-                                          $"WHERE correlativo = {desglose.correlativo}";
-                    db.ExecuteQuery(queryActualizar);
-                    return Ok("Desglose online actualizado correctamente");
-                }
-                else
-                {
-                    return BadRequest("El desglose online no existe");
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Error al actualizar el desglose online");
-            }
-        }
 
         //-----------------Fin actualizar desglose online----------------------------------------------------------------------------------------------
 
@@ -1471,7 +1416,45 @@ namespace krolCakes.Controllers
                 return BadRequest("Error al actualizar el proveedor");
             }
         }
+        //-----------------------------Fin proveedor-------------------------------------------------------
 
+        [HttpGet("imagenreferenciaonline")]
+        public IActionResult GetImagenesOnline(int? id_cotizacion_online)
+        {
+            try
+            {
+                // Construir la consulta SQL con el filtro si se proporciona id_cotizacion_online
+                var query = @"
+            SELECT correlativo, id_cotizacion_online, ruta, observacion
+            FROM imagen_referencia_online";
+
+                if (id_cotizacion_online.HasValue)
+                {
+                    query += $" WHERE id_cotizacion_online = {id_cotizacion_online.Value}";
+                }
+
+                query += " ORDER BY correlativo";  // Opcional: Agregar ordenamiento
+
+                // Ejecutar la consulta
+                var resultado = db.ExecuteQuery(query);  // Ejecutar consulta sin parámetros
+
+                // Mapeo del resultado al modelo imagenreferenciaonlineModel
+                var imagenes = resultado.AsEnumerable().Select(row => new imagenreferenciaonlineModel
+                {
+                    correlativo = row.Field<int?>("correlativo"),
+                    id_cotizacion_online = row.Field<int?>("id_cotizacion_online"),
+                    ruta = row.Field<string>("ruta"),
+                    observacion = row.Field<string>("observacion")
+                }).ToList();
+
+                return Ok(imagenes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al obtener las imágenes de referencia online: {ex.Message}");
+            }
+        }
+        //-------------------------Fin imagen de referencia online--------------------------------------------------
 
 
 
