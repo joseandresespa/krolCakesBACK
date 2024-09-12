@@ -1044,7 +1044,7 @@ namespace krolCakes.Controllers
         {
             try
             {
-                var query = @"SELECT c.id, c.nombre, c.descripcion, c.direccion, c.telefono, 
+                var query = @"SELECT c.id, c.nombre, c.descripcion, c.direccion, c.telefono, c.precio_aproximado, c.envio,
                              DATE_FORMAT(c.fecha, '%Y-%m-%d') AS fecha,
                              TIME_FORMAT(c.hora, '%H:%i:%s') AS hora,
                              i.correlativo AS imagen_id, i.ruta AS imagen_ruta, i.observacion AS imagen_observacion,
@@ -1063,7 +1063,9 @@ namespace krolCakes.Controllers
                     direccion = row["direccion"]?.ToString(),
                     telefono = row["telefono"] != DBNull.Value ? Convert.ToInt32(row["telefono"]) : (int?)null,
                     fecha = row["fecha"]?.ToString(),
-                    hora = row["hora"]?.ToString()
+                    hora = row["hora"]?.ToString(),
+                    envio = row["envio"] != DBNull.Value ? Convert.ToBoolean(row["envio"]) : (bool?)null,
+                    precio_aproximado = row["precio_aproximado"] != DBNull.Value ? Convert.ToDouble(row["precio_aproximado"]) : (double?)null
                 })
                 .Select(grp => new cotizaciononlineModel
                 {
@@ -1074,6 +1076,8 @@ namespace krolCakes.Controllers
                     telefono = grp.Key.telefono,
                     fecha = grp.Key.fecha,
                     hora = grp.Key.hora,
+                    envio = grp.Key.envio,
+                    precio_aproximado = grp.Key.precio_aproximado,
                     imagenes = grp
                         .Where(row => row["imagen_id"] != DBNull.Value)
                         .Select(row => new imagenreferenciaonlineModel
@@ -1100,6 +1104,7 @@ namespace krolCakes.Controllers
             }
         }
 
+
         private static DateOnly? ParseDateOnly(string dateString)
         {
             if (string.IsNullOrEmpty(dateString) || dateString == "0000-00-00")
@@ -1124,10 +1129,20 @@ namespace krolCakes.Controllers
         {
             try
             {
+                int envio;
+                if (cotizacion.envio==true) 
+                {
+                    envio = 1;
+                }
+                else 
+                {
+                    envio = 0;
+                }
+                 
                 // Insertar la cotización online
                 var queryInsertCotizacion = $"INSERT INTO cotizacion_online (nombre, descripcion, direccion, telefono, fecha, hora, precio_aproximado, envio) " +
                                             $"VALUES ('{cotizacion.nombre}', '{cotizacion.descripcion}', '{cotizacion.direccion}', {cotizacion.telefono}," +
-                                            $" '{cotizacion.fecha}', '{cotizacion.hora}','{cotizacion.precio_aproximado}','{cotizacion.envio}' )";
+                                            $" '{cotizacion.fecha}', '{cotizacion.hora}','{cotizacion.precio_aproximado}','{envio}' )";
                 db.ExecuteQuery(queryInsertCotizacion);
 
                 // Obtener el ID de la cotización recién insertada
