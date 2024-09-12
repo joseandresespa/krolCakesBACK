@@ -1048,7 +1048,7 @@ namespace krolCakes.Controllers
                              DATE_FORMAT(c.fecha, '%Y-%m-%d') AS fecha,
                              TIME_FORMAT(c.hora, '%H:%i:%s') AS hora,
                              i.correlativo AS imagen_id, i.ruta AS imagen_ruta, i.observacion AS imagen_observacion,
-                             d.correlativo AS desglose_id, d.precio AS desglose_precio, d.id_producto AS desglose_id_producto, 
+                             d.correlativo AS desglose_id, d.id_producto AS desglose_id_producto, 
                              d.subtotal AS desglose_subtotal, d.cantidad AS desglose_cantidad
                       FROM cotizacion_online c
                       LEFT JOIN imagen_referencia_online i ON c.id = i.id_cotizacion_online
@@ -1072,8 +1072,8 @@ namespace krolCakes.Controllers
                     descripcion = grp.Key.descripcion,
                     direccion = grp.Key.direccion,
                     telefono = grp.Key.telefono,
-                    fecha = ParseDateOnly(grp.Key.fecha),
-                    hora = ParseTimeOnly(grp.Key.hora),
+                    fecha = grp.Key.fecha,
+                    hora = grp.Key.hora,
                     imagenes = grp
                         .Where(row => row["imagen_id"] != DBNull.Value)
                         .Select(row => new imagenreferenciaonlineModel
@@ -1087,7 +1087,6 @@ namespace krolCakes.Controllers
                         .Select(row => new desgloseonlineModel
                         {
                             correlativo = Convert.ToInt32(row["desglose_id"]),
-                            precio = Convert.ToDouble(row["desglose_precio"]),
                             id_producto = Convert.ToInt32(row["desglose_id_producto"]),
                             subtotal = Convert.ToDouble(row["desglose_subtotal"]),
                             cantidad = Convert.ToInt32(row["desglose_cantidad"])
@@ -1120,20 +1119,15 @@ namespace krolCakes.Controllers
         }
 
 
-
-
         [HttpPost("nueva-cotizaciononline")]
         public IActionResult NuevaCotizacionOnline([FromBody] cotizaciononlineModel cotizacion)
         {
             try
             {
-                // Convertir fecha y hora a formatos MySQL
-                var fechaFormatoMySQL = cotizacion.fecha.HasValue ? cotizacion.fecha.Value.ToString("yyyy-MM-dd") : null;
-                var horaFormatoMySQL = cotizacion.hora.HasValue ? cotizacion.hora.Value.ToString(@"hh\:mm\:ss") : null;
-
                 // Insertar la cotización online
-                var queryInsertCotizacion = $"INSERT INTO cotizacion_online (nombre, descripcion, direccion, telefono, fecha, hora) " +
-                                            $"VALUES ('{cotizacion.nombre}', '{cotizacion.descripcion}', '{cotizacion.direccion}', {cotizacion.telefono}, '{fechaFormatoMySQL}', '{horaFormatoMySQL}')";
+                var queryInsertCotizacion = $"INSERT INTO cotizacion_online (nombre, descripcion, direccion, telefono, fecha, hora, precio_aproximado, envio) " +
+                                            $"VALUES ('{cotizacion.nombre}', '{cotizacion.descripcion}', '{cotizacion.direccion}', {cotizacion.telefono}," +
+                                            $" '{cotizacion.fecha}', '{cotizacion.hora}','{cotizacion.precio_aproximado}','{cotizacion.envio}' )";
                 db.ExecuteQuery(queryInsertCotizacion);
 
                 // Obtener el ID de la cotización recién insertada
@@ -1154,8 +1148,8 @@ namespace krolCakes.Controllers
                 {
                     foreach (var desglose in cotizacion.desgloses)
                     {
-                        var queryInsertDesglose = $"INSERT INTO desglose_online (precio, id_producto, subtotal, cantidad, id_cotizacion_online) " +
-                                                  $"VALUES ({desglose.precio}, {desglose.id_producto}, {desglose.subtotal}, {desglose.cantidad}, {idCotizacion})";
+                        var queryInsertDesglose = $"INSERT INTO desglose_online ( id_producto, subtotal, cantidad, id_cotizacion_online) " +
+                                                  $"VALUES ( {desglose.id_producto}, {desglose.subtotal}, {desglose.cantidad}, {idCotizacion})";
                         db.ExecuteQuery(queryInsertDesglose);
                     }
                 }
@@ -1174,6 +1168,7 @@ namespace krolCakes.Controllers
 
 
 
+
         //---------------------Fin cotizacion online-------------------------------------------------------------------------------
 
         [HttpGet("desgloseonline")]
@@ -1182,7 +1177,7 @@ namespace krolCakes.Controllers
             try
             {
                 // Construir la consulta SQL con el filtro si se proporciona id_cotizacion_online
-                var query = @"SELECT correlativo, precio, id_cotizacion_online, id_producto, subtotal, cantidad
+                var query = @"SELECT correlativo, id_cotizacion_online, id_producto, subtotal, cantidad
               FROM desglose_online";
 
                 if (id_cotizacion_online.HasValue)
@@ -1199,7 +1194,6 @@ namespace krolCakes.Controllers
                 var desgloses = resultado.AsEnumerable().Select(row => new desgloseonlineModel
                 {
                     correlativo = row.Field<int?>("correlativo"),
-                    precio = row.Field<double?>("precio"),
                     id_cotizacion_online = row.Field<int?>("id_cotizacion_online"),
                     id_producto = row.Field<int?>("id_producto"),
                     subtotal = row.Field<double?>("subtotal"),
