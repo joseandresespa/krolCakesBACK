@@ -10,21 +10,27 @@
     }
     public class desgloseonlineModelCompleto
     {
-        public int? correlativo { get; set; } = 0;      //proviene de modelo desgloseonline
+        public int? correlativo { get; set; }      //proviene de modelo desgloseonline
         public double? precio { get; set; }             //proviene de modelo desgloseonline
         public int? id_cotizacion_online { get; set; }  //proviene de modelo desgloseonline
         public int? id_producto { get; set; }           //proviene de modelo desgloseonline
         public double? subtotal { get; set; }            //proviene de modelo desgloseonline
         public int? cantidad { get; set; }               //proviene de modelo desgloseonline
-        public string? descripcion { get; set; }       //proviene de modelo cotizaciononline  
-        public int? telefono { get; set; }            //proviene de modelo cotizaciononline
-        public double? precio_aproximado { get; set; }  //proviene de modelo cotizaciononline 
-        public bool? envio { get; set; }               //proviene de modelo cotizaciononline 
-        public double? total { get; set; }               //proviene de modelo cotizaciononline 
-        public string? nombrec { get; set; }               //proviene de modelo cotizaciononline 
-        public DateOnly? fecha { get; set; }               //proviene de modelo cotizaciononline 
-        public TimeOnly? hora { get; set; }               //proviene de modelo cotizaciononline 
-        public string? direccion { get; set; }               //proviene de modelo cotizaciononline 
+        public string? descripcion { get; set; }       //proviene del modelo cotizacion_online
+        public int? telefono { get; set; }              //proviene del modelo cotizacion_online
+        public double? precio_aproximado { get; set; }  //proviene del modelo cotizacion_online
+        public Boolean? envio { get; set; }             //proviene del modelo cotizacion_online
+        public string? nombre { get; set; }             //proviene del modelo cotizacion_online
+        public string? fecha { get; set; }              //proviene del modelo cotizacion_online
+        public string? hora { get; set; }               //proviene del modelo cotizacion_online
+        public string? direccion { get; set; }          //proviene del modelo cotizacion_online
+        public List<imagenreferenciaonlineModel>? imagenes { get; set; }    //proviene del modelo cotizacion_online
+        public List<desgloseonlineModel>? desgloses { get; set; }   //proviene del modelo cotizacion_online
+        public List<observacion_cotizacion_onlineModel>? Observacion { get; set; }  //proviene del modelo cotizacion_online
+        public Boolean? estado { get; set; }    //proviene del modelo cotizacion_online
+        public double? mano_obra { get; set; }   //proviene del modelo cotizacion_online
+        public double? presupuesto_insumos { get; set; }    //proviene del modelo cotizacion_online
+        public double? total_presupuesto { get; set; }      //proviene del modelo cotizacion_online
         public string? nombrep { get; set; }         // nombre de producto
         public string? descripcionproducto { get; set; }     //proviene de modelo producto
         public double? precio_online { get; set; }      //proviene de modelo producto
