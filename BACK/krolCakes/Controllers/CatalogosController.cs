@@ -1045,15 +1045,17 @@ namespace krolCakes.Controllers
             try
             {
                 var query = @"SELECT c.id, c.nombre, c.descripcion, c.direccion, c.telefono, c.precio_aproximado, c.envio,
-                             DATE_FORMAT(c.fecha, '%Y-%m-%d') AS fecha,
-                             TIME_FORMAT(c.hora, '%H:%i:%s') AS hora,
-                             i.correlativo AS imagen_id, i.ruta AS imagen_ruta, i.observacion AS imagen_observacion,
-                             d.correlativo AS desglose_id, d.id_producto AS desglose_id_producto, 
-                             d.subtotal AS desglose_subtotal, d.cantidad AS desglose_cantidad
-                      FROM cotizacion_online c
-                      LEFT JOIN imagen_referencia_online i ON c.id = i.id_cotizacion_online
-                      LEFT JOIN desglose_online d ON c.id = d.id_cotizacion_online
-                      ORDER BY c.id";
+                     DATE_FORMAT(c.fecha, '%Y-%m-%d') AS fecha,
+                     TIME_FORMAT(c.hora, '%H:%i:%s') AS hora,
+                     i.correlativo AS imagen_id, i.ruta AS imagen_ruta, i.observacion AS imagen_observacion,
+                     d.correlativo AS desglose_id, d.id_producto AS desglose_id_producto, 
+                     d.subtotal AS desglose_subtotal, d.cantidad AS desglose_cantidad,
+                     o.correlativo AS observacion_id, o.Observacion AS observacion_text
+              FROM cotizacion_online c
+              LEFT JOIN imagen_referencia_online i ON c.id = i.id_cotizacion_online
+              LEFT JOIN desglose_online d ON c.id = d.id_cotizacion_online
+              LEFT JOIN observacion_cotizacion_online o ON c.id = o.id_cotizacion_online
+              ORDER BY c.id";
                 var resultado = db.ExecuteQuery(query);
                 var cotizaciones = resultado.AsEnumerable().GroupBy(row => new
                 {
@@ -1094,6 +1096,13 @@ namespace krolCakes.Controllers
                             id_producto = Convert.ToInt32(row["desglose_id_producto"]),
                             subtotal = Convert.ToDouble(row["desglose_subtotal"]),
                             cantidad = Convert.ToInt32(row["desglose_cantidad"])
+                        }).ToList(),
+                    Observacion = grp
+                        .Where(row => row["observacion_id"] != DBNull.Value)
+                        .Select(row => new observacion_cotizacion_onlineModel
+                        {
+                            correlativo = Convert.ToInt32(row["observacion_id"]),
+                            Observacion = row["observacion_text"]?.ToString()
                         }).ToList()
                 }).ToList();
                 return Ok(cotizaciones);
@@ -1103,6 +1112,7 @@ namespace krolCakes.Controllers
                 return BadRequest($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
             }
         }
+
 
 
         private static DateOnly? ParseDateOnly(string dateString)
@@ -1129,20 +1139,13 @@ namespace krolCakes.Controllers
         {
             try
             {
-                int envio;
-                if (cotizacion.envio==true) 
-                {
-                    envio = 1;
-                }
-                else 
-                {
-                    envio = 0;
-                }
-                 
+                // Convertir el valor de 'envio' a entero (1 o 0)
+                int envio = cotizacion.envio == true ? 1 : 0;
+
                 // Insertar la cotización online
-                var queryInsertCotizacion = $"INSERT INTO cotizacion_online (nombre, descripcion, direccion, telefono, fecha, hora, precio_aproximado, envio) " +
-                                            $"VALUES ('{cotizacion.nombre}', '{cotizacion.descripcion}', '{cotizacion.direccion}', {cotizacion.telefono}," +
-                                            $" '{cotizacion.fecha}', '{cotizacion.hora}','{cotizacion.precio_aproximado}','{envio}' )";
+                var queryInsertCotizacion = $"INSERT INTO cotizacion_online (nombre, descripcion, direccion, telefono, fecha, hora, precio_aproximado, envio, mano_obra, presupuesto_insumos, total_presupuesto) " +
+                                            $"VALUES ('{cotizacion.nombre}', '{cotizacion.descripcion}', '{cotizacion.direccion}', {cotizacion.telefono}, " +
+                                            $"'{cotizacion.fecha}', '{cotizacion.hora}', '{cotizacion.precio_aproximado}', {envio}, {cotizacion.mano_obra}, {cotizacion.presupuesto_insumos}, {cotizacion.total_presupuesto})";
                 db.ExecuteQuery(queryInsertCotizacion);
 
                 // Obtener el ID de la cotización recién insertada
@@ -1153,7 +1156,8 @@ namespace krolCakes.Controllers
                 {
                     foreach (var imagen in cotizacion.imagenes)
                     {
-                        var queryInsertImagen = $"INSERT INTO imagen_referencia_online (ruta, observacion, id_cotizacion_online) VALUES ('{imagen.ruta}', '{imagen.observacion}', {idCotizacion})";
+                        var queryInsertImagen = $"INSERT INTO imagen_referencia_online (ruta, observacion, id_cotizacion_online) " +
+                                                $"VALUES ('{imagen.ruta}', '{imagen.observacion}', {idCotizacion})";
                         db.ExecuteQuery(queryInsertImagen);
                     }
                 }
@@ -1163,9 +1167,20 @@ namespace krolCakes.Controllers
                 {
                     foreach (var desglose in cotizacion.desgloses)
                     {
-                        var queryInsertDesglose = $"INSERT INTO desglose_online ( id_producto, subtotal, cantidad, id_cotizacion_online) " +
-                                                  $"VALUES ( {desglose.id_producto}, {desglose.subtotal}, {desglose.cantidad}, {idCotizacion})";
+                        var queryInsertDesglose = $"INSERT INTO desglose_online (id_producto, subtotal, cantidad, id_cotizacion_online) " +
+                                                  $"VALUES ({desglose.id_producto}, {desglose.subtotal}, {desglose.cantidad}, {idCotizacion})";
                         db.ExecuteQuery(queryInsertDesglose);
+                    }
+                }
+
+                // Insertar las observaciones
+                if (cotizacion.Observacion != null)
+                {
+                    foreach (var observacion in cotizacion.Observacion)
+                    {
+                        var queryInsertObservacion = $"INSERT INTO observacion_cotizacion_online (id_cotizacion_online, Observacion) " +
+                                                     $"VALUES ({idCotizacion}, '{observacion.Observacion}')";
+                        db.ExecuteQuery(queryInsertObservacion);
                     }
                 }
 
@@ -1176,6 +1191,7 @@ namespace krolCakes.Controllers
                 return BadRequest($"Error al registrar la cotización online: {ex.Message}");
             }
         }
+
 
 
 
