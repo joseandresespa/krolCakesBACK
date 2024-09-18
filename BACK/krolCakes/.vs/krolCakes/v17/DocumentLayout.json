@@ -1,22 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\",
+  "WorkspaceRootPath": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\users\\jrgj5\\documents\\pasteleria\\krolcakesback\\back\\krolcakes\\controllers\\catalogoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\pedidomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\pedidomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\cotizaciononlinemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\cotizaciononlinemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\controllers\\catalogoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:controllers\\catalogoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\users\\jrgj5\\documents\\pasteleria\\krolcakesback\\back\\krolcakes\\models\\observacion_cotizacion_onlinemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\observacion_cotizacion_onlinemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\observacion_cotizacion_onlinemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\users\\jrgj5\\documents\\pasteleria\\krolcakesback\\back\\krolcakes\\models\\imagenreferenciaonlinemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\imagenreferenciaonlinemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\imagenreferenciaonlinemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\users\\jrgj5\\documents\\pasteleria\\krolcakesback\\back\\krolcakes\\models\\cotizaciononlinemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\cotizaciononlinemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,59 +30,70 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "observacion_cotizacion_onlineModel.cs",
-              "DocumentMoniker": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\Models\\observacion_cotizacion_onlineModel.cs",
-              "RelativeDocumentMoniker": "Models\\observacion_cotizacion_onlineModel.cs",
-              "ToolTip": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\Models\\observacion_cotizacion_onlineModel.cs",
-              "RelativeToolTip": "Models\\observacion_cotizacion_onlineModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAEAAAA",
+              "DocumentIndex": 0,
+              "Title": "pedidoModel.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\pedidoModel.cs",
+              "RelativeDocumentMoniker": "Models\\pedidoModel.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\pedidoModel.cs",
+              "RelativeToolTip": "Models\\pedidoModel.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAcwBwAAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T20:07:13.955Z",
+              "WhenOpened": "2024-09-18T01:04:41.949Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
+              "Title": "observacion_cotizacion_onlineModel.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\observacion_cotizacion_onlineModel.cs",
+              "RelativeDocumentMoniker": "Models\\observacion_cotizacion_onlineModel.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\observacion_cotizacion_onlineModel.cs",
+              "RelativeToolTip": "Models\\observacion_cotizacion_onlineModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-17T20:07:13.955Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "CatalogosController.cs",
-              "DocumentMoniker": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\Controllers\\CatalogosController.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Controllers\\CatalogosController.cs",
               "RelativeDocumentMoniker": "Controllers\\CatalogosController.cs",
-              "ToolTip": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\Controllers\\CatalogosController.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Controllers\\CatalogosController.cs",
               "RelativeToolTip": "Controllers\\CatalogosController.cs",
-              "ViewState": "AQIAAIQEAAAAAAAAAAAAwKkEAAAAAAAA",
+              "ViewState": "AQIAALYDAAAAAAAAAAAIwKkEAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-17T19:48:03.193Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "cotizaciononlineModel.cs",
-              "DocumentMoniker": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\Models\\cotizaciononlineModel.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\cotizaciononlineModel.cs",
               "RelativeDocumentMoniker": "Models\\cotizaciononlineModel.cs",
-              "ToolTip": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\Models\\cotizaciononlineModel.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\cotizaciononlineModel.cs",
               "RelativeToolTip": "Models\\cotizaciononlineModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAxwBEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-17T19:47:55.419Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "imagenreferenciaonlineModel.cs",
-              "DocumentMoniker": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\Models\\imagenreferenciaonlineModel.cs",
+              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\imagenreferenciaonlineModel.cs",
               "RelativeDocumentMoniker": "Models\\imagenreferenciaonlineModel.cs",
-              "ToolTip": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\Models\\imagenreferenciaonlineModel.cs",
+              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\imagenreferenciaonlineModel.cs",
               "RelativeToolTip": "Models\\imagenreferenciaonlineModel.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T17:32:21.759Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-17T17:32:21.759Z"
             }
           ]
         }
