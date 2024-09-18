@@ -1044,18 +1044,19 @@ namespace krolCakes.Controllers
         {
             try
             {
-                var query = @"SELECT c.id, c.nombre, c.descripcion, c.direccion, c.telefono, c.precio_aproximado, c.envio,
-                     DATE_FORMAT(c.fecha, '%Y-%m-%d') AS fecha,
-                     TIME_FORMAT(c.hora, '%H:%i:%s') AS hora,
-                     i.correlativo AS imagen_id, i.ruta AS imagen_ruta, i.observacion AS imagen_observacion,
-                     d.correlativo AS desglose_id, d.id_producto AS desglose_id_producto, 
-                     d.subtotal AS desglose_subtotal, d.cantidad AS desglose_cantidad,
-                     o.correlativo AS observacion_id, o.Observacion AS observacion_text
-              FROM cotizacion_online c
-              LEFT JOIN imagen_referencia_online i ON c.id = i.id_cotizacion_online
-              LEFT JOIN desglose_online d ON c.id = d.id_cotizacion_online
-              LEFT JOIN observacion_cotizacion_online o ON c.id = o.id_cotizacion_online
-              ORDER BY c.id";
+                var query = @"SELECT c.id, c.nombre, c.descripcion, c.direccion, c.telefono, c.precio_aproximado, c.envio, c.estado,
+             DATE_FORMAT(c.fecha, '%Y-%m-%d') AS fecha,
+             TIME_FORMAT(c.hora, '%H:%i:%s') AS hora,
+             i.correlativo AS imagen_id, i.ruta AS imagen_ruta, i.observacion AS imagen_observacion,
+             d.correlativo AS desglose_id, d.id_producto AS desglose_id_producto, 
+             d.subtotal AS desglose_subtotal, d.cantidad AS desglose_cantidad,
+             o.correlativo AS observacion_id, o.Observacion AS observacion_text
+      FROM cotizacion_online c
+      LEFT JOIN imagen_referencia_online i ON c.id = i.id_cotizacion_online
+      LEFT JOIN desglose_online d ON c.id = d.id_cotizacion_online
+      LEFT JOIN observacion_cotizacion_online o ON c.id = o.id_cotizacion_online
+      ORDER BY c.id";
+
                 var resultado = db.ExecuteQuery(query);
                 var cotizaciones = resultado.AsEnumerable().GroupBy(row => new
                 {
@@ -1067,6 +1068,7 @@ namespace krolCakes.Controllers
                     fecha = row["fecha"]?.ToString(),
                     hora = row["hora"]?.ToString(),
                     envio = row["envio"] != DBNull.Value ? Convert.ToBoolean(row["envio"]) : (bool?)null,
+                    estado = row["estado"] != DBNull.Value ? Convert.ToBoolean(row["estado"]) : (bool?)null,
                     precio_aproximado = row["precio_aproximado"] != DBNull.Value ? Convert.ToDouble(row["precio_aproximado"]) : (double?)null
                 })
                 .Select(grp => new cotizaciononlineModel
@@ -1079,6 +1081,7 @@ namespace krolCakes.Controllers
                     fecha = grp.Key.fecha,
                     hora = grp.Key.hora,
                     envio = grp.Key.envio,
+                    estado = grp.Key.estado, // Aquí incluimos el campo estado
                     precio_aproximado = grp.Key.precio_aproximado,
                     imagenes = grp
                         .Where(row => row["imagen_id"] != DBNull.Value)
@@ -1115,6 +1118,7 @@ namespace krolCakes.Controllers
 
 
 
+
         private static DateOnly? ParseDateOnly(string dateString)
         {
             if (string.IsNullOrEmpty(dateString) || dateString == "0000-00-00")
@@ -1139,13 +1143,13 @@ namespace krolCakes.Controllers
         {
             try
             {
-                // Convertir el valor de 'envio' a entero (1 o 0)
+                // Convertir los valores booleanos a enteros (1 o 0)
                 int envio = cotizacion.envio == true ? 1 : 0;
 
                 // Insertar la cotización online
-                var queryInsertCotizacion = $"INSERT INTO cotizacion_online (nombre, descripcion, direccion, telefono, fecha, hora, precio_aproximado, envio, mano_obra, presupuesto_insumos, total_presupuesto) " +
+                var queryInsertCotizacion = $"INSERT INTO cotizacion_online (nombre, descripcion, direccion, telefono, fecha, hora, precio_aproximado, envio, mano_obra, presupuesto_insumos, total_presupuesto, estado) " +
                                             $"VALUES ('{cotizacion.nombre}', '{cotizacion.descripcion}', '{cotizacion.direccion}', {cotizacion.telefono}, " +
-                                            $"'{cotizacion.fecha}', '{cotizacion.hora}', '{cotizacion.precio_aproximado}', {envio}, {cotizacion.mano_obra}, {cotizacion.presupuesto_insumos}, {cotizacion.total_presupuesto})";
+                                            $"'{cotizacion.fecha}', '{cotizacion.hora}', {cotizacion.precio_aproximado}, {envio}, {cotizacion.mano_obra}, {cotizacion.presupuesto_insumos}, {cotizacion.total_presupuesto}, 1)";
                 db.ExecuteQuery(queryInsertCotizacion);
 
                 // Obtener el ID de la cotización recién insertada
@@ -1191,6 +1195,8 @@ namespace krolCakes.Controllers
                 return BadRequest($"Error al registrar la cotización online: {ex.Message}");
             }
         }
+
+
 
 
 
@@ -1482,7 +1488,41 @@ namespace krolCakes.Controllers
         //-------------------------Fin imagen de referencia online--------------------------------------------------
 
 
+        [HttpGet("pedidos")]
+        public IActionResult GetPedidos()
+        {
+            try
+            {
+                var query = @"SELECT id, fecha, hora, id_estado, id_cliente, observaciones, direccion, id_tipo_entrega, precio_total, mano_obra, presupuesto_insumos
+                      FROM pedidos"; // Asegúrate de que el nombre de la tabla coincida con el de tu base de datos
 
+                var resultado = db.ExecuteQuery(query);
+
+                var pedidos = resultado.AsEnumerable().Select(row => new pedidoModel
+                {
+                    id = row["id"] != DBNull.Value ? Convert.ToInt32(row["id"]) : (int?)null,
+                    fecha = row["fecha"] != DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(row["fecha"])) : (DateOnly?)null,
+                    hora = row["hora"] != DBNull.Value ? TimeOnly.FromDateTime(Convert.ToDateTime(row["hora"])) : (TimeOnly?)null,
+                    id_estado = row["id_estado"] != DBNull.Value ? Convert.ToInt32(row["id_estado"]) : (int?)null,
+                    id_cliente = row["id_cliente"] != DBNull.Value ? Convert.ToInt32(row["id_cliente"]) : (int?)null,
+                    observaciones = row["observaciones"]?.ToString(),
+                    direccion = row["direccion"]?.ToString(),
+                    id_tipo_entrega = row["id_tipo_entrega"] != DBNull.Value ? Convert.ToInt32(row["id_tipo_entrega"]) : (int?)null,
+                    precio_total = row["precio_total"] != DBNull.Value ? Convert.ToDouble(row["precio_total"]) : (double?)null,
+                    mano_obra = row["mano_obra"] != DBNull.Value ? Convert.ToDouble(row["mano_obra"]) : (double?)null,
+                    presupuesto_insumos = row["presupuesto_insumos"] != DBNull.Value ? Convert.ToDouble(row["presupuesto_insumos"]) : (double?)null
+                }).ToList();
+
+                return Ok(pedidos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+            }
+        }
+
+        //----------------------------------Fin pedidos---------------------------------------------------------------------------------------------------------------------------
+      
 
 
         // GET: api/<CatalogosController>
