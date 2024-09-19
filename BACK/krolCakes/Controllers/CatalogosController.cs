@@ -1522,7 +1522,39 @@ namespace krolCakes.Controllers
         }
 
         //----------------------------------Fin pedidos---------------------------------------------------------------------------------------------------------------------------
-      
+
+        [HttpPost("nueva-observacion")]
+        public IActionResult NuevaObservacion([FromBody] observacion_cotizacion_onlineModel observacion)
+        {
+            try
+            {
+                // Validación básica
+                if (observacion.id_cotizacion_online == null || string.IsNullOrEmpty(observacion.Observacion))
+                {
+                    return BadRequest("El ID de cotización y la observación son obligatorios.");
+                }
+
+                // Consulta para insertar la nueva observación
+                var queryInsertar = $"INSERT INTO observacion_cotizacion_online (id_cotizacion_online, Observacion) " +
+                                    $"VALUES ({observacion.id_cotizacion_online}, '{observacion.Observacion}')";
+
+                // Ejecutar la consulta
+                db.ExecuteQuery(queryInsertar);
+
+                // Respuesta de éxito
+                return Ok("Observación registrada correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al registrar la observación: {ex.Message}");
+            }
+        }
+        //---------------------------------Fin observacion-------------------------------------------------------------------------------------------
+
+
+
+
+
 
 
         // GET: api/<CatalogosController>
