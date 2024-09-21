@@ -282,3 +282,13 @@ C:\Users\mynor\Desktop\Semestre 8 Tareas\Proyecto analisis 2\Back\BACK\krolCakes
 C:\Users\mynor\Desktop\Semestre 8 Tareas\Proyecto analisis 2\Back\BACK\krolCakes\obj\Debug\net6.0\krolCakes.pdb
 C:\Users\mynor\Desktop\Semestre 8 Tareas\Proyecto analisis 2\Back\BACK\krolCakes\obj\Debug\net6.0\krolCakes.genruntimeconfig.cache
 C:\Users\mynor\Desktop\Semestre 8 Tareas\Proyecto analisis 2\Back\BACK\krolCakes\obj\Debug\net6.0\ref\krolCakes.dll
+C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\krolCakes.csproj.AssemblyReference.cache
+C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\krolCakes.GeneratedMSBuildEditorConfig.editorconfig
+C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\krolCakes.AssemblyInfoInputs.cache
+C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\krolCakes.AssemblyInfo.cs
+C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\krolCakes.csproj.CoreCompileInputs.cache
+C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\krolCakes.MvcApplicationPartsAssemblyInfo.cs
+C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\krolCakes.MvcApplicationPartsAssemblyInfo.cache
+C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\krolCakes.dll
+C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\refint\krolCakes.dll
+C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\krolCakes.pdb

@@ -5,6 +5,8 @@ using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using Mysqlx.Crud;
 using System.Data;
+using Firebase.Auth;
+using Firebase.Storage;
 
 namespace krolCakes.Controllers
 {
@@ -15,6 +17,56 @@ namespace krolCakes.Controllers
 
         private readonly DatabaseProvider db;
         private readonly Progra progra;
+
+        /// ingresasddo por el deyvid
+        private const string FirebaseApiKey = "AIzaSyAKNUby3Oy_YdtFOYSBSwA2w41gG1P7FL8";
+        private const string FirebaseEmail = "armandito@gmail.com";
+        private const string FirebasePassword = "armando123";
+        private const string FirebaseBucket = "subida-ab43b.appspot.com";
+
+
+        [HttpPost("upload-image")]
+        public async Task<IActionResult> UploadImage([FromForm] IFormFile image)
+        {
+            if (image == null || image.Length == 0)
+                return BadRequest("No se proporcionó ninguna imagen válida.");
+
+            try
+            {
+                // Subir la imagen a Firebase
+                string imageUrl = await UploadToFirebase(image);
+
+                // Devolver la URL de la imagen
+                return Ok(new { ImageUrl = imageUrl });
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, $"Error al subir la imagen: {ex.Message}");
+            }
+        }
+
+        private async Task<string> UploadToFirebase(IFormFile image)
+        {
+            using (var stream = image.OpenReadStream())
+            {
+                var auth = new FirebaseAuthProvider(new FirebaseConfig(FirebaseApiKey));
+                var authResult = await auth.SignInWithEmailAndPasswordAsync(FirebaseEmail, FirebasePassword);
+
+                var uploadTask = new FirebaseStorage(
+                    FirebaseBucket,
+                    new FirebaseStorageOptions
+                    {
+                        AuthTokenAsyncFactory = () => Task.FromResult(authResult.FirebaseToken),
+                        ThrowOnCancel = true
+                    })
+                    .Child("images") // Puedes organizar tus imágenes en carpetas si lo prefieres
+                    .Child(image.FileName)
+                    .PutAsync(stream);
+
+                return await uploadTask;
+            }
+        }
+        //terminao el deyvi
 
         public CotizacionPedidoController(IConfiguration configuration)
         {

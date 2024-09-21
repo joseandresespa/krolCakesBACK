@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\krolCakes.csproj": {}
+    "C:\\PROYECTO PASTELERIA\\Back End 2\\BACK\\krolCakes\\krolCakes.csproj": {}
   },
   "projects": {
-    "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\krolCakes.csproj": {
+    "C:\\PROYECTO PASTELERIA\\Back End 2\\BACK\\krolCakes\\krolCakes.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\krolCakes.csproj",
+        "projectUniqueName": "C:\\PROYECTO PASTELERIA\\Back End 2\\BACK\\krolCakes\\krolCakes.csproj",
         "projectName": "krolCakes",
-        "projectPath": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\krolCakes.csproj",
-        "packagesPath": "C:\\Users\\josea\\.nuget\\packages\\",
-        "outputPath": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\obj\\",
+        "projectPath": "C:\\PROYECTO PASTELERIA\\Back End 2\\BACK\\krolCakes\\krolCakes.csproj",
+        "packagesPath": "C:\\Users\\asijt\\.nuget\\packages\\",
+        "outputPath": "C:\\PROYECTO PASTELERIA\\Back End 2\\BACK\\krolCakes\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\josea\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\asijt\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -39,17 +34,20 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Firebase.Auth": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "FirebaseStorage.net": {
+              "target": "Package",
+              "version": "[1.0.3, )"
+            },
             "MySql.Data": {
               "target": "Package",
               "version": "[9.0.0, )"
@@ -78,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
