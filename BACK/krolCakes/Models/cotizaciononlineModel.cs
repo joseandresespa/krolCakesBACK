@@ -34,7 +34,7 @@
         public double? total_presupuesto { get; set; }      //proviene del modelo cotizacion online 
         public int? cliente_id { get; set; }                //proviene del modelo cotizacion online 
         public List<imagenreferenciaonlineModel>? imagenes { get; set; }       //proviene del modelo cotizacion online 
-        public List<desgloseonlineModel>? desgloses { get; set; }   //proviene del modelo cotizacion online 
+        public List<desgloseonlineModelCompleto>? desgloses { get; set; }   //proviene del modelo cotizacion online 
         public List<observacion_cotizacion_onlineModel>? Observacion { get; set; }  //proviene del modelo cotizacion online 
         public string? nombre { get; set; }     //proviene del modelo cliente
         public int? telefono { get; set; }      //proviene del modelo cliente

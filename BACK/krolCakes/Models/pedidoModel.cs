@@ -13,8 +13,9 @@
         public int? id { get; set; }                        //proviene del modelo pedido                                  
         public int? id_estado { get; set; }                 //proviene del modelo pedido
         public string? observaciones { get; set; }          //proviene del modelo pedido
-        public string? id_cotizacion_online { get; set; }   //proviene del modelo pedido
+        
         public string? estado { get; set; }     //proviene del modelo estado
+        public string? id_cotizacion_online { get; set; }   //proviene del modelo pedido
         public string? descripcion { get; set; }        //proviene del modelo cotizacion online 
         public double? precio_aproximado { get; set; }  //proviene del modelo cotizacion online 
         public Boolean? envio { get; set; }             //proviene del modelo cotizacion online 
@@ -27,10 +28,11 @@
         public double? total_presupuesto { get; set; }      //proviene del modelo cotizacion online 
         public int? cliente_id { get; set; }                //proviene del modelo cotizacion online 
         public List<imagenreferenciaonlineModel>? imagenes { get; set; }       //proviene del modelo cotizacion online 
-        public List<desgloseonlineModel>? desgloses { get; set; }   //proviene del modelo cotizacion online 
+        public List<detallepedidoModelCompleto>? desgloses { get; set; }   //proviene del modelo cotizacion online 
         public List<observacion_cotizacion_onlineModel>? Observacion { get; set; }  //proviene del modelo cotizacion online 
-
-
+        public string? nombre { get; set; }     //proviene del modelo cliente
+        public int? telefono { get; set; }      //proviene del modelo cliente
+        public string? nit { get; set; }        //proviene del modelo cliente
 
 
     }
