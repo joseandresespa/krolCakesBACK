@@ -6411,19 +6411,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\asijt\\.nuget\\packages\\": {}
+    "C:\\Users\\jrgj5\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\PROYECTO PASTELERIA\\Back End 2\\BACK\\krolCakes\\krolCakes.csproj",
+      "projectUniqueName": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\krolCakes.csproj",
       "projectName": "krolCakes",
-      "projectPath": "C:\\PROYECTO PASTELERIA\\Back End 2\\BACK\\krolCakes\\krolCakes.csproj",
-      "packagesPath": "C:\\Users\\asijt\\.nuget\\packages\\",
-      "outputPath": "C:\\PROYECTO PASTELERIA\\Back End 2\\BACK\\krolCakes\\obj\\",
+      "projectPath": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\krolCakes.csproj",
+      "packagesPath": "C:\\Users\\jrgj5\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jrgj5\\Documents\\pasteleria\\krolCakesBACK\\BACK\\krolCakes\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\asijt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jrgj5\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6443,6 +6443,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -6485,7 +6490,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
       }
     }
   }

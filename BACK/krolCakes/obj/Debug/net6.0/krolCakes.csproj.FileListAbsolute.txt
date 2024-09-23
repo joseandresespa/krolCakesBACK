@@ -292,3 +292,7 @@ C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\krolCakes.MvcA
 C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\krolCakes.dll
 C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\refint\krolCakes.dll
 C:\PROYECTO PASTELERIA\Back End 2\BACK\krolCakes\obj\Debug\net6.0\krolCakes.pdb
+C:\Users\jrgj5\Documents\pasteleria\krolCakesBACK\BACK\krolCakes\bin\Debug\net6.0\Firebase.Auth.dll
+C:\Users\jrgj5\Documents\pasteleria\krolCakesBACK\BACK\krolCakes\bin\Debug\net6.0\Firebase.Storage.dll
+C:\Users\jrgj5\Documents\pasteleria\krolCakesBACK\BACK\krolCakes\bin\Debug\net6.0\System.ServiceModel.dll
+C:\Users\jrgj5\Documents\pasteleria\krolCakesBACK\BACK\krolCakes\bin\Debug\net6.0\Newtonsoft.Json.dll

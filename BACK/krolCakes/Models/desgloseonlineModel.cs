@@ -13,7 +13,6 @@
     public class desgloseonlineModelCompleto
     {
         public int? correlativo { get; set; }      //proviene de modelo desgloseonline
-        public double? precio { get; set; }             //proviene de modelo desgloseonline
         public int? id_cotizacion_online { get; set; }  //proviene de modelo desgloseonline
         public int? id_producto { get; set; }           //proviene de modelo desgloseonline
         public double? subtotal { get; set; }            //proviene de modelo desgloseonline

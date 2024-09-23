@@ -67,7 +67,7 @@ namespace krolCakes.Controllers
             }
         }
         //terminao el deyvi
-
+        //------------------------------Fin logica imagenes-------------------------------------------------------------------
         public CotizacionPedidoController(IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("ConnectionString");
@@ -93,7 +93,7 @@ namespace krolCakes.Controllers
             return TimeOnly.ParseExact(timeString, "HH:mm:ss", null);
         }
 
-            [HttpGet("pedidos")]
+            /*[HttpGet("pedidos")]
         public IActionResult GetPedidos()
         {
             try
@@ -125,6 +125,7 @@ namespace krolCakes.Controllers
                 return BadRequest($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
             }
         }
+            */
         // insert de pedidos falta bb
 
         //----------------------------------Fin pedidos---------------------------------------------------------------------------------------------------------------------------
@@ -163,70 +164,90 @@ namespace krolCakes.Controllers
         {
             try
             {
-                var query = @"SELECT c.id, c.nombre, c.descripcion, c.direccion, c.telefono, c.precio_aproximado, c.envio, c.estado,
-             DATE_FORMAT(c.fecha, '%Y-%m-%d') AS fecha,
-             TIME_FORMAT(c.hora, '%H:%i:%s') AS hora,
-             i.correlativo AS imagen_id, i.ruta AS imagen_ruta, i.observacion AS imagen_observacion,
-             d.correlativo AS desglose_id, d.id_producto AS desglose_id_producto, 
-             d.subtotal AS desglose_subtotal, d.cantidad AS desglose_cantidad,
-             o.correlativo AS observacion_id, o.Observacion AS observacion_text
-      FROM cotizacion_online c
-      LEFT JOIN imagen_referencia_online i ON c.id = i.id_cotizacion_online
-      LEFT JOIN desglose_online d ON c.id = d.id_cotizacion_online
-      LEFT JOIN observacion_cotizacion_online o ON c.id = o.id_cotizacion_online
-      ORDER BY c.id";
+                var query = @"SELECT c.id, c.descripcion, c.direccion, c.precio_aproximado, c.envio, c.estado, c.mano_obra, 
+                     c.presupuesto_insumos, (c.mano_obra + c.presupuesto_insumos) AS total_presupuesto,
+                     c.cliente_id, DATE_FORMAT(c.fecha, '%Y-%m-%d') AS fecha, TIME_FORMAT(c.hora, '%H:%i:%s') AS hora, 
+                     cl.nombre AS cliente_nombre, cl.telefono AS cliente_telefono, cl.nit AS cliente_nit,
+                     i.correlativo AS imagen_id, i.ruta AS imagen_ruta, i.observacion AS imagen_observacion,
+                     d.correlativo AS desglose_id, d.id_producto AS desglose_id_producto, d.subtotal AS desglose_subtotal, 
+                     d.cantidad AS desglose_cantidad, d.precio_pastelera AS desglose_precio_pastelera,
+                     p.nombre AS producto_nombre, p.descripcion AS producto_descripcion, p.precio_online AS producto_precio_online,
+                     o.correlativo AS observacion_id, o.Observacion AS observacion_text
+              FROM cotizacion_online c
+              LEFT JOIN cliente cl ON c.cliente_id = cl.id
+              LEFT JOIN imagen_referencia_online i ON c.id = i.id_cotizacion_online
+              LEFT JOIN desglose_online d ON c.id = d.id_cotizacion_online
+              LEFT JOIN producto p ON d.id_producto = p.id
+              LEFT JOIN observacion_cotizacion_online o ON c.id = o.id_cotizacion_online
+              ORDER BY c.id";
 
                 var resultado = db.ExecuteQuery(query);
+
                 var cotizaciones = resultado.AsEnumerable().GroupBy(row => new
                 {
-                    id = Convert.ToInt32(row["id"]),
-                    nombre = row["nombre"]?.ToString(),
-                    descripcion = row["descripcion"]?.ToString(),
-                    direccion = row["direccion"]?.ToString(),
-                    telefono = row["telefono"] != DBNull.Value ? Convert.ToInt32(row["telefono"]) : (int?)null,
-                    fecha = row["fecha"]?.ToString(),
-                    hora = row["hora"]?.ToString(),
-                    envio = row["envio"] != DBNull.Value ? Convert.ToBoolean(row["envio"]) : (bool?)null,
-                    estado = row["estado"] != DBNull.Value ? Convert.ToBoolean(row["estado"]) : (bool?)null,
-                    precio_aproximado = row["precio_aproximado"] != DBNull.Value ? Convert.ToDouble(row["precio_aproximado"]) : (double?)null
+                    id = Convert.IsDBNull(row["id"]) ? (int?)null : Convert.ToInt32(row["id"]),
+                    descripcion = Convert.IsDBNull(row["descripcion"]) ? null : row["descripcion"].ToString(),
+                    direccion = Convert.IsDBNull(row["direccion"]) ? null : row["direccion"].ToString(),
+                    fecha = Convert.IsDBNull(row["fecha"]) ? null : row["fecha"].ToString(),
+                    hora = Convert.IsDBNull(row["hora"]) ? null : row["hora"].ToString(),
+                    envio = Convert.IsDBNull(row["envio"]) ? (bool?)null : Convert.ToBoolean(row["envio"]),
+                    estado = Convert.IsDBNull(row["estado"]) ? (bool?)null : Convert.ToBoolean(row["estado"]),
+                    precio_aproximado = Convert.IsDBNull(row["precio_aproximado"]) ? (double?)null : Convert.ToDouble(row["precio_aproximado"]),
+                    mano_obra = Convert.IsDBNull(row["mano_obra"]) ? (double?)null : Convert.ToDouble(row["mano_obra"]),
+                    presupuesto_insumos = Convert.IsDBNull(row["presupuesto_insumos"]) ? (double?)null : Convert.ToDouble(row["presupuesto_insumos"]),
+                    total_presupuesto = Convert.IsDBNull(row["total_presupuesto"]) ? (double?)null : Convert.ToDouble(row["total_presupuesto"]),
+                    cliente_id = Convert.IsDBNull(row["cliente_id"]) ? (int?)null : Convert.ToInt32(row["cliente_id"]),
+                    cliente_nombre = Convert.IsDBNull(row["cliente_nombre"]) ? null : row["cliente_nombre"].ToString(),
+                    cliente_telefono = Convert.IsDBNull(row["cliente_telefono"]) ? (int?)null : Convert.ToInt32(row["cliente_telefono"]),
+                    cliente_nit = Convert.IsDBNull(row["cliente_nit"]) ? null : row["cliente_nit"].ToString()
                 })
-                .Select(grp => new cotizaciononlineModel
+                .Select(grp => new cotizaciononlineModelCompleto
                 {
                     id = grp.Key.id,
-                    nombre = grp.Key.nombre,
                     descripcion = grp.Key.descripcion,
                     direccion = grp.Key.direccion,
-                    telefono = grp.Key.telefono,
                     fecha = grp.Key.fecha,
                     hora = grp.Key.hora,
                     envio = grp.Key.envio,
-                    estado = grp.Key.estado, // Aquí incluimos el campo estado
+                    estado = grp.Key.estado,
                     precio_aproximado = grp.Key.precio_aproximado,
+                    mano_obra = grp.Key.mano_obra,
+                    presupuesto_insumos = grp.Key.presupuesto_insumos,
+                    total_presupuesto = grp.Key.total_presupuesto,
+                    cliente_id = grp.Key.cliente_id,
+                    nombre = grp.Key.cliente_nombre,
+                    telefono = grp.Key.cliente_telefono,
+                    nit = grp.Key.cliente_nit,
                     imagenes = grp
-                        .Where(row => row["imagen_id"] != DBNull.Value)
+                        .Where(row => !Convert.IsDBNull(row["imagen_id"]))
                         .Select(row => new imagenreferenciaonlineModel
                         {
                             correlativo = Convert.ToInt32(row["imagen_id"]),
-                            ruta = row["imagen_ruta"]?.ToString(),
-                            observacion = row["imagen_observacion"]?.ToString()
+                            ruta = Convert.IsDBNull(row["imagen_ruta"]) ? null : row["imagen_ruta"].ToString(),
+                            observacion = Convert.IsDBNull(row["imagen_observacion"]) ? null : row["imagen_observacion"].ToString()
                         }).ToList(),
                     desgloses = grp
-                        .Where(row => row["desglose_id"] != DBNull.Value)
-                        .Select(row => new desgloseonlineModel
+                        .Where(row => !Convert.IsDBNull(row["desglose_id"]))
+                        .Select(row => new desgloseonlineModelCompleto
                         {
                             correlativo = Convert.ToInt32(row["desglose_id"]),
                             id_producto = Convert.ToInt32(row["desglose_id_producto"]),
                             subtotal = Convert.ToDouble(row["desglose_subtotal"]),
-                            cantidad = Convert.ToInt32(row["desglose_cantidad"])
+                            cantidad = Convert.ToInt32(row["desglose_cantidad"]),
+                            precio_pastelera = Convert.ToDouble(row["desglose_precio_pastelera"]),
+                            nombrep = Convert.IsDBNull(row["producto_nombre"]) ? null : row["producto_nombre"].ToString(),
+                            descripcionproducto = Convert.IsDBNull(row["producto_descripcion"]) ? null : row["producto_descripcion"].ToString(),
+                            precio_online = Convert.IsDBNull(row["producto_precio_online"]) ? (double?)null : Convert.ToDouble(row["producto_precio_online"])
                         }).ToList(),
                     Observacion = grp
-                        .Where(row => row["observacion_id"] != DBNull.Value)
+                        .Where(row => !Convert.IsDBNull(row["observacion_id"]))
                         .Select(row => new observacion_cotizacion_onlineModel
                         {
                             correlativo = Convert.ToInt32(row["observacion_id"]),
-                            Observacion = row["observacion_text"]?.ToString()
+                            Observacion = Convert.IsDBNull(row["observacion_text"]) ? null : row["observacion_text"].ToString()
                         }).ToList()
                 }).ToList();
+
                 return Ok(cotizaciones);
             }
             catch (Exception ex)
@@ -236,47 +257,66 @@ namespace krolCakes.Controllers
         }
 
 
+
+
+
+
         [HttpPost("nueva-cotizaciononline")]
-        public IActionResult NuevaCotizacionOnline([FromBody] cotizaciononlineModel cotizacion)
+        public IActionResult NuevaCotizacionOnline([FromBody] cotizaciononlineModelCompleto cotizacion)
         {
             try
             {
+                // Verificar si el cliente ya existe por su número de teléfono
+                var queryCheckCliente = $"SELECT id FROM cliente WHERE telefono = {cotizacion.telefono}";
+                var result = db.ExecuteQuery(queryCheckCliente);
 
+                int clienteId;
+
+                if (result.Rows.Count == 0)
+                {
+                    // Insertar el nuevo cliente
+                    var queryInsertCliente = $"INSERT INTO cliente (nombre, telefono, nit) VALUES ('{cotizacion.nombre}', {cotizacion.telefono}, '{cotizacion.nit}')";
+                    db.ExecuteQuery(queryInsertCliente);
+                    clienteId = Convert.ToInt32(db.ExecuteQuery("SELECT LAST_INSERT_ID()").Rows[0][0]);
+                }
+                else
+                {
+                    // Obtener el ID del cliente existente
+                    clienteId = Convert.ToInt32(result.Rows[0]["id"]);
+                }
 
                 // Convertir los valores booleanos a enteros (1 o 0)
                 int envio = cotizacion.envio == true ? 1 : 0;
 
                 // Insertar la cotización online
-                var queryInsertCotizacion = $"INSERT INTO cotizacion_online (nombre, descripcion, direccion, telefono, fecha, hora, precio_aproximado, envio, mano_obra, presupuesto_insumos, total_presupuesto, estado) " +
-                                            $"VALUES ('{cotizacion.nombre}', '{cotizacion.descripcion}', '{cotizacion.direccion}', {cotizacion.telefono}, " +
-                                            $"'{cotizacion.fecha}', '{cotizacion.hora}', {cotizacion.precio_aproximado}, {envio}, {cotizacion.mano_obra}, {cotizacion.presupuesto_insumos}, {cotizacion.total_presupuesto}, 1)";
+                var queryInsertCotizacion = $"INSERT INTO cotizacion_online (descripcion, precio_aproximado, envio, hora, fecha, direccion, estado, mano_obra, presupuesto_insumos, total_presupuesto, cliente_id) " +
+                                            $"VALUES ('{cotizacion.descripcion}', {cotizacion.precio_aproximado}, {envio}, '{cotizacion.hora}', '{cotizacion.fecha}', '{cotizacion.direccion}', {cotizacion.estado}, {cotizacion.mano_obra}, {cotizacion.presupuesto_insumos}, {cotizacion.total_presupuesto}, {clienteId})";
                 db.ExecuteQuery(queryInsertCotizacion);
 
                 // Obtener el ID de la cotización recién insertada
                 var idCotizacion = db.ExecuteQuery("SELECT LAST_INSERT_ID()").Rows[0][0];
 
-                // Insertar las imágenes de referencia
+                // Insertar las imágenes de referencia si existen
                 if (cotizacion.imagenes != null)
                 {
-                    foreach (var url in urls)
+                    foreach (var imagen in cotizacion.imagenes)
                     {
-                        var queryInsertImagen = $"INSERT INTO imagen_referencia_online (ruta, id_cotizacion_online) " +
-                                                $"VALUES ('{url}',  {idCotizacion})";
+                        var queryInsertImagen = $"INSERT INTO imagen_referencia_online (ruta, id_cotizacion_online, observacion) " +
+                                                $"VALUES ('{imagen.ruta}', {idCotizacion}, '{imagen.observacion}')";
                         db.ExecuteQuery(queryInsertImagen);
                     }
                 }
 
-                // Insertar los desgloses
+                // Insertar los desgloses si existen
                 if (cotizacion.desgloses != null)
                 {
                     foreach (var desglose in cotizacion.desgloses)
                     {
-                        var queryInsertDesglose = $"INSERT INTO desglose_online (id_producto, subtotal, cantidad, id_cotizacion_online) " +
-                                                  $"VALUES ({desglose.id_producto}, {desglose.subtotal}, {desglose.cantidad}, {idCotizacion})";
+                        var queryInsertDesglose = $"INSERT INTO desglose_online (id_producto, subtotal, cantidad, id_cotizacion_online, precio_pastelera) " +
+                                                  $"VALUES ({desglose.id_producto}, {desglose.subtotal}, {desglose.cantidad}, {idCotizacion}, {desglose.precio_pastelera})";
                         db.ExecuteQuery(queryInsertDesglose);
                     }
                 }
-
 
                 return Ok("Cotización online registrada correctamente");
             }
@@ -286,9 +326,255 @@ namespace krolCakes.Controllers
             }
         }
 
-
-
         //---------------------Fin cotizacion online-------------------------------------------------------------------------------
+
+        [HttpGet("pedidos")]
+        public IActionResult ObtenerTodosPedidos()
+        {
+            try
+            {
+                // Consulta para obtener todos los pedidos
+                var queryPedidos = @"
+            SELECT 
+                p.id, p.id_estado, p.observaciones, p.cotizacion_online_id,
+                c.descripcion, c.precio_aproximado, c.envio, c.hora, c.fecha, c.direccion, c.mano_obra, c.presupuesto_insumos, c.total_presupuesto, c.cliente_id, 
+                e.estado, cl.nombre, cl.telefono, cl.nit
+            FROM pedido p
+            JOIN cotizacion_online c ON p.cotizacion_online_id = c.id
+            JOIN estado e ON p.id_estado = e.id
+            JOIN cliente cl ON c.cliente_id = cl.id";
+
+                var resultadoPedidos = db.ExecuteQuery(queryPedidos);
+
+                if (resultadoPedidos.Rows.Count == 0)
+                {
+                    return NotFound("No se encontraron pedidos.");
+                }
+
+                var listaPedidos = new List<pedidoModelCompleto>();
+
+                // Recorremos todos los pedidos obtenidos
+                foreach (DataRow pedidoRow in resultadoPedidos.Rows)
+                {
+                    var pedido = new pedidoModelCompleto
+                    {
+                        id = Convert.ToInt32(pedidoRow["id"]),
+                        id_estado = Convert.ToInt32(pedidoRow["id_estado"]),
+                        observaciones = pedidoRow["observaciones"].ToString(),
+                        id_cotizacion_online = pedidoRow["cotizacion_online_id"].ToString(),
+                        descripcion = pedidoRow["descripcion"].ToString(),
+                        precio_aproximado = Convert.ToDouble(pedidoRow["precio_aproximado"]),
+                        envio = Convert.ToBoolean(pedidoRow["envio"]),
+                        hora = pedidoRow["hora"].ToString(),
+                        fecha = pedidoRow["fecha"].ToString(),
+                        direccion = pedidoRow["direccion"].ToString(),
+                        mano_obra = Convert.ToDouble(pedidoRow["mano_obra"]),
+                        presupuesto_insumos = Convert.ToDouble(pedidoRow["presupuesto_insumos"]),
+                        total_presupuesto = Convert.ToDouble(pedidoRow["total_presupuesto"]),
+                        cliente_id = Convert.ToInt32(pedidoRow["cliente_id"]),
+                        estado = pedidoRow["estado"].ToString(),
+                        nombre = pedidoRow["nombre"].ToString(),
+                        telefono = Convert.ToInt32(pedidoRow["telefono"]),
+                        nit = pedidoRow["nit"].ToString(),
+                        desgloses = new List<detallepedidoModelCompleto>(),
+                        imagenes = new List<imagenreferenciaonlineModel>(),
+                        Observacion = new List<observacion_cotizacion_onlineModel>()
+                    };
+
+                    // Obtener desgloses (detallepedido) para cada pedido
+                    var queryDesgloses = $@"
+                SELECT dp.correlativo, dp.producto_id, dp.id_masas, dp.id_relleno, dp.cantidad_porciones, dp.precio_unitario, 
+                       p.nombre, p.descripcion, p.precio_online, m.sabor_masa, r.sabor_relleno
+                FROM detalle_pedido dp
+                JOIN producto p ON dp.producto_id = p.id
+                JOIN masas m ON dp.id_masas = m.id
+                JOIN relleno r ON dp.id_relleno = r.id
+                WHERE dp.id_pedido = {pedido.id}";
+
+                    var resultadoDesgloses = db.ExecuteQuery(queryDesgloses);
+
+                    foreach (DataRow row in resultadoDesgloses.Rows)
+                    {
+                        var desglose = new detallepedidoModelCompleto
+                        {
+                            correlativo = Convert.ToInt32(row["correlativo"]),
+                            producto_id = Convert.ToInt32(row["producto_id"]),
+                            id_masas = Convert.ToInt32(row["id_masas"]),
+                            id_relleno = Convert.ToInt32(row["id_relleno"]),
+                            cantidad_porciones = Convert.ToInt32(row["cantidad_porciones"]),
+                            precio_unitario = Convert.ToDouble(row["precio_unitario"]),
+                            nombre = row["nombre"].ToString(),
+                            descripcion = row["descripcion"].ToString(),
+                            precio_online = Convert.ToDouble(row["precio_online"]),
+                            sabor_masa = row["sabor_masa"].ToString(),
+                            sabor_relleno = row["sabor_relleno"].ToString(),
+                            total = Convert.ToDouble(row["precio_unitario"]) * Convert.ToInt32(row["cantidad_porciones"])
+                        };
+                        pedido.desgloses.Add(desglose);
+                    }
+
+                    // Obtener imágenes de referencia
+                    var queryImagenes = $@"
+                SELECT correlativo, id_cotizacion_online, ruta, observacion
+                FROM imagen_referencia_online
+                WHERE id_cotizacion_online = '{pedido.id_cotizacion_online}'";
+
+                    var resultadoImagenes = db.ExecuteQuery(queryImagenes);
+
+                    foreach (DataRow row in resultadoImagenes.Rows)
+                    {
+                        var imagen = new imagenreferenciaonlineModel
+                        {
+                            correlativo = Convert.ToInt32(row["correlativo"]),
+                            id_cotizacion_online = Convert.ToInt32(row["id_cotizacion_online"]),
+                            ruta = row["ruta"].ToString(),
+                            observacion = row["observacion"].ToString()
+                        };
+                        pedido.imagenes.Add(imagen);
+                    }
+
+                    // Obtener observaciones
+                    var queryObservaciones = $@"
+                SELECT correlativo, id_cotizacion_online, Observacion
+                FROM observacion_cotizacion_online
+                WHERE id_cotizacion_online = '{pedido.id_cotizacion_online}'";
+
+                    var resultadoObservaciones = db.ExecuteQuery(queryObservaciones);
+
+                    foreach (DataRow row in resultadoObservaciones.Rows)
+                    {
+                        var observacion = new observacion_cotizacion_onlineModel
+                        {
+                            correlativo = Convert.ToInt32(row["correlativo"]),
+                            id_cotizacion_online = Convert.ToInt32(row["id_cotizacion_online"]),
+                            Observacion = row["Observacion"].ToString()
+                        };
+                        pedido.Observacion.Add(observacion);
+                    }
+
+                    // Agregar el pedido completo a la lista
+                    listaPedidos.Add(pedido);
+                }
+
+                return Ok(listaPedidos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al obtener los pedidos: {ex.Message}");
+            }
+        }
+
+
+        [HttpPost("nuevo-pedido")]
+        public IActionResult NuevoPedido([FromBody] pedidoModelCompleto nuevoPedido)
+        {
+            try
+            {
+                // Validador: Verificar si ya existe un pedido con la misma cotización
+                var queryValidador = $"SELECT id FROM pedido WHERE cotizacion_online_id = '{nuevoPedido.id_cotizacion_online}'";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count == 0) // Si no existe un pedido con la misma cotización
+                {
+                    // Insertar en la tabla de pedidos
+                    var queryInsertarPedido = $@"
+                INSERT INTO pedido (id_estado, observaciones, cotizacion_online_id) 
+                VALUES ({nuevoPedido.id_estado}, '{nuevoPedido.observaciones}', '{nuevoPedido.id_cotizacion_online}'); 
+                SELECT LAST_INSERT_ID();";
+
+                    var resultadoInsertarPedido = db.ExecuteQuery(queryInsertarPedido);
+
+                    // Obtener el ID del pedido recién insertado
+                    var pedidoId = Convert.ToInt32(resultadoInsertarPedido.Rows[0][0]);
+
+                    // Insertar desgloses (detallepedido)
+                    if (nuevoPedido.desgloses != null && nuevoPedido.desgloses.Count > 0)
+                    {
+                        foreach (var desglose in nuevoPedido.desgloses)
+                        {
+                            // Calcular el total
+                            var total = desglose.precio_unitario * desglose.cantidad_porciones;
+
+                            // Insertar el desglose con el total
+                            var queryInsertarDesglose = $@"
+                        INSERT INTO detalle_pedido (id_pedido, producto_id, id_masas, id_relleno, cantidad_porciones, precio_unitario, total)
+                        VALUES ({pedidoId}, {desglose.producto_id}, {desglose.id_masas}, {desglose.id_relleno}, {desglose.cantidad_porciones}, {desglose.precio_unitario}, {total})";
+
+                            db.ExecuteQuery(queryInsertarDesglose);
+                        }
+                    }
+
+                    // Insertar imágenes de referencia
+                    if (nuevoPedido.imagenes != null && nuevoPedido.imagenes.Count > 0)
+                    {
+                        foreach (var imagen in nuevoPedido.imagenes)
+                        {
+                            var queryInsertarImagen = $@"
+                        INSERT INTO imagen_referencia_online (id_cotizacion_online, ruta, observacion) 
+                        VALUES ('{nuevoPedido.id_cotizacion_online}', '{imagen.ruta}', '{imagen.observacion}')";
+
+                            db.ExecuteQuery(queryInsertarImagen);
+                        }
+                    }
+
+                    // Insertar observaciones
+                    if (nuevoPedido.Observacion != null && nuevoPedido.Observacion.Count > 0)
+                    {
+                        foreach (var observacion in nuevoPedido.Observacion)
+                        {
+                            var queryInsertarObservacion = $@"
+                        INSERT INTO observacion_cotizacion_online (id_cotizacion_online, Observacion) 
+                        VALUES ('{nuevoPedido.id_cotizacion_online}', '{observacion.Observacion}')";
+
+                            db.ExecuteQuery(queryInsertarObservacion);
+                        }
+                    }
+
+                    return Ok("Pedido registrado correctamente");
+                }
+                else
+                {
+                    // El pedido ya existe, devolver un BadRequest
+                    return BadRequest("Ya existe un pedido con esta cotización online.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al registrar el pedido: {ex.Message}");
+            }
+        }
+        //----------------------------Fin Pedido-----------------------------------------------------------------
+
+        [HttpPost("insertar-imagen")]
+        public IActionResult InsertarImagenReferencia([FromBody] imagenreferenciaonlineModel nuevaImagen)
+        {
+            try
+            {
+                // Verificar que se haya proporcionado un id de cotización online válido
+                if (nuevaImagen.id_cotizacion_online == null || string.IsNullOrEmpty(nuevaImagen.ruta))
+                {
+                    return BadRequest("El ID de cotización online y la ruta de la imagen son obligatorios.");
+                }
+
+                // Construir la consulta de inserción
+                var queryInsertarImagen = $@"
+            INSERT INTO imagen_referencia_online (id_cotizacion_online, ruta, observacion) 
+            VALUES ({nuevaImagen.id_cotizacion_online}, '{nuevaImagen.ruta}', '{nuevaImagen.observacion}')";
+
+                // Ejecutar la consulta
+                var resultado = db.ExecuteQuery(queryInsertarImagen);
+
+                return Ok("Imagen insertada correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al insertar la imagen: {ex.Message}");
+            }
+        }
+
+
+
+
 
 
     }
