@@ -191,7 +191,7 @@ namespace krolCakes.Controllers
                     fecha = row["fecha"] != DBNull.Value ? row["fecha"].ToString() : null,
                     hora = row["hora"] != DBNull.Value ? row["hora"].ToString() : null,
                     envio = row["envio"] != DBNull.Value ? (bool?)Convert.ToBoolean(row["envio"]) : null,
-                    estado = row["estado"] != DBNull.Value ? (bool?)Convert.ToBoolean(row["estado"]) : null,
+                    estado = row["estado"] != DBNull.Value ? Convert.ToSByte(row["estado"]) : (short?) null,
                     precio_aproximado = row["precio_aproximado"] != DBNull.Value ? (double?)Convert.ToDouble(row["precio_aproximado"]) : null,
                     mano_obra = row["mano_obra"] != DBNull.Value ? (double?)Convert.ToDouble(row["mano_obra"]) : null,
                     presupuesto_insumos = row["presupuesto_insumos"] != DBNull.Value ? (double?)Convert.ToDouble(row["presupuesto_insumos"]) : null,
@@ -209,7 +209,7 @@ namespace krolCakes.Controllers
     fecha = grp.Key.fecha,
     hora = grp.Key.hora,
     envio = grp.Key.envio,
-    estado = grp.Key.estado,
+    estado = Convert.ToSByte(grp.Key.estado),
     precio_aproximado = grp.Key.precio_aproximado,
     mano_obra = grp.Key.mano_obra,
     presupuesto_insumos = grp.Key.presupuesto_insumos,
@@ -467,7 +467,7 @@ namespace krolCakes.Controllers
         }
 
 
-        [HttpPost("nuevo-pedido")]
+        [HttpPost("Confirmar-cotizacion")]
         public IActionResult NuevoPedido([FromBody] pedidoModelCompleto nuevoPedido)
         {
             try
@@ -506,31 +506,31 @@ namespace krolCakes.Controllers
                         }
                     }
 
-                    // Insertar imágenes de referencia
-                    if (nuevoPedido.imagenes != null && nuevoPedido.imagenes.Count > 0)
-                    {
-                        foreach (var imagen in nuevoPedido.imagenes)
-                        {
-                            var queryInsertarImagen = $@"
-                        INSERT INTO imagen_referencia_online (id_cotizacion_online, ruta, observacion) 
-                        VALUES ('{nuevoPedido.id_cotizacion_online}', '{imagen.ruta}', '{imagen.observacion}')";
+                    //// Insertar imágenes de referencia
+                    //if (nuevoPedido.imagenes != null && nuevoPedido.imagenes.Count > 0)
+                    //{
+                    //    foreach (var imagen in nuevoPedido.imagenes)
+                    //    {
+                    //        var queryInsertarImagen = $@"
+                    //    INSERT INTO imagen_referencia_online (id_cotizacion_online, ruta, observacion) 
+                    //    VALUES ('{nuevoPedido.id_cotizacion_online}', '{imagen.ruta}', '{imagen.observacion}')";
 
-                            db.ExecuteQuery(queryInsertarImagen);
-                        }
-                    }
+                    //        db.ExecuteQuery(queryInsertarImagen);
+                    //    }
+                    //}
 
-                    // Insertar observaciones
-                    if (nuevoPedido.Observacion != null && nuevoPedido.Observacion.Count > 0)
-                    {
-                        foreach (var observacion in nuevoPedido.Observacion)
-                        {
-                            var queryInsertarObservacion = $@"
-                        INSERT INTO observacion_cotizacion_online (id_cotizacion_online, Observacion) 
-                        VALUES ('{nuevoPedido.id_cotizacion_online}', '{observacion.Observacion}')";
+                    //// Insertar observaciones
+                    //if (nuevoPedido.Observacion != null && nuevoPedido.Observacion.Count > 0)
+                    //{
+                    //    foreach (var observacion in nuevoPedido.Observacion)
+                    //    {
+                    //        var queryInsertarObservacion = $@"  
+                    //    INSERT INTO observacion_cotizacion_online (id_cotizacion_online, Observacion) 
+                    //    VALUES ('{nuevoPedido.id_cotizacion_online}', '{observacion.Observacion}')";
 
-                            db.ExecuteQuery(queryInsertarObservacion);
-                        }
-                    }
+                    //        db.ExecuteQuery(queryInsertarObservacion);
+                    //    }
+                    //}
 
                     return Ok("Pedido registrado correctamente");
                 }

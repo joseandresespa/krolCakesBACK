@@ -28,7 +28,7 @@
         public string? hora { get; set; }               //proviene del modelo cotizacion online 
         public string? fecha { get; set; }              //proviene del modelo cotizacion online 
         public string? direccion { get; set; }          //proviene del modelo cotizacion online 
-        public Boolean? estado { get; set; }            //proviene del modelo cotizacion online 
+        public short? estado { get; set; }            //proviene del modelo cotizacion online 
         public double? mano_obra { get; set; }          //proviene del modelo cotizacion online 
         public double? presupuesto_insumos { get; set; }    //proviene del modelo cotizacion online 
         public double? total_presupuesto { get; set; }      //proviene del modelo cotizacion online 
