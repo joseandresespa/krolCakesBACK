@@ -185,68 +185,70 @@ namespace krolCakes.Controllers
 
                 var cotizaciones = resultado.AsEnumerable().GroupBy(row => new
                 {
-                    id = Convert.IsDBNull(row["id"]) ? (int?)null : Convert.ToInt32(row["id"]),
-                    descripcion = Convert.IsDBNull(row["descripcion"]) ? null : row["descripcion"].ToString(),
-                    direccion = Convert.IsDBNull(row["direccion"]) ? null : row["direccion"].ToString(),
-                    fecha = Convert.IsDBNull(row["fecha"]) ? null : row["fecha"].ToString(),
-                    hora = Convert.IsDBNull(row["hora"]) ? null : row["hora"].ToString(),
-                    envio = Convert.IsDBNull(row["envio"]) ? (bool?)null : Convert.ToBoolean(row["envio"]),
-                    estado = Convert.IsDBNull(row["estado"]) ? (bool?)null : Convert.ToBoolean(row["estado"]),
-                    precio_aproximado = Convert.IsDBNull(row["precio_aproximado"]) ? (double?)null : Convert.ToDouble(row["precio_aproximado"]),
-                    mano_obra = Convert.IsDBNull(row["mano_obra"]) ? (double?)null : Convert.ToDouble(row["mano_obra"]),
-                    presupuesto_insumos = Convert.IsDBNull(row["presupuesto_insumos"]) ? (double?)null : Convert.ToDouble(row["presupuesto_insumos"]),
-                    total_presupuesto = Convert.IsDBNull(row["total_presupuesto"]) ? (double?)null : Convert.ToDouble(row["total_presupuesto"]),
-                    cliente_id = Convert.IsDBNull(row["cliente_id"]) ? (int?)null : Convert.ToInt32(row["cliente_id"]),
-                    cliente_nombre = Convert.IsDBNull(row["cliente_nombre"]) ? null : row["cliente_nombre"].ToString(),
-                    cliente_telefono = Convert.IsDBNull(row["cliente_telefono"]) ? (int?)null : Convert.ToInt32(row["cliente_telefono"]),
-                    cliente_nit = Convert.IsDBNull(row["cliente_nit"]) ? null : row["cliente_nit"].ToString()
+                    id = row["id"] != DBNull.Value ? Convert.ToInt32(row["id"]) : (int?)null,
+                    descripcion = row["descripcion"] != DBNull.Value ? row["descripcion"].ToString() : null,
+                    direccion = row["direccion"] != DBNull.Value ? row["direccion"].ToString() : null,
+                    fecha = row["fecha"] != DBNull.Value ? row["fecha"].ToString() : null,
+                    hora = row["hora"] != DBNull.Value ? row["hora"].ToString() : null,
+                    envio = row["envio"] != DBNull.Value ? (bool?)Convert.ToBoolean(row["envio"]) : null,
+                    estado = row["estado"] != DBNull.Value ? (bool?)Convert.ToBoolean(row["estado"]) : null,
+                    precio_aproximado = row["precio_aproximado"] != DBNull.Value ? (double?)Convert.ToDouble(row["precio_aproximado"]) : null,
+                    mano_obra = row["mano_obra"] != DBNull.Value ? (double?)Convert.ToDouble(row["mano_obra"]) : null,
+                    presupuesto_insumos = row["presupuesto_insumos"] != DBNull.Value ? (double?)Convert.ToDouble(row["presupuesto_insumos"]) : null,
+                    total_presupuesto = row["total_presupuesto"] != DBNull.Value ? (double?)Convert.ToDouble(row["total_presupuesto"]) : null,
+                    cliente_id = row["cliente_id"] != DBNull.Value ? (int?)Convert.ToInt32(row["cliente_id"]) : null,
+                    cliente_nombre = row["cliente_nombre"] != DBNull.Value ? row["cliente_nombre"].ToString() : null,
+                    cliente_telefono = row["cliente_telefono"] != DBNull.Value ? (int?)Convert.ToInt32(row["cliente_telefono"]) : null,
+                    cliente_nit = row["cliente_nit"] != DBNull.Value ? row["cliente_nit"].ToString() : null
                 })
-                .Select(grp => new cotizaciononlineModelCompleto
-                {
-                    id = grp.Key.id,
-                    descripcion = grp.Key.descripcion,
-                    direccion = grp.Key.direccion,
-                    fecha = grp.Key.fecha,
-                    hora = grp.Key.hora,
-                    envio = grp.Key.envio,
-                    estado = grp.Key.estado,
-                    precio_aproximado = grp.Key.precio_aproximado,
-                    mano_obra = grp.Key.mano_obra,
-                    presupuesto_insumos = grp.Key.presupuesto_insumos,
-                    total_presupuesto = grp.Key.total_presupuesto,
-                    cliente_id = grp.Key.cliente_id,
-                    nombre = grp.Key.cliente_nombre,
-                    telefono = grp.Key.cliente_telefono,
-                    nit = grp.Key.cliente_nit,
-                    imagenes = grp
-                        .Where(row => !Convert.IsDBNull(row["imagen_id"]))
-                        .Select(row => new imagenreferenciaonlineModel
-                        {
-                            correlativo = Convert.ToInt32(row["imagen_id"]),
-                            ruta = Convert.IsDBNull(row["imagen_ruta"]) ? null : row["imagen_ruta"].ToString(),
-                            observacion = Convert.IsDBNull(row["imagen_observacion"]) ? null : row["imagen_observacion"].ToString()
-                        }).ToList(),
-                    desgloses = grp
-                        .Where(row => !Convert.IsDBNull(row["desglose_id"]))
-                        .Select(row => new desgloseonlineModelCompleto
-                        {
-                            correlativo = Convert.ToInt32(row["desglose_id"]),
-                            id_producto = Convert.ToInt32(row["desglose_id_producto"]),
-                            subtotal = Convert.ToDouble(row["desglose_subtotal"]),
-                            cantidad = Convert.ToInt32(row["desglose_cantidad"]),
-                            precio_pastelera = Convert.ToDouble(row["desglose_precio_pastelera"]),
-                            nombrep = Convert.IsDBNull(row["producto_nombre"]) ? null : row["producto_nombre"].ToString(),
-                            descripcionproducto = Convert.IsDBNull(row["producto_descripcion"]) ? null : row["producto_descripcion"].ToString(),
-                            precio_online = Convert.IsDBNull(row["producto_precio_online"]) ? (double?)null : Convert.ToDouble(row["producto_precio_online"])
-                        }).ToList(),
-                    Observacion = grp
-                        .Where(row => !Convert.IsDBNull(row["observacion_id"]))
-                        .Select(row => new observacion_cotizacion_onlineModel
-                        {
-                            correlativo = Convert.ToInt32(row["observacion_id"]),
-                            Observacion = Convert.IsDBNull(row["observacion_text"]) ? null : row["observacion_text"].ToString()
-                        }).ToList()
-                }).ToList();
+.Select(grp => new cotizaciononlineModelCompleto
+{
+    id = grp.Key.id,
+    descripcion = grp.Key.descripcion,
+    direccion = grp.Key.direccion,
+    fecha = grp.Key.fecha,
+    hora = grp.Key.hora,
+    envio = grp.Key.envio,
+    estado = grp.Key.estado,
+    precio_aproximado = grp.Key.precio_aproximado,
+    mano_obra = grp.Key.mano_obra,
+    presupuesto_insumos = grp.Key.presupuesto_insumos,
+    total_presupuesto = grp.Key.total_presupuesto,
+    cliente_id = grp.Key.cliente_id,
+    nombre = grp.Key.cliente_nombre,
+    telefono = grp.Key.cliente_telefono,
+    nit = grp.Key.cliente_nit,
+    imagenes = grp
+        .Where(row => row["imagen_id"] != DBNull.Value)
+        .Select(row => new imagenreferenciaonlineModel
+        {
+            correlativo = Convert.ToInt32(row["imagen_id"]),
+            ruta = row["imagen_ruta"] != DBNull.Value ? row["imagen_ruta"].ToString() : null,
+            observacion = row["imagen_observacion"] != DBNull.Value ? row["imagen_observacion"].ToString() : null
+        }).ToList(),
+    desgloses = grp
+        .Where(row => row["desglose_id"] != DBNull.Value)
+        .Select(row => new desgloseonlineModelCompleto
+        {
+            correlativo = Convert.ToInt32(row["desglose_id"]),
+            id_producto = Convert.ToInt32(row["desglose_id_producto"]),
+            subtotal = row["desglose_subtotal"] != DBNull.Value ? Convert.ToDouble(row["desglose_subtotal"]) : (double?)null,
+            cantidad = row["desglose_cantidad"] != DBNull.Value ? Convert.ToInt32(row["desglose_cantidad"]) : (int?)null,
+            precio_pastelera = row["desglose_precio_pastelera"] != DBNull.Value ? (double?)Convert.ToDouble(row["desglose_precio_pastelera"]) : null,
+            nombrep = row["producto_nombre"] != DBNull.Value ? row["producto_nombre"].ToString() : null,
+            descripcionproducto = row["producto_descripcion"] != DBNull.Value ? row["producto_descripcion"].ToString() : null,
+            precio_online = row["producto_precio_online"] != DBNull.Value ? (double?)Convert.ToDouble(row["producto_precio_online"]) : null
+        }).ToList(),
+    Observacion = grp
+        .Where(row => row["observacion_id"] != DBNull.Value)
+        .Select(row => new observacion_cotizacion_onlineModel
+        {
+            correlativo = Convert.ToInt32(row["observacion_id"]),
+            Observacion = row["observacion_text"] != DBNull.Value ? row["observacion_text"].ToString() : null
+        }).ToList()
+}).ToList();
+
+
 
                 return Ok(cotizaciones);
             }
@@ -289,8 +291,8 @@ namespace krolCakes.Controllers
                 int envio = cotizacion.envio == true ? 1 : 0;
 
                 // Insertar la cotización online
-                var queryInsertCotizacion = $"INSERT INTO cotizacion_online (descripcion, precio_aproximado, envio, hora, fecha, direccion, estado, mano_obra, presupuesto_insumos, total_presupuesto, cliente_id) " +
-                                            $"VALUES ('{cotizacion.descripcion}', {cotizacion.precio_aproximado}, {envio}, '{cotizacion.hora}', '{cotizacion.fecha}', '{cotizacion.direccion}', {cotizacion.estado}, {cotizacion.mano_obra}, {cotizacion.presupuesto_insumos}, {cotizacion.total_presupuesto}, {clienteId})";
+                var queryInsertCotizacion = $"INSERT INTO cotizacion_online (descripcion, precio_aproximado, envio, hora, fecha, direccion, estado, cliente_id) " +
+                                            $"VALUES ('{cotizacion.descripcion}', {cotizacion.precio_aproximado}, {cotizacion.envio}, '{cotizacion.hora}', '{cotizacion.fecha}', '{cotizacion.direccion}', 0, {clienteId})";
                 db.ExecuteQuery(queryInsertCotizacion);
 
                 // Obtener el ID de la cotización recién insertada
@@ -312,8 +314,8 @@ namespace krolCakes.Controllers
                 {
                     foreach (var desglose in cotizacion.desgloses)
                     {
-                        var queryInsertDesglose = $"INSERT INTO desglose_online (id_producto, subtotal, cantidad, id_cotizacion_online, precio_pastelera) " +
-                                                  $"VALUES ({desglose.id_producto}, {desglose.subtotal}, {desglose.cantidad}, {idCotizacion}, {desglose.precio_pastelera})";
+                        var queryInsertDesglose = $"INSERT INTO desglose_online (id_producto, subtotal, cantidad, id_cotizacion_online) " +
+                                                  $"VALUES ({desglose.id_producto}, {desglose.subtotal}, {desglose.cantidad}, {idCotizacion})";
                         db.ExecuteQuery(queryInsertDesglose);
                     }
                 }

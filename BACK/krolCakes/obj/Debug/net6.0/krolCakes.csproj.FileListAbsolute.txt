@@ -296,3 +296,7 @@ C:\Users\jrgj5\Documents\pasteleria\krolCakesBACK\BACK\krolCakes\bin\Debug\net6.
 C:\Users\jrgj5\Documents\pasteleria\krolCakesBACK\BACK\krolCakes\bin\Debug\net6.0\Firebase.Storage.dll
 C:\Users\jrgj5\Documents\pasteleria\krolCakesBACK\BACK\krolCakes\bin\Debug\net6.0\System.ServiceModel.dll
 C:\Users\jrgj5\Documents\pasteleria\krolCakesBACK\BACK\krolCakes\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\EspaJim\Proyects\CarolCakes\BACK\BACK\krolCakes\bin\Debug\net6.0\Firebase.Auth.dll
+C:\EspaJim\Proyects\CarolCakes\BACK\BACK\krolCakes\bin\Debug\net6.0\Firebase.Storage.dll
+C:\EspaJim\Proyects\CarolCakes\BACK\BACK\krolCakes\bin\Debug\net6.0\System.ServiceModel.dll
+C:\EspaJim\Proyects\CarolCakes\BACK\BACK\krolCakes\bin\Debug\net6.0\Newtonsoft.Json.dll
