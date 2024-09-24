@@ -328,6 +328,59 @@ namespace krolCakes.Controllers
             }
         }
 
+        [HttpPost("Confirmar-cotizacion")]
+        public IActionResult ConfirmarCotizacion([FromBody] pedidoModelCompleto nuevoPedido)
+        {
+            try
+            {
+                // Validador: Verificar si ya existe un pedido con la misma cotización
+                var queryValidador = $"SELECT id FROM pedido WHERE cotizacion_online_id = '{nuevoPedido.id_cotizacion_online}'";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count == 0) // Si no existe un pedido con la misma cotización
+                {
+                    // Insertar en la tabla de pedidos
+                    var queryInsertarPedido = $@"
+                INSERT INTO pedido (id_estado, observaciones, cotizacion_online_id) 
+                VALUES ({nuevoPedido.id_estado}, '{nuevoPedido.observaciones}', '{nuevoPedido.id_cotizacion_online}'); 
+                SELECT LAST_INSERT_ID();";
+
+                    var resultadoInsertarPedido = db.ExecuteQuery(queryInsertarPedido);
+
+                    // Obtener el ID del pedido recién insertado
+                    var pedidoId = Convert.ToInt32(resultadoInsertarPedido.Rows[0][0]);
+
+                    // Insertar desgloses (detallepedido)
+                    if (nuevoPedido.desgloses != null && nuevoPedido.desgloses.Count > 0)
+                    {
+                        foreach (var desglose in nuevoPedido.desgloses)
+                        {
+                            // Calcular el total
+                            var total = desglose.precio_unitario * desglose.cantidad_porciones;
+
+                            // Insertar el desglose con el total
+                            var queryInsertarDesglose = $@"
+                        INSERT INTO detalle_pedido (id_pedido, producto_id, id_masas, id_relleno, cantidad_porciones, precio_unitario, total)
+                        VALUES ({pedidoId}, {desglose.producto_id}, {desglose.id_masas}, {desglose.id_relleno}, {desglose.cantidad_porciones}, {desglose.precio_unitario}, {total})";
+
+                            db.ExecuteQuery(queryInsertarDesglose);
+                        }
+                    }         
+
+                    return Ok("Pedido registrado correctamente");
+                }
+                else
+                {
+                    // El pedido ya existe, devolver un BadRequest
+                    return BadRequest("Ya existe un pedido con esta cotización online.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al registrar el pedido: {ex.Message}");
+            }
+        }
+
         //---------------------Fin cotizacion online-------------------------------------------------------------------------------
 
         [HttpGet("pedidos")]
@@ -466,85 +519,95 @@ namespace krolCakes.Controllers
             }
         }
 
-
-        [HttpPost("Confirmar-cotizacion")]
+        [HttpPost("Nuevo-pedido")]
         public IActionResult NuevoPedido([FromBody] pedidoModelCompleto nuevoPedido)
         {
             try
             {
-                // Validador: Verificar si ya existe un pedido con la misma cotización
-                var queryValidador = $"SELECT id FROM pedido WHERE cotizacion_online_id = '{nuevoPedido.id_cotizacion_online}'";
-                var resultadoValidador = db.ExecuteQuery(queryValidador);
-
-                if (resultadoValidador.Rows.Count == 0) // Si no existe un pedido con la misma cotización
-                {
-                    // Insertar en la tabla de pedidos
-                    var queryInsertarPedido = $@"
-                INSERT INTO pedido (id_estado, observaciones, cotizacion_online_id) 
-                VALUES ({nuevoPedido.id_estado}, '{nuevoPedido.observaciones}', '{nuevoPedido.id_cotizacion_online}'); 
+                // Insertar cotización online
+                var queryInsertarCotizacion = $@"
+                INSERT INTO cotizacion_online 
+                (descripcion, precio_aproximado, envio, hora, fecha, direccion, estado, mano_obra, presupuesto_insumos, cliente_id, total_presupuesto) 
+                VALUES 
+                ('{nuevoPedido.descripcion}', {nuevoPedido.precio_aproximado}, {nuevoPedido.envio}, '{nuevoPedido.hora}', '{nuevoPedido.fecha}', 
+                '{nuevoPedido.direccion}', 1, {nuevoPedido.mano_obra}, {nuevoPedido.presupuesto_insumos}, {nuevoPedido.cliente_id}, {nuevoPedido.total_presupuesto}); 
                 SELECT LAST_INSERT_ID();";
 
-                    var resultadoInsertarPedido = db.ExecuteQuery(queryInsertarPedido);
+                var resultadoCotizacion = db.ExecuteQuery(queryInsertarCotizacion);
 
-                    // Obtener el ID del pedido recién insertado
-                    var pedidoId = Convert.ToInt32(resultadoInsertarPedido.Rows[0][0]);
 
-                    // Insertar desgloses (detallepedido)
-                    if (nuevoPedido.desgloses != null && nuevoPedido.desgloses.Count > 0)
+                // Obtener el ID de la cotización recién insertada
+                var cotizacionId = Convert.ToInt32(resultadoCotizacion.Rows[0][0]);
+
+                // Insertar desgloses online (con precio_pastelera)
+                if (nuevoPedido.desglosesOnline != null && nuevoPedido.desglosesOnline.Count > 0)
+                {
+                    foreach (var desgloseOnline in nuevoPedido.desglosesOnline)
                     {
-                        foreach (var desglose in nuevoPedido.desgloses)
-                        {
-                            // Calcular el total
-                            var total = desglose.precio_unitario * desglose.cantidad_porciones;
+                        var queryInsertarDesgloseOnline = $@"
+                INSERT INTO desglose_online (id_cotizacion_online, id_producto, cantidad, precio_pastelera, subtotal)
+                VALUES ({cotizacionId}, {desgloseOnline.id_producto}, {desgloseOnline.cantidad}, {desgloseOnline.precio_pastelera}, {desgloseOnline.subtotal})";
+                        db.ExecuteQuery(queryInsertarDesgloseOnline);
+                    }
+                }
 
-                            // Insertar el desglose con el total
-                            var queryInsertarDesglose = $@"
+                // Insertar imágenes de referencia online
+                if (nuevoPedido.imagenes != null && nuevoPedido.imagenes.Count > 0)
+                {
+                    foreach (var imagen in nuevoPedido.imagenes)
+                    {
+                        var queryInsertarImagen = $@"
+                INSERT INTO imagen_referencia_online (id_cotizacion_online, ruta, observacion) 
+                VALUES ({cotizacionId}, '{imagen.ruta}', '{imagen.observacion}')";
+                        db.ExecuteQuery(queryInsertarImagen);
+                    }
+                }
+
+                // Insertar pedido
+                var queryInsertarPedido = $@"
+                INSERT INTO pedido (id_estado, observaciones, cotizacion_online_id) 
+                VALUES (1, '{nuevoPedido.observaciones}', {cotizacionId}); 
+                SELECT LAST_INSERT_ID();";
+                var resultadoInsertarPedido = db.ExecuteQuery(queryInsertarPedido);
+
+                // Obtener el ID del pedido recién insertado
+                var pedidoId = Convert.ToInt32(resultadoInsertarPedido.Rows[0][0]);
+
+                // Insertar desgloses en detalle_pedido
+                if (nuevoPedido.desgloses != null && nuevoPedido.desgloses.Count > 0)
+                {
+                    foreach (var desglose in nuevoPedido.desgloses)
+                    {
+                        var total = desglose.precio_unitario * desglose.cantidad_porciones;
+
+                        var queryInsertarDesglose = $@"
                         INSERT INTO detalle_pedido (id_pedido, producto_id, id_masas, id_relleno, cantidad_porciones, precio_unitario, total)
                         VALUES ({pedidoId}, {desglose.producto_id}, {desglose.id_masas}, {desglose.id_relleno}, {desglose.cantidad_porciones}, {desglose.precio_unitario}, {total})";
-
-                            db.ExecuteQuery(queryInsertarDesglose);
-                        }
+                        db.ExecuteQuery(queryInsertarDesglose);
                     }
-
-                    //// Insertar imágenes de referencia
-                    //if (nuevoPedido.imagenes != null && nuevoPedido.imagenes.Count > 0)
-                    //{
-                    //    foreach (var imagen in nuevoPedido.imagenes)
-                    //    {
-                    //        var queryInsertarImagen = $@"
-                    //    INSERT INTO imagen_referencia_online (id_cotizacion_online, ruta, observacion) 
-                    //    VALUES ('{nuevoPedido.id_cotizacion_online}', '{imagen.ruta}', '{imagen.observacion}')";
-
-                    //        db.ExecuteQuery(queryInsertarImagen);
-                    //    }
-                    //}
-
-                    //// Insertar observaciones
-                    //if (nuevoPedido.Observacion != null && nuevoPedido.Observacion.Count > 0)
-                    //{
-                    //    foreach (var observacion in nuevoPedido.Observacion)
-                    //    {
-                    //        var queryInsertarObservacion = $@"  
-                    //    INSERT INTO observacion_cotizacion_online (id_cotizacion_online, Observacion) 
-                    //    VALUES ('{nuevoPedido.id_cotizacion_online}', '{observacion.Observacion}')";
-
-                    //        db.ExecuteQuery(queryInsertarObservacion);
-                    //    }
-                    //}
-
-                    return Ok("Pedido registrado correctamente");
                 }
-                else
+
+                // Insertar observaciones
+                if (nuevoPedido.Observacion != null && nuevoPedido.Observacion.Count > 0)
                 {
-                    // El pedido ya existe, devolver un BadRequest
-                    return BadRequest("Ya existe un pedido con esta cotización online.");
+                    foreach (var observacion in nuevoPedido.Observacion)
+                    {
+                        var queryInsertarObservacion = $@"
+                        INSERT INTO observacion_cotizacion_online (id_cotizacion_online, Observacion) 
+                        VALUES ({cotizacionId}, '{observacion.Observacion}')";
+                        db.ExecuteQuery(queryInsertarObservacion);
+                    }
                 }
+
+                return Ok("Pedido y cotización registrados correctamente.");
             }
             catch (Exception ex)
             {
                 return BadRequest($"Error al registrar el pedido: {ex.Message}");
             }
         }
+
+
         //----------------------------Fin Pedido-----------------------------------------------------------------
 
         [HttpPost("insertar-imagen")]
