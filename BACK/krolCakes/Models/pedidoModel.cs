@@ -27,6 +27,7 @@
         public double? presupuesto_insumos { get; set; }    //proviene del modelo cotizacion online 
         public double? total_presupuesto { get; set; }      //proviene del modelo cotizacion online 
         public int? cliente_id { get; set; }                //proviene del modelo cotizacion online 
+        public List<desgloseonlineModel>? desglosesOnline { get; set; }   //proviene del modelo cotizacion online
         public List<imagenreferenciaonlineModel>? imagenes { get; set; }       //proviene del modelo cotizacion online 
         public List<detallepedidoModelCompleto>? desgloses { get; set; }   //proviene del modelo cotizacion online 
         public List<observacion_cotizacion_onlineModel>? Observacion { get; set; }  //proviene del modelo cotizacion online 
