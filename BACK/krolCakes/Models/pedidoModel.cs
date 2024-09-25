@@ -29,12 +29,24 @@
         public int? cliente_id { get; set; }                //proviene del modelo cotizacion online 
         public List<desgloseonlineModel>? desglosesOnline { get; set; }   //proviene del modelo cotizacion online
         public List<imagenreferenciaonlineModel>? imagenes { get; set; }       //proviene del modelo cotizacion online 
-        public List<detallepedidoModelCompleto>? desgloses { get; set; }   //proviene del modelo cotizacion online 
+        public List<detallepedidoModelCompleto>? detalles { get; set; }   //proviene del modelo cotizacion online 
         public List<observacion_cotizacion_onlineModel>? Observacion { get; set; }  //proviene del modelo cotizacion online 
         public string? nombre { get; set; }     //proviene del modelo cliente
         public int? telefono { get; set; }      //proviene del modelo cliente
         public string? nit { get; set; }        //proviene del modelo cliente
 
+
+    }
+
+    public class ConfirmarPedidoModel
+    {
+        public int? id_cotizacion_online { get; set; }
+        public string? observaciones { get; set; } 
+        public int? id_pedido { get; set; }              
+        public List<detallepedidoModel>? detalles { get; set; }
+        public double? mano_obra { get; set; }          //proviene del modelo cotizacion online 
+        public double? presupuesto_insumos { get; set; }    //proviene del modelo cotizacion online 
+        public double? total_presupuesto { get; set; }
 
     }
 

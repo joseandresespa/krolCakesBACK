@@ -31,4 +31,6 @@
         //public string? id_cotizacion_online { get; set; }   //proviene del modelo pedido        
 
     }
+
+
 }

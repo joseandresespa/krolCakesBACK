@@ -7,6 +7,7 @@ using Mysqlx.Crud;
 using System.Data;
 using Firebase.Auth;
 using Firebase.Storage;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace krolCakes.Controllers
 {
@@ -201,52 +202,54 @@ namespace krolCakes.Controllers
                     cliente_telefono = row["cliente_telefono"] != DBNull.Value ? (int?)Convert.ToInt32(row["cliente_telefono"]) : null,
                     cliente_nit = row["cliente_nit"] != DBNull.Value ? row["cliente_nit"].ToString() : null
                 })
-.Select(grp => new cotizaciononlineModelCompleto
-{
-    id = grp.Key.id,
-    descripcion = grp.Key.descripcion,
-    direccion = grp.Key.direccion,
-    fecha = grp.Key.fecha,
-    hora = grp.Key.hora,
-    envio = grp.Key.envio,
-    estado = Convert.ToSByte(grp.Key.estado),
-    precio_aproximado = grp.Key.precio_aproximado,
-    mano_obra = grp.Key.mano_obra,
-    presupuesto_insumos = grp.Key.presupuesto_insumos,
-    total_presupuesto = grp.Key.total_presupuesto,
-    cliente_id = grp.Key.cliente_id,
-    nombre = grp.Key.cliente_nombre,
-    telefono = grp.Key.cliente_telefono,
-    nit = grp.Key.cliente_nit,
-    imagenes = grp
-        .Where(row => row["imagen_id"] != DBNull.Value)
-        .Select(row => new imagenreferenciaonlineModel
-        {
-            correlativo = Convert.ToInt32(row["imagen_id"]),
-            ruta = row["imagen_ruta"] != DBNull.Value ? row["imagen_ruta"].ToString() : null,
-            observacion = row["imagen_observacion"] != DBNull.Value ? row["imagen_observacion"].ToString() : null
-        }).ToList(),
-    desgloses = grp
-        .Where(row => row["desglose_id"] != DBNull.Value)
-        .Select(row => new desgloseonlineModelCompleto
-        {
-            correlativo = Convert.ToInt32(row["desglose_id"]),
-            id_producto = Convert.ToInt32(row["desglose_id_producto"]),
-            subtotal = row["desglose_subtotal"] != DBNull.Value ? Convert.ToDouble(row["desglose_subtotal"]) : (double?)null,
-            cantidad = row["desglose_cantidad"] != DBNull.Value ? Convert.ToInt32(row["desglose_cantidad"]) : (int?)null,
-            precio_pastelera = row["desglose_precio_pastelera"] != DBNull.Value ? (double?)Convert.ToDouble(row["desglose_precio_pastelera"]) : null,
-            nombrep = row["producto_nombre"] != DBNull.Value ? row["producto_nombre"].ToString() : null,
-            descripcionproducto = row["producto_descripcion"] != DBNull.Value ? row["producto_descripcion"].ToString() : null,
-            precio_online = row["producto_precio_online"] != DBNull.Value ? (double?)Convert.ToDouble(row["producto_precio_online"]) : null
-        }).ToList(),
-    Observacion = grp
-        .Where(row => row["observacion_id"] != DBNull.Value)
-        .Select(row => new observacion_cotizacion_onlineModel
-        {
-            correlativo = Convert.ToInt32(row["observacion_id"]),
-            Observacion = row["observacion_text"] != DBNull.Value ? row["observacion_text"].ToString() : null
-        }).ToList()
-}).ToList();
+                .Select(grp => new cotizaciononlineModelCompleto
+                {
+                id = grp.Key.id,
+                descripcion = grp.Key.descripcion,
+                direccion = grp.Key.direccion,
+                fecha = grp.Key.fecha,
+                hora = grp.Key.hora,
+                envio = grp.Key.envio,
+                estado = Convert.ToSByte(grp.Key.estado),
+                precio_aproximado = grp.Key.precio_aproximado,
+                mano_obra = grp.Key.mano_obra,
+                presupuesto_insumos = grp.Key.presupuesto_insumos,
+                total_presupuesto = grp.Key.total_presupuesto,
+                cliente_id = grp.Key.cliente_id,
+                nombre = grp.Key.cliente_nombre,
+                telefono = grp.Key.cliente_telefono,
+                nit = grp.Key.cliente_nit,
+                imagenes = grp
+                    .Where(row => row["imagen_id"] != DBNull.Value)
+                    .Select(row => new imagenreferenciaonlineModel
+                    {
+                        correlativo = Convert.ToInt32(row["imagen_id"]),
+                        ruta = row["imagen_ruta"] != DBNull.Value ? row["imagen_ruta"].ToString() : null,
+                        observacion = row["imagen_observacion"] != DBNull.Value ? row["imagen_observacion"].ToString() : null
+                    }).ToList(),
+                desgloses = grp
+                    .Where(row => row["desglose_id"] != DBNull.Value)
+                    .Select(row => new desgloseonlineModelCompleto
+                    {
+                        correlativo = Convert.ToInt32(row["desglose_id"]),
+                        id_producto = Convert.ToInt32(row["desglose_id_producto"]),
+                        subtotal = row["desglose_subtotal"] != DBNull.Value ? Convert.ToDouble(row["desglose_subtotal"]) : (double?)null,
+                        cantidad = row["desglose_cantidad"] != DBNull.Value ? Convert.ToInt32(row["desglose_cantidad"]) : (int?)null,
+                        precio_pastelera = row["desglose_precio_pastelera"] != DBNull.Value ? (double?)Convert.ToDouble(row["desglose_precio_pastelera"]) : null,
+                        nombrep = row["producto_nombre"] != DBNull.Value ? row["producto_nombre"].ToString() : null,
+                        descripcionproducto = row["producto_descripcion"] != DBNull.Value ? row["producto_descripcion"].ToString() : null,
+                        precio_online = row["producto_precio_online"] != DBNull.Value ? (double?)Convert.ToDouble(row["producto_precio_online"]) : null
+                    }).ToList(),
+                    Observacion = grp
+                    .Where(row => row["observacion_id"] != DBNull.Value)
+                    .Select(row => new observacion_cotizacion_onlineModel
+                    {
+                        correlativo = Convert.ToInt32(row["observacion_id"]),
+                        Observacion = row["observacion_text"] != DBNull.Value ? row["observacion_text"].ToString() : null
+                    })
+                    .Distinct() // Eliminar duplicados
+                    .ToList()
+                }).ToList();
 
 
 
@@ -328,8 +331,8 @@ namespace krolCakes.Controllers
             }
         }
 
-        [HttpPost("Confirmar-cotizacion")]
-        public IActionResult ConfirmarCotizacion([FromBody] pedidoModelCompleto nuevoPedido)
+        [HttpPost("confirmar-cotizacion")]
+        public IActionResult ConfirmarCotizacion([FromBody] ConfirmarPedidoModel nuevoPedido)
         {
             try
             {
@@ -339,11 +342,19 @@ namespace krolCakes.Controllers
 
                 if (resultadoValidador.Rows.Count == 0) // Si no existe un pedido con la misma cotización
                 {
+                    //actualizar tabla con presupuesto
+
+                    var queryPresupuesto = $@"UPDATE cotizacion_online SET presupuesto_insumos = {nuevoPedido.presupuesto_insumos},
+                    total_presupuesto =  {nuevoPedido.total_presupuesto} , mano_obra = {nuevoPedido.mano_obra} 
+                    estado = 1 WHERE id = {nuevoPedido.id_cotizacion_online};";
+                    var resultadoUpdate = db.ExecuteQuery(queryPresupuesto);
+
+
                     // Insertar en la tabla de pedidos
                     var queryInsertarPedido = $@"
-                INSERT INTO pedido (id_estado, observaciones, cotizacion_online_id) 
-                VALUES ({nuevoPedido.id_estado}, '{nuevoPedido.observaciones}', '{nuevoPedido.id_cotizacion_online}'); 
-                SELECT LAST_INSERT_ID();";
+                    INSERT INTO pedido (id_estado, observaciones, cotizacion_online_id) 
+                    VALUES (1, '{nuevoPedido.observaciones}', '{nuevoPedido.id_cotizacion_online}'); 
+                    SELECT LAST_INSERT_ID();";
 
                     var resultadoInsertarPedido = db.ExecuteQuery(queryInsertarPedido);
 
@@ -351,9 +362,9 @@ namespace krolCakes.Controllers
                     var pedidoId = Convert.ToInt32(resultadoInsertarPedido.Rows[0][0]);
 
                     // Insertar desgloses (detallepedido)
-                    if (nuevoPedido.desgloses != null && nuevoPedido.desgloses.Count > 0)
+                    if (nuevoPedido.detalles != null && nuevoPedido.detalles.Count > 0)
                     {
-                        foreach (var desglose in nuevoPedido.desgloses)
+                        foreach (var desglose in nuevoPedido.detalles)
                         {
                             // Calcular el total
                             var total = desglose.precio_unitario * desglose.cantidad_porciones;
@@ -431,7 +442,7 @@ namespace krolCakes.Controllers
                         nombre = pedidoRow["nombre"].ToString(),
                         telefono = Convert.ToInt32(pedidoRow["telefono"]),
                         nit = pedidoRow["nit"].ToString(),
-                        desgloses = new List<detallepedidoModelCompleto>(),
+                        detalles = new List<detallepedidoModelCompleto>(),
                         imagenes = new List<imagenreferenciaonlineModel>(),
                         Observacion = new List<observacion_cotizacion_onlineModel>()
                     };
@@ -465,7 +476,7 @@ namespace krolCakes.Controllers
                             sabor_relleno = row["sabor_relleno"].ToString(),
                             total = Convert.ToDouble(row["precio_unitario"]) * Convert.ToInt32(row["cantidad_porciones"])
                         };
-                        pedido.desgloses.Add(desglose);
+                        pedido.detalles.Add(desglose);
                     }
 
                     // Obtener imágenes de referencia
@@ -574,9 +585,9 @@ namespace krolCakes.Controllers
                 var pedidoId = Convert.ToInt32(resultadoInsertarPedido.Rows[0][0]);
 
                 // Insertar desgloses en detalle_pedido
-                if (nuevoPedido.desgloses != null && nuevoPedido.desgloses.Count > 0)
+                if (nuevoPedido.detalles != null && nuevoPedido.detalles.Count > 0)
                 {
-                    foreach (var desglose in nuevoPedido.desgloses)
+                    foreach (var desglose in nuevoPedido.detalles)
                     {
                         var total = desglose.precio_unitario * desglose.cantidad_porciones;
 
@@ -587,17 +598,17 @@ namespace krolCakes.Controllers
                     }
                 }
 
-                // Insertar observaciones
-                if (nuevoPedido.Observacion != null && nuevoPedido.Observacion.Count > 0)
-                {
-                    foreach (var observacion in nuevoPedido.Observacion)
-                    {
-                        var queryInsertarObservacion = $@"
-                        INSERT INTO observacion_cotizacion_online (id_cotizacion_online, Observacion) 
-                        VALUES ({cotizacionId}, '{observacion.Observacion}')";
-                        db.ExecuteQuery(queryInsertarObservacion);
-                    }
-                }
+                //// Insertar observaciones
+                //if (nuevoPedido.Observacion != null && nuevoPedido.Observacion.Count > 0)
+                //{
+                //    foreach (var observacion in nuevoPedido.Observacion)
+                //    {
+                //        var queryInsertarObservacion = $@"
+                //        INSERT INTO observacion_cotizacion_online (id_cotizacion_online, Observacion) 
+                //        VALUES ({cotizacionId}, '{observacion.Observacion}')";
+                //        db.ExecuteQuery(queryInsertarObservacion);
+                //    }
+                //}
 
                 return Ok("Pedido y cotización registrados correctamente.");
             }
@@ -610,26 +621,39 @@ namespace krolCakes.Controllers
 
         //----------------------------Fin Pedido-----------------------------------------------------------------
 
-        [HttpPost("insertar-imagen")]
-        public IActionResult InsertarImagenReferencia([FromBody] imagenreferenciaonlineModel nuevaImagen)
+
+
+        [HttpPost("insertar-imagen-observacion")]
+        public async Task<IActionResult> InsertarImagenObservacion([FromForm] List<IFormFile>? imagenes, [FromForm] string observacion, [FromForm] int id_cotizacion_online)
         {
             try
             {
-                // Verificar que se haya proporcionado un id de cotización online válido
-                if (nuevaImagen.id_cotizacion_online == null || string.IsNullOrEmpty(nuevaImagen.ruta))
+                //    // Verificar que se haya proporcionado un id de cotización online válido
+                if (observacion != null)
                 {
-                    return BadRequest("El ID de cotización online y la ruta de la imagen son obligatorios.");
+                    var queryInsertarObservacion = $@"
+                                INSERT INTO observacion_cotizacion_online (id_cotizacion_online, Observacion) 
+                                VALUES ({id_cotizacion_online}, '{observacion}')";
+                    db.ExecuteQuery(queryInsertarObservacion);
+                }
+                if (imagenes != null)
+                {
+
+                    foreach (var imagen in imagenes)
+                    {
+                        string ruta = await UploadToFirebase(imagen);
+
+                        var queryInsertarImagen = $@"
+                        INSERT INTO imagen_referencia_online (id_cotizacion_online, ruta) 
+                        VALUES ({id_cotizacion_online}, '{ruta}')";
+
+                        // Ejecutar la consulta
+                        var resultado = db.ExecuteQuery(queryInsertarImagen);
+                    }
                 }
 
-                // Construir la consulta de inserción
-                var queryInsertarImagen = $@"
-            INSERT INTO imagen_referencia_online (id_cotizacion_online, ruta, observacion) 
-            VALUES ({nuevaImagen.id_cotizacion_online}, '{nuevaImagen.ruta}', '{nuevaImagen.observacion}')";
 
-                // Ejecutar la consulta
-                var resultado = db.ExecuteQuery(queryInsertarImagen);
-
-                return Ok("Imagen insertada correctamente");
+                return Ok("Observacion Y/O Imagenes insertadas correctamente");
             }
             catch (Exception ex)
             {
