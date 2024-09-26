@@ -295,7 +295,8 @@ namespace krolCakes.Controllers
 
                 // Insertar la cotización online
                 var queryInsertCotizacion = $"INSERT INTO cotizacion_online (descripcion, precio_aproximado, envio, hora, fecha, direccion, estado, cliente_id) " +
-                                            $"VALUES ('{cotizacion.descripcion}', {cotizacion.precio_aproximado}, {cotizacion.envio}, '{cotizacion.hora}', '{cotizacion.fecha}', '{cotizacion.direccion}', 0, {clienteId})";
+                                            $"VALUES ('{cotizacion.descripcion}', {cotizacion.precio_aproximado}, {cotizacion.envio}, '{cotizacion.hora}', " +
+                                            $"'{cotizacion.fecha}', '{cotizacion.direccion}', 7, {clienteId})";
                 db.ExecuteQuery(queryInsertCotizacion);
 
                 // Obtener el ID de la cotización recién insertada
@@ -661,6 +662,20 @@ namespace krolCakes.Controllers
             }
         }
 
+        [HttpPost("cambio-estado-pedido")]
+        public IActionResult nuevoUsuario([FromBody] cambioEstado cambio)
+        {
+            try
+            {
+                    var queryInsertar = $"UPDATE pedido set id_estado = '{cambio.id_estado}' WHERE id = '{cambio.id_pedido}'";
+                    db.ExecuteQuery(queryInsertar);
+                    return Ok("estado cambiado");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al registrar al Usuario");
+            }
+        }
 
 
 
