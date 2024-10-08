@@ -8,6 +8,7 @@ using System.Data;
 using Firebase.Auth;
 using Firebase.Storage;
 using static System.Net.Mime.MediaTypeNames;
+using Newtonsoft.Json;
 
 namespace krolCakes.Controllers
 {
@@ -532,10 +533,11 @@ namespace krolCakes.Controllers
         }
 
         [HttpPost("Nuevo-pedido")]
-        public IActionResult NuevoPedido([FromBody] pedidoModelCompleto nuevoPedido)
+        public IActionResult NuevoPedido([FromForm] List<IFormFile>? imagenes, [FromForm] string nuevoPedidoJSON)
         {
             try
             {
+                var nuevoPedido = JsonConvert.DeserializeObject<pedidoModelCompleto>(nuevoPedidoJSON);
                 // Insertar cotización online
                 var queryInsertarCotizacion = $@"
                 INSERT INTO cotizacion_online 
@@ -578,7 +580,7 @@ namespace krolCakes.Controllers
                 // Insertar pedido
                 var queryInsertarPedido = $@"
                 INSERT INTO pedido (id_estado, observaciones, cotizacion_online_id) 
-                VALUES (1, '{nuevoPedido.observaciones}', {cotizacionId}); 
+                VALUES (1, '{nuevoPedido.descripcion}', {cotizacionId}); 
                 SELECT LAST_INSERT_ID();";
                 var resultadoInsertarPedido = db.ExecuteQuery(queryInsertarPedido);
 
@@ -598,18 +600,6 @@ namespace krolCakes.Controllers
                         db.ExecuteQuery(queryInsertarDesglose);
                     }
                 }
-
-                //// Insertar observaciones
-                //if (nuevoPedido.Observacion != null && nuevoPedido.Observacion.Count > 0)
-                //{
-                //    foreach (var observacion in nuevoPedido.Observacion)
-                //    {
-                //        var queryInsertarObservacion = $@"
-                //        INSERT INTO observacion_cotizacion_online (id_cotizacion_online, Observacion) 
-                //        VALUES ({cotizacionId}, '{observacion.Observacion}')";
-                //        db.ExecuteQuery(queryInsertarObservacion);
-                //    }
-                //}
 
                 return Ok("Pedido y cotización registrados correctamente.");
             }

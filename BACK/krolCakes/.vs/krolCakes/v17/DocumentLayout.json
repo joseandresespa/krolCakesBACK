@@ -3,20 +3,15 @@
   "WorkspaceRootPath": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\josea\\AppData\\Local\\SourceServer\\1435525774842cf91a45d2ddd20a88c9c64c76e25bf5ad20acbe1e25c7ada294\\BACK\\krolCakes\\Controllers\\CatalogosController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\controllers\\cotizacionpedidocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:controllers\\cotizacionpedidocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\estadomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\estadomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\controllers\\catalogoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:controllers\\catalogoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|c:\\espajim\\proyects\\carolcakes\\back\\back\\krolcakes\\models\\pedidomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E143393-EDE6-4E9B-A836-382182D3A0CC}|krolCakes.csproj|solutionrelative:models\\pedidomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,20 +21,20 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "estadoModel.cs",
-              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\estadoModel.cs",
-              "RelativeDocumentMoniker": "Models\\estadoModel.cs",
-              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\estadoModel.cs",
-              "RelativeToolTip": "Models\\estadoModel.cs",
-              "ViewState": "AQIAAAIAAAAAAAAAAAAxwAsAAAAcAAAA",
+              "DocumentIndex": 0,
+              "Title": "CatalogosController.cs",
+              "DocumentMoniker": "C:\\Users\\josea\\AppData\\Local\\SourceServer\\1435525774842cf91a45d2ddd20a88c9c64c76e25bf5ad20acbe1e25c7ada294\\BACK\\krolCakes\\Controllers\\CatalogosController.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Users\\josea\\AppData\\Local\\SourceServer\\1435525774842cf91a45d2ddd20a88c9c64c76e25bf5ad20acbe1e25c7ada294\\BACK\\krolCakes\\Controllers\\CatalogosController.cs",
+              "ToolTip": "C:\\Users\\josea\\AppData\\Local\\SourceServer\\1435525774842cf91a45d2ddd20a88c9c64c76e25bf5ad20acbe1e25c7ada294\\BACK\\krolCakes\\Controllers\\CatalogosController.cs [Read Only]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Users\\josea\\AppData\\Local\\SourceServer\\1435525774842cf91a45d2ddd20a88c9c64c76e25bf5ad20acbe1e25c7ada294\\BACK\\krolCakes\\Controllers\\CatalogosController.cs [Read Only]",
+              "ViewState": "AQIAAI4BAAAAAAAAAAASwAwEAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-26T02:27:23.238Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-08T01:28:32.412Z",
+              "EditorCaption": " [Read Only]"
             },
             {
               "$type": "Document",
@@ -49,35 +44,22 @@
               "RelativeDocumentMoniker": "Controllers\\CatalogosController.cs",
               "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Controllers\\CatalogosController.cs",
               "RelativeToolTip": "Controllers\\CatalogosController.cs",
-              "ViewState": "AQIAADwAAAAAAAAAAAAYwD8AAAABAAAA",
+              "ViewState": "AQIAABsEAAAAAAAAAAAEwC8EAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-25T23:51:00.38Z",
+              "WhenOpened": "2024-10-07T18:59:02.998Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "CotizacionPedidoController.cs",
               "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Controllers\\CotizacionPedidoController.cs",
               "RelativeDocumentMoniker": "Controllers\\CotizacionPedidoController.cs",
               "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Controllers\\CotizacionPedidoController.cs",
               "RelativeToolTip": "Controllers\\CotizacionPedidoController.cs",
-              "ViewState": "AQIAAIABAAAAAAAAAAAAAJEBAAAMAAAA",
+              "ViewState": "AQIAAAgCAAAAAAAAAAAvwBgCAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-21T20:35:40.482Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "pedidoModel.cs",
-              "DocumentMoniker": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\pedidoModel.cs",
-              "RelativeDocumentMoniker": "Models\\pedidoModel.cs",
-              "ToolTip": "C:\\EspaJim\\Proyects\\CarolCakes\\BACK\\BACK\\krolCakes\\Models\\pedidoModel.cs",
-              "RelativeToolTip": "Models\\pedidoModel.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABEAAAAVAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-21T00:25:27.408Z",
+              "WhenOpened": "2024-10-07T18:59:03.064Z",
               "EditorCaption": ""
             }
           ]
