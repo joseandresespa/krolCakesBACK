@@ -894,6 +894,83 @@ namespace krolCakes.Controllers
 
         //---------------------------Fin unidad de mededida precio sugerido------------------------------------------------------
 
+
+        [HttpGet("unidad-medida-costo")]
+        public IActionResult GetUnidadMedidaCosto()
+        {
+            try
+            {
+                var query = @"SELECT id, nombre FROM unidad_medida ORDER BY id";
+                var resultado = db.ExecuteQuery(query);
+
+                var unidades = resultado.AsEnumerable().Select(row => new unidadmedidaModel
+                {
+                    id = row.Field<int?>("id"),
+                    nombre = row.Field<string>("nombre")
+                }).ToList();
+
+                return Ok(unidades);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al obtener las unidades de medida de precio sugerido.");
+            }
+        }
+
+        [HttpPost("nueva-unidad-medida-costo")]
+        public IActionResult NuevaUnidadMedidaCosto([FromBody] unidadmedidaModel unidad)
+        {
+            try
+            {
+                var queryValidador = $"SELECT id FROM unidad_medida WHERE nombre = '{unidad.nombre}'";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count == 0)
+                {
+                    var queryInsertar = $"INSERT INTO unidad_medida (nombre) VALUES ('{unidad.nombre}')";
+                    db.ExecuteQuery(queryInsertar);
+                    return Ok("Unidad de medida de precio sugerido registrada correctamente");
+                }
+                else
+                {
+                    return BadRequest("La unidad de medida de precio sugerido ya está registrada");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al registrar la unidad de medida de precio sugerido.");
+            }
+        }
+
+        [HttpPost("actualizar-unidad-medida-costo")]
+        public IActionResult ActualizarUnidadCosto([FromBody] unidadmedidaModel unidad)
+        {
+            try
+            {
+                var queryValidador = $"SELECT id FROM unidad_medida WHERE id = {unidad.id}";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count > 0)
+                {
+                    var queryActualizar = $"UPDATE unidad_medida SET " +
+                                          $"nombre = '{unidad.nombre}' " +
+                                          $"WHERE id = {unidad.id}";
+                    db.ExecuteQuery(queryActualizar);
+                    return Ok("Unidad de medida de precio sugerido actualizada correctamente");
+                }
+                else
+                {
+                    return BadRequest("La unidad de medida de precio sugerido no existe");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al actualizar la unidad de medida de precio sugerido.");
+            }
+        }
+
+        //---------------------------Fin unidad de mededida precio sugerido------------------------------------------------------
+
         [HttpGet("estados")]
         public IActionResult GetEstados()
         {
@@ -1173,7 +1250,28 @@ namespace krolCakes.Controllers
             }
         }
         //-----------------------------Fin proveedor-------------------------------------------------------
+        [HttpGet("pastel-realizado")]
+        public IActionResult pastelRealizado()
+        {
+            try
+            {
+                var query = @"SELECT id, id_tipo_evento, evento, id_pedido, imagen
+                            FROM pastel_realizado ORDER BY id";
+                var resultado = db.ExecuteQuery(query);
 
+                var unidades = resultado.AsEnumerable().Select(row => new unidadmedidaModel
+                {
+                    id = row.Field<int?>("id"),
+                    nombre = row.Field<string>("nombre")
+                }).ToList();
+
+                return Ok(unidades);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al obtener las unidades de medida de precio sugerido.");
+            }
+        }
 
 
 
