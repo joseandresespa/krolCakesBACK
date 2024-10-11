@@ -166,101 +166,129 @@ namespace krolCakes.Controllers
         {
             try
             {
-                var query = @"SELECT c.id, c.descripcion, c.direccion, c.precio_aproximado, c.envio, c.estado, c.mano_obra, 
-                     c.presupuesto_insumos, (c.mano_obra + c.presupuesto_insumos) AS total_presupuesto,
-                     c.cliente_id, DATE_FORMAT(c.fecha, '%Y-%m-%d') AS fecha, TIME_FORMAT(c.hora, '%H:%i:%s') AS hora, 
-                     cl.nombre AS cliente_nombre, cl.telefono AS cliente_telefono, cl.nit AS cliente_nit,
-                     i.correlativo AS imagen_id, i.ruta AS imagen_ruta, i.observacion AS imagen_observacion,
-                     d.correlativo AS desglose_id, d.id_producto AS desglose_id_producto, d.subtotal AS desglose_subtotal, 
-                     d.cantidad AS desglose_cantidad, d.precio_pastelera AS desglose_precio_pastelera,
-                     p.nombre AS producto_nombre, p.descripcion AS producto_descripcion, p.precio_online AS producto_precio_online,
-                     o.correlativo AS observacion_id, o.Observacion AS observacion_text
-              FROM cotizacion_online c
-              LEFT JOIN cliente cl ON c.cliente_id = cl.id
-              LEFT JOIN imagen_referencia_online i ON c.id = i.id_cotizacion_online
-              LEFT JOIN desglose_online d ON c.id = d.id_cotizacion_online
-              LEFT JOIN producto p ON d.id_producto = p.id
-              LEFT JOIN observacion_cotizacion_online o ON c.id = o.id_cotizacion_online
-              ORDER BY c.id";
+                // Consulta para obtener todas las cotizaciones
+                var queryCotizaciones = @"
+            SELECT 
+                c.id, c.descripcion, c.direccion, c.precio_aproximado, c.envio, c.estado, 
+                c.mano_obra, c.presupuesto_insumos, (c.mano_obra + c.presupuesto_insumos) AS total_presupuesto,
+                c.cliente_id, DATE_FORMAT(c.fecha, '%Y-%m-%d') AS fecha, TIME_FORMAT(c.hora, '%H:%i:%s') AS hora,
+                cl.nombre AS cliente_nombre, cl.telefono AS cliente_telefono, cl.nit AS cliente_nit
+            FROM cotizacion_online c
+            LEFT JOIN cliente cl ON c.cliente_id = cl.id";
 
-                var resultado = db.ExecuteQuery(query);
+                var resultadoCotizaciones = db.ExecuteQuery(queryCotizaciones);
 
-                var cotizaciones = resultado.AsEnumerable().GroupBy(row => new
+                if (resultadoCotizaciones.Rows.Count == 0)
                 {
-                    id = row["id"] != DBNull.Value ? Convert.ToInt32(row["id"]) : (int?)null,
-                    descripcion = row["descripcion"] != DBNull.Value ? row["descripcion"].ToString() : null,
-                    direccion = row["direccion"] != DBNull.Value ? row["direccion"].ToString() : null,
-                    fecha = row["fecha"] != DBNull.Value ? row["fecha"].ToString() : null,
-                    hora = row["hora"] != DBNull.Value ? row["hora"].ToString() : null,
-                    envio = row["envio"] != DBNull.Value ? (bool?)Convert.ToBoolean(row["envio"]) : null,
-                    estado = row["estado"] != DBNull.Value ? Convert.ToSByte(row["estado"]) : (short?) null,
-                    precio_aproximado = row["precio_aproximado"] != DBNull.Value ? (double?)Convert.ToDouble(row["precio_aproximado"]) : null,
-                    mano_obra = row["mano_obra"] != DBNull.Value ? (double?)Convert.ToDouble(row["mano_obra"]) : null,
-                    presupuesto_insumos = row["presupuesto_insumos"] != DBNull.Value ? (double?)Convert.ToDouble(row["presupuesto_insumos"]) : null,
-                    total_presupuesto = row["total_presupuesto"] != DBNull.Value ? (double?)Convert.ToDouble(row["total_presupuesto"]) : null,
-                    cliente_id = row["cliente_id"] != DBNull.Value ? (int?)Convert.ToInt32(row["cliente_id"]) : null,
-                    cliente_nombre = row["cliente_nombre"] != DBNull.Value ? row["cliente_nombre"].ToString() : null,
-                    cliente_telefono = row["cliente_telefono"] != DBNull.Value ? (int?)Convert.ToInt32(row["cliente_telefono"]) : null,
-                    cliente_nit = row["cliente_nit"] != DBNull.Value ? row["cliente_nit"].ToString() : null
-                })
-                .Select(grp => new cotizaciononlineModelCompleto
+                    return NotFound("No se encontraron cotizaciones.");
+                }
+
+                var listaCotizaciones = new List<cotizaciononlineModelCompleto>();
+
+                // Recorremos todas las cotizaciones obtenidas
+                foreach (DataRow cotizacionRow in resultadoCotizaciones.Rows)
                 {
-                id = grp.Key.id,
-                descripcion = grp.Key.descripcion,
-                direccion = grp.Key.direccion,
-                fecha = grp.Key.fecha,
-                hora = grp.Key.hora,
-                envio = grp.Key.envio,
-                estado = Convert.ToSByte(grp.Key.estado),
-                precio_aproximado = grp.Key.precio_aproximado,
-                mano_obra = grp.Key.mano_obra,
-                presupuesto_insumos = grp.Key.presupuesto_insumos,
-                total_presupuesto = grp.Key.total_presupuesto,
-                cliente_id = grp.Key.cliente_id,
-                nombre = grp.Key.cliente_nombre,
-                telefono = grp.Key.cliente_telefono,
-                nit = grp.Key.cliente_nit,
-                imagenes = grp
-                    .Where(row => row["imagen_id"] != DBNull.Value)
-                    .Select(row => new imagenreferenciaonlineModel
+                    var cotizacion = new cotizaciononlineModelCompleto
                     {
-                        correlativo = Convert.ToInt32(row["imagen_id"]),
-                        ruta = row["imagen_ruta"] != DBNull.Value ? row["imagen_ruta"].ToString() : null,
-                        observacion = row["imagen_observacion"] != DBNull.Value ? row["imagen_observacion"].ToString() : null
-                    }).ToList(),
-                desgloses = grp
-                    .Where(row => row["desglose_id"] != DBNull.Value)
-                    .Select(row => new desgloseonlineModelCompleto
+                        id = cotizacionRow["id"] != DBNull.Value ? Convert.ToInt32(cotizacionRow["id"]) : 0,
+                        descripcion = cotizacionRow["descripcion"] != DBNull.Value ? cotizacionRow["descripcion"].ToString() : null,
+                        direccion = cotizacionRow["direccion"] != DBNull.Value ? cotizacionRow["direccion"].ToString() : null,
+                        precio_aproximado = cotizacionRow["precio_aproximado"] != DBNull.Value ? Convert.ToDouble(cotizacionRow["precio_aproximado"]) : (double?)null,
+                        envio = cotizacionRow["envio"] != DBNull.Value ? Convert.ToBoolean(cotizacionRow["envio"]) : false,
+                        estado = cotizacionRow["estado"] != DBNull.Value ? Convert.ToSByte(cotizacionRow["estado"]) : (sbyte?)null,
+                        mano_obra = cotizacionRow["mano_obra"] != DBNull.Value ? Convert.ToDouble(cotizacionRow["mano_obra"]) : (double?)null,
+                        presupuesto_insumos = cotizacionRow["presupuesto_insumos"] != DBNull.Value ? Convert.ToDouble(cotizacionRow["presupuesto_insumos"]) : (double?)null,
+                        total_presupuesto = cotizacionRow["total_presupuesto"] != DBNull.Value ? Convert.ToDouble(cotizacionRow["total_presupuesto"]) : (double?)null,
+                        fecha = cotizacionRow["fecha"] != DBNull.Value ? cotizacionRow["fecha"].ToString() : null,
+                        hora = cotizacionRow["hora"] != DBNull.Value ? cotizacionRow["hora"].ToString() : null,
+                        cliente_id = cotizacionRow["cliente_id"] != DBNull.Value ? Convert.ToInt32(cotizacionRow["cliente_id"]) : (int?)null,
+                        nombre = cotizacionRow["cliente_nombre"] != DBNull.Value ? cotizacionRow["cliente_nombre"].ToString() : null,
+                        telefono = cotizacionRow["cliente_telefono"] != DBNull.Value ? Convert.ToInt32(cotizacionRow["cliente_telefono"]) : (int?)null,
+                        nit = cotizacionRow["cliente_nit"] != DBNull.Value ? cotizacionRow["cliente_nit"].ToString() : null,
+                        imagenes = new List<imagenreferenciaonlineModel>(),
+                        desgloses = new List<desgloseonlineModelCompleto>(),
+                        Observacion = new List<observacion_cotizacion_onlineModel>()
+                    };
+
+                    // Obtener desgloses (detalle de productos) para cada cotización
+                    var queryDesgloses = $@"
+                SELECT d.correlativo, d.id_producto, d.subtotal, d.cantidad, d.precio_pastelera,
+                       p.nombre AS producto_nombre, p.descripcion AS producto_descripcion, p.precio_online
+                FROM desglose_online d
+                LEFT JOIN producto p ON d.id_producto = p.id
+                WHERE d.id_cotizacion_online = {cotizacion.id}";
+
+                    var resultadoDesgloses = db.ExecuteQuery(queryDesgloses);
+
+                    foreach (DataRow row in resultadoDesgloses.Rows)
                     {
-                        correlativo = Convert.ToInt32(row["desglose_id"]),
-                        id_producto = Convert.ToInt32(row["desglose_id_producto"]),
-                        subtotal = row["desglose_subtotal"] != DBNull.Value ? Convert.ToDouble(row["desglose_subtotal"]) : (double?)null,
-                        cantidad = row["desglose_cantidad"] != DBNull.Value ? Convert.ToInt32(row["desglose_cantidad"]) : (int?)null,
-                        precio_pastelera = row["desglose_precio_pastelera"] != DBNull.Value ? (double?)Convert.ToDouble(row["desglose_precio_pastelera"]) : null,
-                        nombrep = row["producto_nombre"] != DBNull.Value ? row["producto_nombre"].ToString() : null,
-                        descripcionproducto = row["producto_descripcion"] != DBNull.Value ? row["producto_descripcion"].ToString() : null,
-                        precio_online = row["producto_precio_online"] != DBNull.Value ? (double?)Convert.ToDouble(row["producto_precio_online"]) : null
-                    }).ToList(),
-                    Observacion = grp
-                    .Where(row => row["observacion_id"] != DBNull.Value)
-                    .Select(row => new observacion_cotizacion_onlineModel
+                        var desglose = new desgloseonlineModelCompleto
+                        {
+                            correlativo = row["correlativo"] != DBNull.Value ? Convert.ToInt32(row["correlativo"]) : 0,
+                            id_producto = row["id_producto"] != DBNull.Value ? Convert.ToInt32(row["id_producto"]) : 0,
+                            subtotal = row["subtotal"] != DBNull.Value ? Convert.ToDouble(row["subtotal"]) : (double?)null,
+                            cantidad = row["cantidad"] != DBNull.Value ? Convert.ToInt32(row["cantidad"]) : (int?)null,
+                            precio_pastelera = row["precio_pastelera"] != DBNull.Value ? Convert.ToDouble(row["precio_pastelera"]) : (double?)null,
+                            nombrep = row["producto_nombre"] != DBNull.Value ? row["producto_nombre"].ToString() : null,
+                            descripcionproducto = row["producto_descripcion"] != DBNull.Value ? row["producto_descripcion"].ToString() : null,
+                            precio_online = row["precio_online"] != DBNull.Value ? Convert.ToDouble(row["precio_online"]) : (double?)null
+                        };
+                        cotizacion.desgloses.Add(desglose);
+                    }
+
+                    // Obtener imágenes de referencia
+                    var queryImagenes = $@"
+                SELECT correlativo, id_cotizacion_online, ruta, observacion
+                FROM imagen_referencia_online
+                WHERE id_cotizacion_online = {cotizacion.id}";
+
+                    var resultadoImagenes = db.ExecuteQuery(queryImagenes);
+
+                    foreach (DataRow row in resultadoImagenes.Rows)
                     {
-                        correlativo = Convert.ToInt32(row["observacion_id"]),
-                        Observacion = row["observacion_text"] != DBNull.Value ? row["observacion_text"].ToString() : null
-                    })
-                    .Distinct() // Eliminar duplicados
-                    .ToList()
-                }).ToList();
+                        var imagen = new imagenreferenciaonlineModel
+                        {
+                            correlativo = row["correlativo"] != DBNull.Value ? Convert.ToInt32(row["correlativo"]) : 0,
+                            id_cotizacion_online = row["id_cotizacion_online"] != DBNull.Value ? Convert.ToInt32(row["id_cotizacion_online"]) : 0,
+                            ruta = row["ruta"] != DBNull.Value ? row["ruta"].ToString() : null,
+                            observacion = row["observacion"] != DBNull.Value ? row["observacion"].ToString() : null
+                        };
+                        cotizacion.imagenes.Add(imagen);
+                    }
 
+                    // Obtener observaciones
+                    var queryObservaciones = $@"
+                SELECT correlativo, id_cotizacion_online, Observacion
+                FROM observacion_cotizacion_online
+                WHERE id_cotizacion_online = {cotizacion.id}";
 
+                    var resultadoObservaciones = db.ExecuteQuery(queryObservaciones);
 
-                return Ok(cotizaciones);
+                    foreach (DataRow row in resultadoObservaciones.Rows)
+                    {
+                        var observacion = new observacion_cotizacion_onlineModel
+                        {
+                            correlativo = row["correlativo"] != DBNull.Value ? Convert.ToInt32(row["correlativo"]) : 0,
+                            id_cotizacion_online = row["id_cotizacion_online"] != DBNull.Value ? Convert.ToInt32(row["id_cotizacion_online"]) : 0,
+                            Observacion = row["Observacion"] != DBNull.Value ? row["Observacion"].ToString() : null
+                        };
+                        cotizacion.Observacion.Add(observacion);
+                    }
+
+                    // Agregar la cotización completa a la lista
+                    listaCotizaciones.Add(cotizacion);
+                }
+
+                return Ok(listaCotizaciones);
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+                return BadRequest($"Error al obtener las cotizaciones: {ex.Message}");
             }
         }
+
+
+
 
 
 
