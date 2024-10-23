@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using Mysqlx.Crud;
+using MySqlX.XDevAPI.Relational;
 using System.Data;
 
 
@@ -818,7 +819,7 @@ namespace krolCakes.Controllers
         }
         //---------------------------------Fin tipo evento---------------------------------------
 
-        [HttpGet("unidad-medida-precio-sugerido")]
+        [HttpGet("unidad-medida-precio-sugerido")] // este es para el costo 
         public IActionResult GetUnidadMedidaPrecioSugerido()
         {
             try
@@ -895,7 +896,7 @@ namespace krolCakes.Controllers
         //---------------------------Fin unidad de mededida precio sugerido------------------------------------------------------
 
 
-        [HttpGet("unidad-medida-costo")]
+        [HttpGet("unidad-medida-inventario")]// para el inventario
         public IActionResult GetUnidadMedidaCosto()
         {
             try
@@ -917,7 +918,7 @@ namespace krolCakes.Controllers
             }
         }
 
-        [HttpPost("nueva-unidad-medida-costo")]
+        [HttpPost("nueva-unidad-medida-inventario")]
         public IActionResult NuevaUnidadMedidaCosto([FromBody] unidadmedidaModel unidad)
         {
             try
@@ -942,7 +943,7 @@ namespace krolCakes.Controllers
             }
         }
 
-        [HttpPost("actualizar-unidad-medida-costo")]
+        [HttpPost("actualizar-unidad-medida-inventario")]
         public IActionResult ActualizarUnidadCosto([FromBody] unidadmedidaModel unidad)
         {
             try
@@ -1272,39 +1273,111 @@ namespace krolCakes.Controllers
                 return BadRequest("Error al obtener las unidades de medida de precio sugerido.");
             }
         }
+        //----------------------------------------------------------------------------
 
 
-
-        // GET: api/<CatalogosController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("insumos")]
+        public IActionResult GetIsumos()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var query = @"SELECT a.*, 
+                DATE_FORMAT(a.fecha_ingreso, '%Y-%m-%d') AS fechaing, 
+                DATE_FORMAT(a.fecha_vencimiento, '%Y-%m-%d') AS fechaven, 
+                b.nombre AS nombre_unidad_medida, 
+                c.tipo
+                FROM insumo_utensilio a
+                JOIN unidad_medida b ON a.id_unidad_medida = b.id
+                JOIN tipo_insumo_utensilio c ON a.id_tipo_insumo = c.id
+                ORDER BY a.id;
+                ";
+                var resultado = db.ExecuteQuery(query);
+
+                var insummos = resultado.AsEnumerable().Select(row => new insumoutensilioModelCompleto
+                {
+                    id = row.Field<int?>("id"),
+                    id_tipo_insumo = row.Field<int?>("id_tipo_insumo"),
+                    nombre = row.Field<string>("nombre"),
+                    id_unidad_medida = row.Field<int?>("id_unidad_medida"),
+                    precio_unitario = row.Field<double?>("precio_unitario"),
+                    cantidad = row.Field<int?>("cantidad"),
+                    inventarioRenovable = Convert.ToBoolean(row["inventarioRenovable"]),
+                    fecha_ingreso = row.Field<string>("fechaing"),
+                    fecha_vencimiento = row.Field<string>("fechaven"),
+                    tipo = row.Field<string>("tipo"),
+                    nombre_unidad_medida = row.Field<string>("nombre_unidad_medida")
+                }).ToList();
+
+
+                return Ok(insummos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al obtener los proveedores");
+            }
         }
 
-        // GET api/<CatalogosController>/5
-        [HttpGet("cambio estastado/{id}")]
-        public string Get(int id)
+        [HttpPost("actualizar-insumo")]
+        public IActionResult ActualizarInsumo([FromBody] insumoutensilioModel insumo)
         {
-            return "value";
+            try
+            {
+                // Verificar si el insumo existe
+                var queryValidador = $"SELECT id FROM insumo_utensilio WHERE id = {insumo.id}";
+                var resultadoValidador = db.ExecuteQuery(queryValidador);
+
+                if (resultadoValidador.Rows.Count > 0)
+                {
+                    // Convertir inventarioRenovable a 1 o 0
+                    int inventarioRenovableValue = insumo.inventarioRenovable.HasValue && insumo.inventarioRenovable.Value ? 1 : 0;
+
+                    // Actualizar el insumo
+                    var queryActualizar = $"UPDATE insumo_utensilio SET " +
+                                          $"id_tipo_insumo = '{insumo.id_tipo_insumo}', " +
+                                          $"nombre = '{insumo.nombre}', " +
+                                          $"id_unidad_medida = '{insumo.id_unidad_medida}', " +
+                                          $"precio_unitario = '{insumo.precio_unitario}', " +
+                                          $"cantidad = '{insumo.cantidad}', " +
+                                          $"inventarioRenovable = {inventarioRenovableValue}, " + 
+                                          $"fecha_ingreso = '{insumo.fecha_ingreso:yyyy-MM-dd}', " +
+                                          $"fecha_vencimiento = '{insumo.fecha_vencimiento:yyyy-MM-dd}' " +
+                                          $"WHERE id = {insumo.id}";
+
+                    db.ExecuteQuery(queryActualizar);
+                    return Ok("Insumo actualizado correctamente");
+                }
+                else
+                {
+                    return BadRequest("El insumo no existe");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al actualizar el insumo: {ex.Message}");
+            }
         }
 
-        // POST api/<CatalogosController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
 
-        // PUT api/<CatalogosController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
 
-        // DELETE api/<CatalogosController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPost("nuevo-insumo")]
+        public IActionResult NuevoInsumo([FromBody] insumoutensilioModel insumo)
         {
+            try
+            {
+                int inventarioRenovableValue = insumo.inventarioRenovable.HasValue && insumo.inventarioRenovable.Value ? 1 : 0;
+                var queryInsertar = $"INSERT INTO insumo_utensilio (id_tipo_insumo, nombre,id_unidad_medida, precio_unitario, cantidad, inventarioRenovable, " +
+                                    $"fecha_ingreso, fecha_vencimiento) " +
+                                    $"VALUES ('{insumo.id_tipo_insumo}', '{insumo.nombre}', '{insumo.id_unidad_medida}', '{insumo.precio_unitario}', " +
+                                    $"'{insumo.cantidad}', '{inventarioRenovableValue}', '{insumo.fecha_ingreso:yyyy-MM-dd}', '{insumo.fecha_vencimiento:yyyy-MM-dd}')";
+                db.ExecuteQuery(queryInsertar);
+                return Ok("insumo_utensilio registrado correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al registrar el insumo_utensilio");
+            }
         }
+        //-----------------------------Fin insumos-------------------------------------------------------
+
     }
 }

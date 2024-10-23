@@ -6,6 +6,7 @@
         public int? id_costo { get; set; }
         public int? id_insumo_utensilio { get; set; }
         public double? cantidad { get; set; }
+        public int? id_unidad_medida { get; set; }
     }
     public class detallecostoModelCompleto
     {

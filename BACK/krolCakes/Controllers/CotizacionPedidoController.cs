@@ -95,40 +95,6 @@ namespace krolCakes.Controllers
             return TimeOnly.ParseExact(timeString, "HH:mm:ss", null);
         }
 
-            /*[HttpGet("pedidos")]
-        public IActionResult GetPedidos()
-        {
-            try
-            {
-                var query = @"SELECT id, fecha, hora, id_estado, id_cliente, observaciones, direccion, id_tipo_entrega, precio_total, mano_obra, presupuesto_insumos
-                      FROM pedidos"; // Asegúrate de que el nombre de la tabla coincida con el de tu base de datos
-
-                var resultado = db.ExecuteQuery(query);
-
-                var pedidos = resultado.AsEnumerable().Select(row => new pedidoModel
-                {
-                    id = row["id"] != DBNull.Value ? Convert.ToInt32(row["id"]) : (int?)null,
-                    fecha = row["fecha"] != DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(row["fecha"])) : (DateOnly?)null,
-                    hora = row["hora"] != DBNull.Value ? TimeOnly.FromDateTime(Convert.ToDateTime(row["hora"])) : (TimeOnly?)null,
-                    id_estado = row["id_estado"] != DBNull.Value ? Convert.ToInt32(row["id_estado"]) : (int?)null,
-                    id_cliente = row["id_cliente"] != DBNull.Value ? Convert.ToInt32(row["id_cliente"]) : (int?)null,
-                    observaciones = row["observaciones"]?.ToString(),
-                    direccion = row["direccion"]?.ToString(),
-                    id_tipo_entrega = row["id_tipo_entrega"] != DBNull.Value ? Convert.ToInt32(row["id_tipo_entrega"]) : (int?)null,
-                    precio_total = row["precio_total"] != DBNull.Value ? Convert.ToDouble(row["precio_total"]) : (double?)null,
-                    mano_obra = row["mano_obra"] != DBNull.Value ? Convert.ToDouble(row["mano_obra"]) : (double?)null,
-                    presupuesto_insumos = row["presupuesto_insumos"] != DBNull.Value ? Convert.ToDouble(row["presupuesto_insumos"]) : (double?)null
-                }).ToList();
-
-                return Ok(pedidos);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-            }
-        }
-            */
-        // insert de pedidos falta bb
 
         //----------------------------------Fin pedidos---------------------------------------------------------------------------------------------------------------------------
 
@@ -692,6 +658,77 @@ namespace krolCakes.Controllers
             catch (Exception ex)
             {
                 return BadRequest("Error al registrar al Usuario");
+            }
+        }
+
+        [HttpPost("costo-pedido")]
+        public async Task<IActionResult> costoPedido([FromForm] string costoJSON, [FromForm] List<IFormFile>? imagenes)
+        {
+            try
+            {
+                // Deserializar el JSON recibido a una instancia de costoModelCompleto
+                costoModelCompleto costo = JsonConvert.DeserializeObject<costoModelCompleto>(costoJSON);
+
+                if (costo == null)
+                {
+                    return BadRequest("El formato del JSON no es válido.");
+                }
+
+                var queryInsertarCosto = $@"
+                        UPDATE pedido SET id_estado = 10 WHERE {costo.id_tipo_pedido};
+                        INSERT INTO costo (id_pedido, costo, ganancia) 
+                        VALUES ({costo.id_pedido},{costo.costo}, '{costo.ganancia}');
+                        SELECT LAST_INSERT_ID();";
+
+                // Ejecutar la consulta
+                var resultadoCosto = db.ExecuteQuery(queryInsertarCosto);
+                int costoId = Convert.ToInt32(resultadoCosto.Rows[0][0]);
+
+                //insertar costo
+                if (costo.detalles != null)
+                {
+                    foreach (var detalle in costo.detalles)
+                    {
+
+                        var queryInsertarDetallesCosto = $@"
+                        INSERT INTO detalle_costo (id_costo, id_insumo_utensilio, cantidad, id_unidad_medida_ps) 
+                        VALUES ({costoId},{detalle.id_insumo_utensilio},{detalle.cantidad},{detalle.id_unidad_medida})";
+
+                        // Ejecutar la consulta
+                        var resultadoDetalles = db.ExecuteQuery(queryInsertarDetallesCosto);
+                    }
+                }
+
+                // Procesar las imágenes (si se proporcionaron)
+                if (imagenes != null)
+                {
+                    foreach (var imagen in imagenes)
+                    {
+                        string ruta = await UploadToFirebase(imagen);
+
+                        var queryInsertarImagen = $@"
+                        INSERT INTO pastel_realizado (id_tipo_evento, id_pedido, imagen) 
+                        VALUES ({costo.id_tipo_pedido},{costo.id_pedido}, '{ruta}')";
+
+                        // Ejecutar la consulta
+                        var resultado = db.ExecuteQuery(queryInsertarImagen);
+                    }
+                }
+
+                // Aquí puedes procesar los datos deserializados y las imágenes según sea necesario
+                // Por ejemplo, guardar en base de datos, calcular costos, etc.
+
+                return Ok("Costo procesado exitosamente");
+            }
+            catch (JsonException ex)
+            {
+                // Manejo de error en caso de que el JSON esté mal formado
+                return BadRequest($"Error al deserializar el JSON: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Otro manejo de errores
+                return StatusCode(500, $"Error interno: {ex.Message}");
             }
         }
 

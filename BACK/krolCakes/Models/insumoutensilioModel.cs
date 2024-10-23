@@ -18,11 +18,11 @@
         public int? id_tipo_insumo { get; set; }    //proviene de modelo insumoutensilio
         public string? nombre { get; set; }         //proviene de modelo insumoutensilio
         public int? id_unidad_medida { get; set; }  //proviene de modelo insumoutensilio
-        public double? precio_unitario_insumoutenzilio { get; set; }    //proviene de modelo insumoutensilio
-        public int? cantidad_insumoutenzilio { get; set; }        //proviene de modelo insumoutensilio
+        public double? precio_unitario { get; set; }    //proviene de modelo insumoutensilio
+        public int? cantidad { get; set; }        //proviene de modelo insumoutensilio
         public bool? inventarioRenovable { get; set; }  //proviene de modelo insumoutensilio
-        public DateOnly? fecha_ingreso { get; set; }    //proviene de modelo insumoutensilio
-        public DateOnly? fecha_vencimiento { get; set; }    //proviene de modelo insumoutensilio
+        public string? fecha_ingreso { get; set; }    //proviene de modelo insumoutensilio
+        public string? fecha_vencimiento { get; set; }    //proviene de modelo insumoutensilio
         public string? tipo { get; set; }   //proviene de modelo tipoinsumoutensilio
         public string? nombre_unidad_medida { get; set; }     //nombre de modelo unidadmedida
     }
