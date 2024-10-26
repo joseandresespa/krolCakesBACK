@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\krolCakes.props" />
+</Project>

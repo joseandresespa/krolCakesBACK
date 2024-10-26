@@ -1,13 +1,9 @@
 ﻿using krolCakes.Models;
 using krolCakes.Provider;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Win32;
-using MySql.Data.MySqlClient;
-using Mysqlx.Crud;
 using System.Data;
 using Firebase.Auth;
 using Firebase.Storage;
-using static System.Net.Mime.MediaTypeNames;
 using Newtonsoft.Json;
 
 namespace krolCakes.Controllers
