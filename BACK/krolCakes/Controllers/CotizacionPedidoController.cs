@@ -337,7 +337,7 @@ namespace krolCakes.Controllers
                     //actualizar tabla con presupuesto
 
                     var queryPresupuesto = $@"UPDATE cotizacion_online SET presupuesto_insumos = {nuevoPedido.presupuesto_insumos},
-                    total_presupuesto =  {nuevoPedido.total_presupuesto} , mano_obra = {nuevoPedido.mano_obra} 
+                    total_presupuesto =  {nuevoPedido.total_presupuesto} , mano_obra = {nuevoPedido.mano_obra}, 
                     estado = 1 WHERE id = {nuevoPedido.id_cotizacion_online};";
                     var resultadoUpdate = db.ExecuteQuery(queryPresupuesto);
 
@@ -393,16 +393,16 @@ namespace krolCakes.Controllers
             {
                 // Consulta para obtener todos los pedidos
                 var queryPedidos = @"
-            SELECT DISTINCT  
+            SELECT   
                 p.id, p.id_estado, p.observaciones, p.cotizacion_online_id,
                 c.descripcion, c.precio_aproximado, c.envio, c.hora, c.fecha, c.direccion, c.mano_obra, c.presupuesto_insumos, c.total_presupuesto, c.cliente_id, 
                 e.estado, cl.nombre, cl.telefono, cl.nit,
                 cs.costo, cs.ganancia, cs.id AS idCosto
             FROM pedido p
-            JOIN cotizacion_online c ON p.cotizacion_online_id = c.id
-            JOIN estado e ON p.id_estado = e.id
-            JOIN cliente cl ON c.cliente_id = cl.id
-            JOIN costo cs ON p.id = cs.id_pedido";
+            left JOIN cotizacion_online c ON p.cotizacion_online_id = c.id
+            left JOIN estado e ON p.id_estado = e.id
+            left JOIN cliente cl ON c.cliente_id = cl.id
+            left JOIN costo cs ON p.id = cs.id_pedido";
 
                 var resultadoPedidos = db.ExecuteQuery(queryPedidos);
 
@@ -436,9 +436,9 @@ namespace krolCakes.Controllers
                         nombre = pedidoRow["nombre"].ToString(),
                         telefono = Convert.ToInt32(pedidoRow["telefono"]),
                         nit = pedidoRow["nit"].ToString(),
-                        costo = Convert.ToDouble(pedidoRow["costo"]),
-                        ganancia = Convert.ToDouble(pedidoRow["ganancia"]),
-                        idCosto = Convert.ToInt32(pedidoRow["idCosto"]),
+                        costo = pedidoRow["costo"] != DBNull.Value ? Convert.ToDouble(pedidoRow["costo"]) : 0.0,
+                        ganancia = pedidoRow["ganancia"] != DBNull.Value ? Convert.ToDouble(pedidoRow["ganancia"]) : 0.0,
+                        idCosto = pedidoRow["idCosto"] != DBNull.Value ? Convert.ToInt32(pedidoRow["idCosto"]) : 0,
                         detalles = new List<detallepedidoModelCompleto>(),
                         imagenes = new List<imagenreferenciaonlineModel>(),
                         Observacion = new List<observacion_cotizacion_onlineModel>(),
@@ -448,7 +448,7 @@ namespace krolCakes.Controllers
 
                     // Obtener desgloses (detallepedido) para cada pedido
                     var queryDesgloses = $@"
-                SELECT dp.correlativo, dp.producto_id, dp.id_masas, dp.id_relleno, dp.cantidad_porciones, dp.precio_unitario, 
+                SELECT DISTINCT dp.correlativo, dp.producto_id, dp.id_masas, dp.id_relleno, dp.cantidad_porciones, dp.precio_unitario, 
                        p.nombre, p.descripcion, p.precio_online, m.sabor_masa, r.sabor_relleno
                 FROM detalle_pedido dp
                 JOIN producto p ON dp.producto_id = p.id
@@ -480,7 +480,7 @@ namespace krolCakes.Controllers
 
                     // Obtener imágenes de referencia
                     var queryImagenes = $@"
-                SELECT correlativo, id_cotizacion_online, ruta, observacion
+                SELECT  DISTINCT correlativo, id_cotizacion_online, ruta, observacion
                 FROM imagen_referencia_online
                 WHERE id_cotizacion_online = '{pedido.id_cotizacion_online}'";
 
@@ -500,7 +500,7 @@ namespace krolCakes.Controllers
 
                     // Obtener observaciones
                     var queryObservaciones = $@"
-                SELECT correlativo, id_cotizacion_online, Observacion
+                SELECT DISTINCT correlativo, id_cotizacion_online, Observacion
                 FROM observacion_cotizacion_online
                 WHERE id_cotizacion_online = '{pedido.id_cotizacion_online}'";
 
@@ -516,10 +516,11 @@ namespace krolCakes.Controllers
                         };
                         pedido.Observacion.Add(observacion);
                     }
-
-
-                    var queryCosto = $@"
-                SELECT a.id_insumo_utensilio, a.cantidad, a.id_unidad_medida_ps,
+                        
+                    if(pedido.idCosto != 0) 
+                    {
+                        var queryCosto = $@"
+                SELECT DISTINCT a.id_insumo_utensilio, a.cantidad, a.id_unidad_medida_ps,
                 b.precio_unitario, a.cantidad * b.precio_unitario AS subtotal,b.nombre as insumo,
                 c.nombre as unidad
                 FROM detalle_costo a
@@ -527,25 +528,27 @@ namespace krolCakes.Controllers
                 JOIN unidad_medida_precio_sugerido c ON a.id_unidad_medida_ps = c.id
                 WHERE a.id_costo = '{pedido.idCosto}'";
 
-                    var resultadoCosto = db.ExecuteQuery(queryCosto);
+                        var resultadoCosto = db.ExecuteQuery(queryCosto);
 
-                    foreach (DataRow row in resultadoCosto.Rows)
-                    {
-                        var registro = new detallecostoModel
+                        foreach (DataRow row in resultadoCosto.Rows)
                         {
-                            id_insumo_utensilio = Convert.ToInt32(row["id_insumo_utensilio"]),
-                            cantidad = Convert.ToDouble(row["cantidad"]),
-                            id_unidad_medida = Convert.ToInt32(row["id_unidad_medida_ps"]),
-                            precio_unitario = Convert.ToDouble(row["precio_unitario"]),
-                            subtotal = Convert.ToDouble(row["subtotal"]),
-                            insumo = row["insumo"].ToString(),
-                            unidad = row["unidad"].ToString(),
-                        };
-                        pedido.detalleCosto.Add(registro);
+                            var registro = new detallecostoModel
+                            {
+                                id_insumo_utensilio = Convert.ToInt32(row["id_insumo_utensilio"]),
+                                cantidad = Convert.ToDouble(row["cantidad"]),
+                                id_unidad_medida = Convert.ToInt32(row["id_unidad_medida_ps"]),
+                                precio_unitario = Convert.ToDouble(row["precio_unitario"]),
+                                subtotal = Convert.ToDouble(row["subtotal"]),
+                                insumo = row["insumo"].ToString(),
+                                unidad = row["unidad"].ToString(),
+                            };
+                            pedido.detalleCosto.Add(registro);
+                        }
                     }
 
+
                     var queryImagen= $@"
-                SELECT a.id_tipo_evento,a.imagen, b.nombre as tipo
+                SELECT DISTINCT a.id_tipo_evento,a.imagen, b.nombre as tipo
                 FROM pastel_realizado a
                 JOIN tipo_evento b ON a.id_tipo_evento = b.id
                 WHERE a.id_pedido = '{pedido.id}'";

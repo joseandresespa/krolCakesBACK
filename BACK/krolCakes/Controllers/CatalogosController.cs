@@ -567,7 +567,7 @@ namespace krolCakes.Controllers
 
         [HttpGet("productos")]
         public IActionResult GetProductos()
-        {
+            {
             try
             {
                 // Consulta SQL para obtener todos los productos
@@ -1256,21 +1256,26 @@ namespace krolCakes.Controllers
         {
             try
             {
-                var query = @"SELECT id, id_tipo_evento, evento, id_pedido, imagen
-                            FROM pastel_realizado ORDER BY id";
+                var query = @"SELECT a.id, a.id_tipo_evento, a.id_pedido, a.imagen, b.nombre as tipo
+                            FROM pastel_realizado a
+                            JOIN tipo
+                            ORDER BY id";
                 var resultado = db.ExecuteQuery(query);
 
-                var unidades = resultado.AsEnumerable().Select(row => new unidadmedidaModel
+                var pasteles = resultado.AsEnumerable().Select(row => new pastelrealizadoModel
                 {
                     id = row.Field<int?>("id"),
-                    nombre = row.Field<string>("nombre")
+                    id_tipo_evento = row.Field<int?>("id_tipo_evento"),
+                    id_pedido = row.Field<int?>("id_pedido"),
+                    tipo = row.Field<string>("tipo"),
+                    imagen = row.Field<string>("imagen")
                 }).ToList();
 
-                return Ok(unidades);
+                return Ok(pasteles);
             }
             catch (Exception ex)
             {
-                return BadRequest("Error al obtener las unidades de medida de precio sugerido.");
+                return BadRequest("Error al obtener las pasteles.");
             }
         }
         //----------------------------------------------------------------------------
