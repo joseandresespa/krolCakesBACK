@@ -34,7 +34,11 @@
         public string? nombre { get; set; }     //proviene del modelo cliente
         public int? telefono { get; set; }      //proviene del modelo cliente
         public string? nit { get; set; }        //proviene del modelo cliente
-
+        public int? idCosto { get; set; }
+        public double? costo { get; set; }     
+        public double? ganancia { get; set; }
+        public List<detallecostoModel>? detalleCosto { get; set; }  //proviene del modelo cotizacion online 
+        public List<pastelrealizadoModel>? imagenesFin { get; set; }  //proviene del modelo cotizacion online 
 
     }
 

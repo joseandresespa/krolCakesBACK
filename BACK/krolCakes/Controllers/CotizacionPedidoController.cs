@@ -393,14 +393,16 @@ namespace krolCakes.Controllers
             {
                 // Consulta para obtener todos los pedidos
                 var queryPedidos = @"
-            SELECT 
+            SELECT DISTINCT  
                 p.id, p.id_estado, p.observaciones, p.cotizacion_online_id,
                 c.descripcion, c.precio_aproximado, c.envio, c.hora, c.fecha, c.direccion, c.mano_obra, c.presupuesto_insumos, c.total_presupuesto, c.cliente_id, 
-                e.estado, cl.nombre, cl.telefono, cl.nit
+                e.estado, cl.nombre, cl.telefono, cl.nit,
+                cs.costo, cs.ganancia, cs.id AS idCosto
             FROM pedido p
             JOIN cotizacion_online c ON p.cotizacion_online_id = c.id
             JOIN estado e ON p.id_estado = e.id
-            JOIN cliente cl ON c.cliente_id = cl.id";
+            JOIN cliente cl ON c.cliente_id = cl.id
+            JOIN costo cs ON p.id = cs.id_pedido";
 
                 var resultadoPedidos = db.ExecuteQuery(queryPedidos);
 
@@ -434,9 +436,14 @@ namespace krolCakes.Controllers
                         nombre = pedidoRow["nombre"].ToString(),
                         telefono = Convert.ToInt32(pedidoRow["telefono"]),
                         nit = pedidoRow["nit"].ToString(),
+                        costo = Convert.ToDouble(pedidoRow["costo"]),
+                        ganancia = Convert.ToDouble(pedidoRow["ganancia"]),
+                        idCosto = Convert.ToInt32(pedidoRow["idCosto"]),
                         detalles = new List<detallepedidoModelCompleto>(),
                         imagenes = new List<imagenreferenciaonlineModel>(),
-                        Observacion = new List<observacion_cotizacion_onlineModel>()
+                        Observacion = new List<observacion_cotizacion_onlineModel>(),
+                        detalleCosto = new List<detallecostoModel>(),
+                        imagenesFin = new List<pastelrealizadoModel>()
                     };
 
                     // Obtener desgloses (detallepedido) para cada pedido
@@ -510,11 +517,58 @@ namespace krolCakes.Controllers
                         pedido.Observacion.Add(observacion);
                     }
 
+
+                    var queryCosto = $@"
+                SELECT a.id_insumo_utensilio, a.cantidad, a.id_unidad_medida_ps,
+                b.precio_unitario, a.cantidad * b.precio_unitario AS subtotal,b.nombre as insumo,
+                c.nombre as unidad
+                FROM detalle_costo a
+                JOIN insumo_utensilio b ON a.id_insumo_utensilio = b.id
+                JOIN unidad_medida_precio_sugerido c ON a.id_unidad_medida_ps = c.id
+                WHERE a.id_costo = '{pedido.idCosto}'";
+
+                    var resultadoCosto = db.ExecuteQuery(queryCosto);
+
+                    foreach (DataRow row in resultadoCosto.Rows)
+                    {
+                        var registro = new detallecostoModel
+                        {
+                            id_insumo_utensilio = Convert.ToInt32(row["id_insumo_utensilio"]),
+                            cantidad = Convert.ToDouble(row["cantidad"]),
+                            id_unidad_medida = Convert.ToInt32(row["id_unidad_medida_ps"]),
+                            precio_unitario = Convert.ToDouble(row["precio_unitario"]),
+                            subtotal = Convert.ToDouble(row["subtotal"]),
+                            insumo = row["insumo"].ToString(),
+                            unidad = row["unidad"].ToString(),
+                        };
+                        pedido.detalleCosto.Add(registro);
+                    }
+
+                    var queryImagen= $@"
+                SELECT a.id_tipo_evento,a.imagen, b.nombre as tipo
+                FROM pastel_realizado a
+                JOIN tipo_evento b ON a.id_tipo_evento = b.id
+                WHERE a.id_pedido = '{pedido.id}'";
+
+                    var resultadoimagenes= db.ExecuteQuery(queryImagen);
+
+                    foreach (DataRow row in resultadoimagenes.Rows)
+                    {
+                        var registro = new pastelrealizadoModel
+                        {
+                            id_tipo_evento = Convert.ToInt32(row["id_tipo_evento"]),
+                            imagen = row["imagen"].ToString(),
+                            tipo = row["tipo"].ToString(),
+
+                        };
+                        pedido.imagenesFin.Add(registro);
+                    }
+
                     // Agregar el pedido completo a la lista
                     listaPedidos.Add(pedido);
                 }
 
-                return Ok(listaPedidos);
+                return Ok(listaPedidos.Distinct());
             }
             catch (Exception ex)
             {

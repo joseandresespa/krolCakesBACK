@@ -7,6 +7,11 @@
         public int? id_insumo_utensilio { get; set; }
         public double? cantidad { get; set; }
         public int? id_unidad_medida { get; set; }
+        public string? insumo { get; set; }
+        public string? unidad { get; set; }
+        public double? precio_unitario { get; set; }
+        public double? subtotal { get; set; }
+
     }
     public class detallecostoModelCompleto
     {
