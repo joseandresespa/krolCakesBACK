@@ -5,6 +5,7 @@ using System.Data;
 using Firebase.Auth;
 using Firebase.Storage;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Hosting;
 
 namespace krolCakes.Controllers
 {
@@ -258,10 +259,11 @@ namespace krolCakes.Controllers
 
 
         [HttpPost("nueva-cotizaciononline")]
-        public IActionResult NuevaCotizacionOnline([FromBody] cotizaciononlineModelCompleto cotizacion)
+        public async Task<IActionResult> NuevaCotizacionOnline([FromForm] List<IFormFile>? imagenes, [FromForm] string nuevoPedidoJSON)
         {
             try
             {
+                var cotizacion = JsonConvert.DeserializeObject<cotizaciononlineModelCompleto>(nuevoPedidoJSON);
                 // Verificar si el cliente ya existe por su número de teléfono
                 var queryCheckCliente = $"SELECT id FROM cliente WHERE telefono = {cotizacion.telefono}";
                 var result = db.ExecuteQuery(queryCheckCliente);
@@ -293,13 +295,14 @@ namespace krolCakes.Controllers
                 // Obtener el ID de la cotización recién insertada
                 var idCotizacion = db.ExecuteQuery("SELECT LAST_INSERT_ID()").Rows[0][0];
 
-                // Insertar las imágenes de referencia si existen
-                if (cotizacion.imagenes != null)
+                if (imagenes != null)
                 {
-                    foreach (var imagen in cotizacion.imagenes)
+                    foreach (var imagen in imagenes)
                     {
+                        string ruta = await UploadToFirebase(imagen);
+
                         var queryInsertImagen = $"INSERT INTO imagen_referencia_online (ruta, id_cotizacion_online, observacion) " +
-                                                $"VALUES ('{imagen.ruta}', {idCotizacion}, '{imagen.observacion}')";
+                                                $"VALUES ('{ruta}', {idCotizacion}, ' ')";
                         db.ExecuteQuery(queryInsertImagen);
                     }
                 }

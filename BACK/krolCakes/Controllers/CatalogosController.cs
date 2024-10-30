@@ -1258,7 +1258,7 @@ namespace krolCakes.Controllers
             {
                 var query = @"SELECT a.id, a.id_tipo_evento, a.id_pedido, a.imagen, b.nombre as tipo
                             FROM pastel_realizado a
-                            JOIN tipo
+                            JOIN tipo_evento b ON a.id = b.id
                             ORDER BY id";
                 var resultado = db.ExecuteQuery(query);
 

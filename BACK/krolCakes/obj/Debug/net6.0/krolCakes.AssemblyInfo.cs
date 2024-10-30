@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("krolCakes")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a9ac1bfcb4245c87e11ea0014e657221e74a2cbb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b68bb0da3bd620c27d31aa156bee9cd0aa94a3b")]
 [assembly: System.Reflection.AssemblyProductAttribute("krolCakes")]
 [assembly: System.Reflection.AssemblyTitleAttribute("krolCakes")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
