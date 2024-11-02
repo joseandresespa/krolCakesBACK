@@ -117,7 +117,7 @@ namespace krolCakes.Controllers
                                                     $"VALUES ('{detalle.id_insumo_utensilio}', '{detalle.cantidad}', '{detalle.precio_unitario}', " +
                                                     $"'{costoId}','{detalle.subtotal}');" +
                                                     $"UPDATE insumo_utensilio SET precio_unitario = {detalle.precio_unitario}, " +
-                                                    $"cantidad = cantidad + {detalle.cantidad}" +
+                                                    $"cantidad = cantidad + {detalle.cantidad} " +
                                                     $"WHERE id = '{detalle.id_insumo_utensilio}';";
                                 var resultadoDetalles = db.ExecuteQuery(querydetalles);
                             }

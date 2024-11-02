@@ -398,7 +398,7 @@ namespace krolCakes.Controllers
                 var queryPedidos = @"
             SELECT   
                 p.id, p.id_estado, p.observaciones, p.cotizacion_online_id,
-                c.descripcion, c.precio_aproximado, c.envio, c.hora, c.fecha, c.direccion, c.mano_obra, c.presupuesto_insumos, c.total_presupuesto, c.cliente_id, 
+                c.descripcion, c.precio_aproximado, c.envio, c.hora, DATE_FORMAT(c.fecha, '%Y-%m-%d') AS fecha, c.direccion, c.mano_obra, c.presupuesto_insumos, c.total_presupuesto, c.cliente_id, 
                 e.estado, cl.nombre, cl.telefono, cl.nit,
                 cs.costo, cs.ganancia, cs.id AS idCosto
             FROM pedido p
